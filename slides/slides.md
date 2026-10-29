@@ -60,6 +60,8 @@ What I use
 - 2023 – **ChatGPT**, **Gemini**
 - April 2026 – **Claude Code**
 
+<p class="disclaimer">Disclaimer: I am not an expert in AI or LLM</p>
+
 <!--
 Ask one at a time and look at the hands.
 Chat: you type, it answers, in a browser or app. Expect most hands.
@@ -68,6 +70,29 @@ from the notes you upload (good for study).
 Agents: it works on your computer: creates files, runs programs. Expect few hands.
 That gap is the bridge to Claude Code.
 What I use: the old slide had May 2023 ChatGPT, January 2026 Gemini, April 2026 Claude Code.
+Disclaimer: I use these tools every day, but I don't build them. (LLM, a large language model: the kind of AI
+behind ChatGPT, Gemini and Claude.)
+-->
+
+---
+
+# The blind men and the elephant
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
+
+<figure class="elephant">
+  <img :src="base + 'blind-monks-elephant.jpg'" alt="Blind monks feeling different parts of an elephant: trunk, tusk, ear, side, tail">
+  <figcaption>Hanabusa Itchō, <i>Blind monks examining an elephant</i> (print, 1888) · public domain, via Wikimedia Commons</figcaption>
+</figure>
+
+<!--
+The old parable: blind men each touch one part of an elephant (the trunk, a tusk, an ear, the side, the tail)
+and each is sure the elephant is like a snake, a spear, a fan, a wall, a rope. Each is partly right; none sees
+the whole animal.
+AI is like the elephant. We all interact with it differently (chat, pictures, coding), so we each only see one
+side of it. This talk is my side: a software engineer using it every day.
 -->
 
 ---
@@ -277,21 +302,155 @@ routeAlias: not-just-coding
 # Coding is not just coding
 
 - Documentation
-- Tests
 - Source Control
+- Testing
 - Monitoring
 - Learning
 
 <!--
 Sub-section of Beyond Coding, after "So am I still coding?": the rest of the job, beyond the code.
-Documentation: AI writes my documentation (wiki entries, issues, pull requests), so it's much cleaner.
-Possibly the biggest change in my day-to-day work, more than AI writing code.
-Tests: small programs that check the real program still works, run every time something changes. Claude writes
-these too.
-Source control: one line: a save point for your code, like a save game, and one push puts it online.
-Monitoring: once an app is running, it keeps a diary of everything it does (the logs), far more than anyone wants
-to read. When something breaks, someone has to read them to find out why. AI reads the logs for me now.
-Learning: lead into Learning with AI (learning backwards).
+Things you may not have run into yet: at uni you write a program, hand it in, and you're done. At work the program
+lives for years, many people change it, and real people use it. These four are what keeps that working.
+One slide each comes next. Learning: lead into Learning with AI (learning backwards).
+-->
+
+---
+
+# Documentation
+
+- Code says *how*; documentation says *what* and *why*
+- **Team handbook** <span class="eg">the wiki: how things work, how to set up</span>
+- **To-do and bug list** <span class="eg">issues: what's broken, what's next</span>
+- **"What I changed and why"** <span class="eg">pull requests: notes for the person who checks my work</span>
+- AI writes my documentation now, and it's much cleaner
+- **Drift**: the code changes, the docs and comments don't <span class="eg">AI makes keeping them in step trivial</span>
+- For me, the biggest change is the writing, not the code
+
+<!--
+Daniel's line: the biggest change is the writing, not the code. AI writes his documentation (wiki entries, issues,
+pull requests), so it's much cleaner. He sees this as a bigger change than AI writing code.
+Why it matters: you'll forget why you did something within months; a new teammate has never known.
+Nobody likes writing it, so it's usually missing or out of date. Now it costs a sentence to ask for.
+Drift: one of the biggest problems. Someone changes the code and doesn't update the documentation, or even the
+comments in the code (notes written right next to it for the next person). Now the docs say one thing and the code
+does another, which is worse than no docs. With AI it's trivial: "I changed this; update the docs and comments
+to match", or "check the docs against the code and list what's out of date".
+-->
+
+---
+
+# Markdown
+
+<script setup>
+const raw = `# Week 3 notes
+
+**Exam:** Friday, 10 am
+
+- Read chapter 4
+- Redo *question 2*
+- [Lecture slides](https://…)`
+</script>
+
+Plain text, with a few symbols for formatting
+
+<div class="md-compare">
+  <div>
+    <p class="md-label">What you type</p>
+<pre class="md-raw">{{ raw }}</pre>
+  </div>
+  <div>
+    <p class="md-label">What you see</p>
+    <div class="md-rendered">
+      <div class="md-h">Week 3 notes</div>
+      <div><b>Exam:</b> Friday, 10 am</div>
+      <div class="md-li">Read chapter 4</div>
+      <div class="md-li">Redo <i>question 2</i></div>
+      <div class="md-li"><span class="md-link">Lecture slides</span></div>
+    </div>
+  </div>
+</div>
+
+- Used by wikis, GitHub, note apps and AI chat replies <span class="eg">CLAUDE.md is Markdown too</span>
+
+<!--
+Markdown: a way to write formatted text with ordinary characters. # makes a heading, ** makes bold, * italic,
+- a bullet list, [text](link) a link. Readable even before it's formatted, which is why it's everywhere.
+The bold and bullets in ChatGPT's or Claude's answers: that's Markdown being displayed.
+The CLAUDE.md and the skill from earlier in the talk: both Markdown files.
+Worth learning: it takes ten minutes, and you'll use it for notes, READMEs, and talking to AI.
+-->
+
+---
+
+# Keeping the wiki tidy
+
+- A wiki grows messy: many authors, many years
+- Claude reads the whole wiki before writing a page
+- **Same style** <span class="eg">the same headings, tone and terms on every page</span>
+- **No duplicates** <span class="eg">"we already have a page on this; I'll add to it"</span>
+- **Nothing out of date** <span class="eg">finds pages that contradict each other or the code</span>
+- **Linked up** <span class="eg">points each page to the related ones</span>
+
+<!--
+What AI is great at: reading everything, every time, and never getting bored. A person writing a new page doesn't
+check fifty old ones first; Claude does.
+Example ask, plain English: "Add a page on how we release a new version. Check the wiki first: if a page already
+covers it, add to that one, and match the style of the other pages."
+Still my job: deciding what's true. It can find two pages that disagree; I decide which one is right.
+(A real example from work to add.)
+-->
+
+---
+
+# Source Control
+
+- A save point for your work, like a save game <span class="eg">go back to any point, any time</span>
+- See exactly what changed, line by line, and who changed it
+- Many people change the same project without overwriting each other
+- Claude writes the "what I changed" note for each save
+- One more step puts it online <span class="eg">this deck updates itself every time I save it to GitHub</span>
+
+<!--
+Source control (Git, GitHub): every save ("commit") is a snapshot with a note saying what changed and why.
+Like Google Docs' version history, but for a whole folder and many people at once.
+Claude writes the commit notes, and they're better than mine were ("fixed stuff").
+The deck itself: pushing to GitHub rebuilds and publishes the website automatically (GitHub Pages).
+Claude asks permission before it pushes: I stay the one who decides what goes online.
+-->
+
+---
+
+# Testing
+
+- Small programs that check the real program still works
+- They run every time something changes, in seconds
+- Writing them is tedious, so people skip it; Claude writes them
+- Still my job: deciding *what* to check <span class="eg">"what if the guess has the same letter twice?"</span>
+- Tests also check Claude's work
+
+<!--
+A test: "give the program this, expect that". For the Wordle game: answer ABIDE, guess SPEED, only one E should be
+coloured. If a change breaks that, the test fails straight away instead of a player finding it.
+Claude writes tests quickly; the judgement is in knowing which cases matter (the tricky ones).
+Tests check Claude too: when it changes something, the tests say whether it broke anything else.
+(In the live Wordle prompt we said "Don't run any tests" only to save time on stage.)
+-->
+
+---
+
+# Monitoring
+
+- A running app keeps a diary of everything it does <span class="eg">the logs</span>
+- Far more than anyone can read
+- When something breaks, someone has to find the lines that matter
+- Claude reads the logs for me and points to the cause
+- Still my job: knowing what "normal" looks like <span class="eg">and whether its answer makes sense</span>
+
+<!--
+Once an app is live, real people use it, at all hours. It writes a line for each thing it does: "user logged in",
+"payment failed", "took 3 seconds". Monitoring is watching those, with alerts when something looks wrong.
+Before: hours scrolling through logs. Now: "here are today's logs, why did payments fail at 2 pm?"
+(A real example from work to add.)
 -->
 
 

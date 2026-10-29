@@ -26,7 +26,7 @@ export const ROOT_Y = 26
 export const TOPICS: Topic[] = [
   // The trunk: the talk, in order.
   { id: 'intro', kind: 'core', alias: 'intro', x: TRUNK_X, y: 85, minutes: 3,
-    title: 'Introduction', teaser: 'Have you heard of AI? And what I use' },
+    title: 'Introduction', teaser: 'Have you heard of AI? What I use, and the elephant' },
   { id: 'claude-code', kind: 'core', alias: 'claude-code', x: TRUNK_X, y: 200, minutes: 10,
     title: 'Claude Code', teaser: 'Still a chat, but one that can work on your computer' },
   { id: 'beyond', kind: 'core', alias: 'beyond', x: TRUNK_X, y: 360, minutes: 10,

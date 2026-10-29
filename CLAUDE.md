@@ -28,6 +28,7 @@ dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editin
 
 | Path | What it is |
 |---|---|
+| `ideas.md` | Daniel's scratch pad: loose thoughts for the talk, not yet decided. Add new ones there, dated |
 | `slides/slides.md` | The deck ([Slidev](https://sli.dev) v53, Vue 3 + Vite): title, the map, then each section's slides, with speaker notes |
 | `slides/topics.ts` | **Every node on the map**: title, teaser, main point or sub-section, `optional`, position. Also the visited state and talk order |
 | `slides/components/Hub.vue` | The map: circuit tree, sub-sections radiating out on hover, details card, visited dots |
@@ -101,14 +102,16 @@ map, and → on the map opens the next part of the talk. Current map (source of 
 each part's slides:
 
 ```
-Introduction         Have you heard of AI? (with "What I use"; Who am I? removed 2026-10-08 to save time)
+Introduction         Have you heard of AI? (with "What I use" and a disclaimer: not an AI expert; Who am I?
+                     removed 2026-10-08) · The blind men and the elephant (we each see one side of AI)
 Claude Code          Claude Code (terminal or app, "just Claude", a folder, let's build an app)
   Wordle               the live prompt
   Context and Memory   Context and Memory · Memory · A real CLAUDE.md
   Skills               Skills · Skill Example
                        (Save and Ship, optional, removed 2026-10-08 for time)
 Beyond Coding        So am I still coding? · Making AI videos
-  Coding is not just coding   Coding is not just coding · 100 vs 50 vs 20
+  Coding is not just coding   Coding is not just coding · Documentation · Markdown · Keeping the wiki tidy ·
+                              Source Control · Testing · Monitoring · 100 vs 50 vs 20 (expanded 2026-10-27)
   Learning with AI*    Learning with AI · Learning backwards (interactive chapter graph)
   MCP (Blender)*       Blender driven by Python through an MCP server
 Wrap-up              Closing remarks
