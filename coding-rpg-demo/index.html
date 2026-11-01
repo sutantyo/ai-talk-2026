@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coding RPG</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage">
+  <canvas id="canvas" width="960" height="720"></canvas>
+
+  <div id="overworld" class="layer">
+    <div id="book" class="book hidden"></div>
+    <div id="dialogue" class="dialogue hidden"></div>
+  </div>
+
+  <div id="battle" class="layer hidden">
+    <div class="battle-panel">
+      <div id="topic" class="topic"></div>
+      <div id="prompt" class="prompt"></div>
+      <pre id="code" class="code"></pre>
+      <div id="choices" class="choices"></div>
+      <div id="feedback" class="feedback"></div>
+      <div class="buttons">
+        <button id="next" class="next"></button>
+        <button id="run" class="run">Run away (Esc)</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="content.js"></script>
+<script src="map.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
