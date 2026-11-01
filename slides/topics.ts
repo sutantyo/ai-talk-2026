@@ -47,7 +47,7 @@ const CORE: Topic[] = [
 // The branches: sub-sections, left to right in talk order below their main point. Only one main point's
 // sub-sections show at a time; within a group, the moves are chosen so that no branch crosses another's label.
 // Claude Code grows two limbs: Wordle Demo zigzagging down to the left, and one that splits three ways (Context and
-// Memory, Skills, MCP); just before that split, A Team of Agents branches off straight across to the right.
+// Memory, MCP, Skills); just before that split, A Team of Agents branches off straight across to the right.
 const SUBS: Omit<Topic, 'x' | 'y'>[] = [
   { id: 'wordle', kind: 'sub', alias: 'wordle', parent: 'claude-code',
     moves: [[0, 30], [-100, 100], [0, 10], [-60, 60], [0, 40]],
@@ -55,12 +55,12 @@ const SUBS: Omit<Topic, 'x' | 'y'>[] = [
   { id: 'memory', kind: 'sub', alias: 'memory', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 60], [-40, 40], [0, 50]],
     title: 'Context and Memory', teaser: 'Claude remembers nothing, so we leave it a note: CLAUDE.md' },
-  { id: 'skills', kind: 'sub', alias: 'skills', parent: 'claude-code',
-    moves: [[0, 30], [40, 40], [0, 60], [0, 40]],
-    title: 'Skills', teaser: 'Teaching Claude a skill that can be used again and again' },
   { id: 'mcp', kind: 'sub', alias: 'mcp', parent: 'claude-code',
+    moves: [[0, 30], [40, 40], [0, 60], [0, 40]],
+    title: 'MCP', teaser: 'Claude driving apps: Blender, and Couch, a page only Claude can change' },
+  { id: 'skills', kind: 'sub', alias: 'skills', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 60], [60, 60], [0, 40]],
-    title: 'MCP', teaser: 'Claude driving an app: Blender' },
+    title: 'Skills', teaser: 'Teaching Claude a skill that can be used again and again' },
   { id: 'agents', kind: 'sub', alias: 'agents', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 30], [180, 0], [0, 80]],
     title: 'A Team of Agents', teaser: 'Several Claude sessions, each with its own job, working together' },

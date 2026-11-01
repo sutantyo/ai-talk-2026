@@ -283,6 +283,55 @@ Every new session reads this first, instead of working the whole project out aga
 -->
 
 ---
+routeAlias: mcp
+---
+
+# MCP (Blender)
+
+- Blender can be controlled with Python
+- Blender MCP server allows Claude to send it Python code to run
+- For this demonstration, I pre-built some python scripts so that things run faster
+
+<!--
+Sub-section of Claude Code (moved from Beyond Coding 2026-11-01). Demo set up in ../blender (its own Blender MCP), with pre-built Python scripts
+so it runs faster on stage.
+On stage: Blender is already open (not a cold start).
+Same lesson as Wordle: the more precisely you direct, the better the result. "Make a room" vs "a 4 m wall, a
+window on the left, the sofa facing it".
+Python: a programming language; Blender has one built in, so almost anything you can click, a script can do.
+Blender's MCP is one end of the scale: it runs any Python, so Claude can do anything Blender can. Couch, next, is
+the other end.
+-->
+
+---
+
+# MCP (Couch)
+
+- Couch: my own page of YouTube videos to watch, sorted into rows
+- No buttons, no forms: the only way to change it is to ask Claude
+- I decide what Claude can do: look, create and add. There is no delete
+- My rules live in the server, so Claude can't get around them: Shorts go only on the Shorts page
+
+<!--
+Second MCP example (2026-11-02), the opposite of Blender: a narrow menu of safe actions. Couch is mcp-demo/ in this
+repo (its own CLAUDE.md), hosted on Railway. Don't show its web address or the connector URL on screen.
+On stage: the Couch page open in the browser (signed in), Claude Code beside it with the couch connector added.
+Prompts:
+- "Create a playlist called Claude on my Saved page and add <a YouTube link>": the page jumps to Saved, the row
+  appears, the video glows "New".
+- "Follow @blenderguru": the page jumps to Channels; the channel's row appears with its latest videos.
+- The rule: ask to add a YouTube Short to a To Watch playlist; the server refuses (Shorts go only on the Shorts page).
+Measured 2026-11-02, one run (Opus 5.5, hosted server): "add <link> to To Watch, under a Claude playlist" took three
+steps (look at the playlists, create "Claude", add the video). The server's work took about a quarter of a second;
+Claude's three steps took about 4 seconds in all (not counting Claude reading the prompt first, so not
+prompt-to-screen). Needs Wi-Fi. There's no delete, so prepare or clear test data beforehand.
+Why not just an API? An MCP server is an interface designed for the AI: you choose what it may do (here: no
+delete). "The API is the kitchen, MCP is the menu."
+Into Skills: hard rules go in the MCP server; preferences and judgment (e.g. "check it isn't saved already") go in
+a skill, written in plain English.
+-->
+
+---
 routeAlias: skills
 ---
 
@@ -552,27 +601,6 @@ what I'm missing, and fill only that gap.
 -->
 
 ---
-routeAlias: mcp
----
-
-# MCP (Blender)
-
-- Blender can be controlled with Python
-- Blender MCP server allows Claude to send it Python code to run
-- For this demonstration, I pre-built some python scripts so that things run faster
-
-<!--
-Sub-section of Claude Code (moved from Beyond Coding 2026-11-01). Demo set up in ../blender (its own Blender MCP), with pre-built Python scripts
-so it runs faster on stage.
-On stage: Blender is already open (not a cold start).
-Same lesson as Wordle: the more precisely you direct, the better the result. "Make a room" vs "a 4 m wall, a
-window on the left, the sofa facing it".
-Python: a programming language; Blender has one built in, so almost anything you can click, a script can do.
-Why not just an API? An MCP server is an interface designed for the AI: you choose what it may do (read, not
-delete). "The API is the kitchen, MCP is the menu."
--->
-
----
 routeAlias: agents
 ---
 
@@ -585,4 +613,5 @@ Placeholder (2026-11-01): last sub-section of Claude Code. Several agents, each 
 kanji clips: an art director that keeps the style guide, a character designer, and one that puts it all together,
 messaging each other while I make the decisions (docs/kanji-video-case-study.md, Part 2, step 6). Slides still to
 write.
+Possible example (2026-11-02): coding-rpg-demo/, the Coding RPG game, run outside the slides.
 -->

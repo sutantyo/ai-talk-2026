@@ -28,7 +28,8 @@ dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editin
 
 | Path | What it is |
 |---|---|
-| `mcp-demo/` | **A separate project** (2026-11-01): a website changed only through MCP, a possible MCP demo. It has its own `CLAUDE.md`; when working on the deck, leave it alone and don't act on its notes |
+| `mcp-demo/` | **A separate project** (2026-11-01): Couch, a YouTube page changed only through MCP; the second MCP example. It has its own `CLAUDE.md`; when working on the deck, leave it alone and don't act on its notes |
+| `coding-rpg-demo/` | A browser game where every battle is a programming question (plain HTML/JS, its own `README.md`). Not in the deck; maybe for A Team of Agents later, run outside the slides. Its pixel art (`assets/`) is licensed and **gitignored**: copy it to the MacBook by hand |
 | `ideas.md` | Daniel's scratch pad: loose thoughts for the talk, not yet decided. Add new ones there, dated |
 | `slides/slides.md` | The deck ([Slidev](https://sli.dev) v53, Vue 3 + Vite): title, the map, then each section's slides, with speaker notes |
 | `slides/topics.ts` | **Every node on the map**: title, teaser, main point or sub-section, `optional`, position. Also the visited state and talk order |
@@ -110,9 +111,11 @@ Introduction         Have you heard of AI? (with "What I use" and a disclaimer: 
 Claude Code          Claude Code (terminal or app, "just Claude", a folder, let's build an app)
   Wordle Demo          the live prompt
   Context and Memory   Context and Memory · Memory · A real CLAUDE.md
+  MCP                  MCP (Blender): driven by Python through an MCP server (moved from Beyond Coding 2026-11-01)
+                       · MCP (Couch): mcp-demo/, a page only Claude can change (added 2026-11-02). Before Skills
+                       since 2026-11-02: hard rules in the server, then judgment in a skill
   Skills               Skills · Skill Example
                        (Save and Ship, optional, removed 2026-10-08 for time)
-  MCP                  Blender driven by Python through an MCP server (moved from Beyond Coding 2026-11-01)
   A Team of Agents     (placeholder, 2026-11-01: several sessions, each with its own job)
 Interlude            So am I still coding? · Animation Demo (placeholder: AI artwork + Blender motion,
                      docs/kanji-video-case-study.md; replaced the Higgsfield "Making AI videos" slide). A smaller
@@ -189,6 +192,5 @@ pushing, which can be an audience moment.
 - Slides for the Animation Demo (the kanji clips); the QR code on the closing slide.
 - "Claude is a smart Google" isn't on any slide yet.
 - Real examples from his work: the intro story, the jobs where he's a 20 (100 vs 50 vs 20), Monitoring.
-- Stale speaker note: MCP ("read, not delete" doesn't fit a Blender MCP that runs any Python).
 - Rehearsals: the Wordle prompt in an interactive session, the Blender demo (not timed yet), and a full timed run
   (the Claude Code section, ~10 min, is tight).
