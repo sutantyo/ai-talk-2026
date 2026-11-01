@@ -38,9 +38,9 @@ async function copy() {
 <style scoped>
 .prompt-bar { display: flex; align-items: center; justify-content: space-between; }
 .copy { font: inherit; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.03em; padding: 3px 12px;
-  border-radius: 999px; border: 1.5px solid #9fc4cb; color: #9fc4cb; background: transparent; cursor: pointer;
+  border-radius: 999px; border: 1.5px solid var(--term-muted); color: var(--term-muted); background: transparent; cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s; }
-.copy:hover { background: #9fc4cb; color: #0d262d; }
-.copy.done { border-color: var(--orange); background: var(--orange); color: #fff; }
+.copy:hover { background: var(--term-muted); color: var(--term-bar); }
+.copy.done { border-color: var(--orange); background: var(--orange); color: var(--on-sub); }
 .prompt-text { user-select: text; -webkit-user-select: text; cursor: text; }
 </style>

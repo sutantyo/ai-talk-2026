@@ -26,6 +26,27 @@ Daniel's loose thoughts for the talk, in any order. Not the plan: nothing here i
       them into my free hours this week."
     - Next step: set up a small test repo and project, and run the prompt for real.
 
+## 2026-10-30
+
+- **A made-up project as the running example: a flight disruption map.** Type a flight, see its path on a map with
+  everything that could disrupt it: volcanic ash, storms, turbulence, raised volcano alerts. For the talk only (a
+  web page, not Java). Gives the "Coding is not just coding" slides something real to show: wiki, history, to-do
+  and bug list, tests, logs. Backdated history by a made-up team; say on stage that it's made up.
+  - Data, all tested live 2026-10-30 with no account: OpenSky live planes and tracks (QFA144 Auckland to Sydney,
+    101 positions over 173 min), worldwide SIGMETs from aviationweather.gov (120 active: 51 thunderstorm,
+    33 turbulence, 18 icing, 13 volcanic ash, 2 tropical cyclone), USGS volcano alerts (4 raised, US only),
+    USGS earthquakes, NOAA space weather. No "chance of eruption" exists anywhere: only alert levels.
+  - Catches: people type QF144, planes broadcast QFA144; no future flights; the feeds can be quiet or down, so
+    screenshots on the slides and live only as a bonus.
+- **Who wrote this commit? (a security moment).** Git writes whatever author name and email you give it, and GitHub
+  links the commit to whoever has that email on their account. Gaurav (staff, at the talk, agreed 2026-10-30) is
+  the "main developer" of the flight project, with his real avatar on the commits, but he wrote none of them.
+  Reveal: "Gaurav, did you write this?" Then the fix: signed commits (green **Verified**), and GitHub's vigilant
+  mode labels the others "Unverified".
+  - Found while testing: fake authors at `@example.com` got linked to four real strangers' accounts. Use
+    made-up `.invalid` addresses for the pretend developers.
+  - Possible home: Source Control.
+
 ## Talking points (no home yet)
 
 - **The problem before the solution.** As students you're often handed solutions before you know the problem:
@@ -41,3 +62,13 @@ Daniel's loose thoughts for the talk, in any order. Not the plan: nothing here i
 - **The word "coding".** "Coding is a shorthand word we use to mean software development, but it's also one we use
   to describe typing." (Daniel's line, 2026-10-29.) Explains the title: Coding ≠ Typing.
   - Possible home: the title slide's notes or the opening, or "So am I still coding?".
+- **AI artwork, Blender motion: the kanji clips** (2026-11-01). The full case study is in
+  `docs/kanji-video-case-study.md`. The key line: "the breakthrough wasn't a better AI, it was knowing how to divide
+  the work". Also: the "dusk" mistake (knowing what a morning looks like beat the model), AI texture yes, AI shape
+  no, "free to download" isn't "free to use", and several Claude sessions working like a small studio.
+  - Possible homes: "Making AI videos", MCP (Blender). Contact sheets and the final clip are on the PC
+    (`C:\AI\pilot\blender\`). Setting up the MacBook for this: `docs/macbook-local-ai-setup.md`.
+
+- **2026-11-01: an MCP demo of my own** (a website with no forms, changed only by asking Claude through MCP; a
+  shareable stand-in for the Azure monitor at work). Brief and open questions in `mcp-demo/CLAUDE.md`. Shop
+  prices are out (Woolworths blocks automated visitors); looking at free APIs instead.

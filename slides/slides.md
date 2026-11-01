@@ -60,7 +60,7 @@ What I use
 - 2023 – **ChatGPT**, **Gemini**
 - April 2026 – **Claude Code**
 
-<p class="disclaimer">Disclaimer: I am not an expert in AI or LLM</p>
+<p class="disclaimer">Disclaimer: I am not an expert in AI or LLM<br>These slides are my opinion, from my experience<br>They do not reflect the opinion of the teaching staff</p>
 
 <!--
 Ask one at a time and look at the hands.
@@ -70,7 +70,8 @@ from the notes you upload (good for study).
 Agents: it works on your computer: creates files, runs programs. Expect few hands.
 That gap is the bridge to Claude Code.
 What I use: the old slide had May 2023 ChatGPT, January 2026 Gemini, April 2026 Claude Code.
-Disclaimer: I use these tools every day, but I don't build them. (LLM, a large language model: the kind of AI
+Disclaimer: I use these tools every day, but I don't build them. Everything here is my opinion, from my own
+experience as a software engineer; others will see it differently (the elephant, next). It isn't the view of the teaching staff. (LLM, a large language model: the kind of AI
 behind ChatGPT, Gemini and Claude.)
 -->
 
@@ -122,50 +123,74 @@ To demonstrate, let's build a simple app: hand over to the Wordle demo (next on 
 -->
 
 ---
-routeAlias: beyond
+routeAlias: interlude
 ---
 
 # So am I still coding?
 
 - I still make the important decisions
-- I need to be able to explain it to the AI agent <span class="eg">e.g. the hub page</span>
+- I need to be able to explain it to the AI agent
 - I decide how AI should evaluate the end result
 - "I'm still coding, I'm just not typing"
 
 <!--
-Opens Beyond Coding, straight after the Claude Code demos. Wordle, the CLAUDE.md note, the skill, the save and the
+The interlude, between Claude Code and Beyond Coding, straight after the Claude Code demos. Wordle, the CLAUDE.md note, the skill, the save and the
 push: all automated. Say it: "I didn't write a single line of code." Ask the question and let them answer, then:
 director, not typist.
-The hub page (this deck's map): bring up the transparency issue here, the known bug kept for a live fix (a visited
-branch's faded line and circle overlap, so the join looks darker). To direct the fix I have to understand the
-problem and explain it: fade the whole branch once, not each part.
 Coding ≠ Typing: the title of the talk.
 -->
 
 ---
 
-# Making AI videos
+# Animation Demo
 
-- Higgsfield
-- Using prompts to create videos
-  - "A family dinner in a modern kitchen…" <span class="eg">a different kitchen in every shot</span>
-- Using prompts backed up with reference material
-  - "Use these photos of the kitchen as the setting" <span class="eg">the same kitchen in every shot</span>
-- Know filmmaking (sets, lighting, camera angles)? You'll get far better results
+- AI draws the artwork, Blender moves it
 
 <!--
-Higgsfield, an AI video tool. Text alone: each generated shot gets a different kitchen ("A cozy kitchen with
-morning light" gives a different kitchen each time: Higgsfield's own guide). Within one clip it's fairly stable; the
-change shows between shots. A reference picture of the kitchen keeps it the same; for people, photos from several
-angles and expressions keep the same face (Higgsfield's Soul ID trains from 5+ photos).
-Same idea as CLAUDE.md: give the AI the real thing instead of describing it and hoping.
-Last point: knowing the craft (production design, lighting, camera work) is what makes the result good: the same
-message as 100 vs 50 vs 20, and as "I'm still the director".
-Screenshots or clips to add (real Higgsfield output, not mock-ups).
+Placeholder (2026-11-01): the Interlude's animation, after "So am I still coding?"; replaces the old Higgsfield
+"Making AI videos" slide. Material: docs/kanji-video-case-study.md (the kanji clips: AI video alone failed, then
+AI artwork plus Blender motion worked). Same message: knowing the craft is what makes the result good. Slides
+still to write.
+-->
+
+---
+routeAlias: beyond
+---
+
+# Coding is not just coding
+
+- Source Control
+- Testing
+- Monitoring
+- Documentation
+- Learning
+
+<!--
+Opens Beyond Coding, after the Interlude: the rest of the job, beyond the code. Each item is a
+sub-section of its own on the map (2026-11-01).
+Things you may not have run into yet: at uni you write a program, hand it in, and you're done. At work the program
+lives for years, many people change it, and real people use it. These four are what keeps that working.
+One slide each comes next. Learning: lead into Learning with AI (learning backwards).
 -->
 
 ---
 routeAlias: close
+---
+
+# 100 vs 50 vs 20
+
+- In my field I'm still better than Claude (I hope): if I'm 100, Claude is maybe a 50
+- But in many jobs that don't need deep thinking, Claude is better than me
+- There I'm maybe a 20, so even a 50 is much better than me
+- Don't try to be 100 at everything; be 100 at something, and Claude won't make you obsolete
+
+<!--
+After "Coding is not just coding": apart from those parts of the job, there are other things I have to do, outside
+my field. There Claude is better than me, and I'm fine if it takes control. (A real example from work to add.)
+Claude makes mistakes; in my own field I catch them.
+Earlier version, if useful: "at 0 you can't tell when the 50 is wrong; that's what your degree is for: 0 to 100".
+-->
+
 ---
 
 # Closing remarks
@@ -182,7 +207,7 @@ Still to add: the QR code.
 routeAlias: wordle
 ---
 
-# Wordle
+# Wordle Demo
 
 <PromptCard>Make a Wordle-style game called "Guess the Word" as a single web page in this folder: five-letter words, six guesses, green, yellow and grey tiles that handle repeated letters correctly, and an on-screen keyboard that changes colour too. Use the word lists in words.js for answers and allowed guesses. Don't run any tests.</PromptCard>
 
@@ -296,24 +321,67 @@ Plain English throughout: anyone who knows how they want a job done can write on
 -->
 
 ---
-routeAlias: not-just-coding
+routeAlias: source-control
 ---
 
-# Coding is not just coding
+# Source Control
 
-- Documentation
-- Source Control
-- Testing
-- Monitoring
-- Learning
+- A save point for your work, like a save game <span class="eg">go back to any point, any time</span>
+- See exactly what changed, line by line, and who changed it
+- Many people change the same project without overwriting each other
+- Claude writes the "what I changed" note for each save
+- One more step puts it online <span class="eg">this deck updates itself every time I save it to GitHub</span>
 
 <!--
-Sub-section of Beyond Coding, after "So am I still coding?": the rest of the job, beyond the code.
-Things you may not have run into yet: at uni you write a program, hand it in, and you're done. At work the program
-lives for years, many people change it, and real people use it. These four are what keeps that working.
-One slide each comes next. Learning: lead into Learning with AI (learning backwards).
+Source control (Git, GitHub): every save ("commit") is a snapshot with a note saying what changed and why.
+Like Google Docs' version history, but for a whole folder and many people at once.
+Claude writes the commit notes, and they're better than mine were ("fixed stuff").
+The deck itself: pushing to GitHub rebuilds and publishes the website automatically (GitHub Pages).
+Claude asks permission before it pushes: I stay the one who decides what goes online.
 -->
 
+---
+routeAlias: testing
+---
+
+# Testing
+
+- Small programs that check the real program still works
+- They run every time something changes, in seconds
+- Writing them is tedious, so people skip it; Claude writes them
+- Still my job: deciding *what* to check <span class="eg">"what if the guess has the same letter twice?"</span>
+- Tests also check Claude's work
+
+<!--
+A test: "give the program this, expect that". For the Wordle game: answer ABIDE, guess SPEED, only one E should be
+coloured. If a change breaks that, the test fails straight away instead of a player finding it.
+Claude writes tests quickly; the judgement is in knowing which cases matter (the tricky ones).
+Tests check Claude too: when it changes something, the tests say whether it broke anything else.
+(In the live Wordle prompt we said "Don't run any tests" only to save time on stage.)
+-->
+
+---
+routeAlias: monitoring
+---
+
+# Monitoring
+
+- A running app keeps a diary of everything it does <span class="eg">the logs</span>
+- Far more than anyone can read
+- When something breaks, someone has to find the lines that matter
+- Claude reads the logs for me and points to the cause
+- Still my job: knowing what "normal" looks like <span class="eg">and whether its answer makes sense</span>
+
+<!--
+Once an app is live, real people use it, at all hours. It writes a line for each thing it does: "user logged in",
+"payment failed", "took 3 seconds". Monitoring is watching those, with alerts when something looks wrong.
+Before: hours scrolling through logs. Now: "here are today's logs, why did payments fail at 2 pm?"
+(A real example from work to add.)
+-->
+
+
+---
+routeAlias: documentation
 ---
 
 # Documentation
@@ -335,6 +403,58 @@ Drift: one of the biggest problems. Someone changes the code and doesn't update 
 comments in the code (notes written right next to it for the next person). Now the docs say one thing and the code
 does another, which is worse than no docs. With AI it's trivial: "I changed this; update the docs and comments
 to match", or "check the docs against the code and list what's out of date".
+-->
+
+---
+
+# Do you memorise the textbook?
+
+- As a student, you read the textbook <span class="eg">and sometimes memorise it for the exam</span>
+- But why?
+- If a page of the book answers the question, is it a good exam question?
+- You don't need to memorise the book
+- Remember the table of contents <span class="eg">later on, roughly what's in it</span>
+- Documentation is the same <span class="eg">know what's there; look it up when you need it</span>
+
+<!--
+Daniel's points: as a student you're often required to read the textbook, and sometimes memorise it for the exam.
+The question is why. If a question can be answered easily by looking up a page in the textbook, is that a good
+question for an exam?
+His claim: you don't need to memorise a textbook. It's good enough to remember the table of contents, or later on,
+roughly remember what's in the book.
+Link to documentation: nobody memorises the team handbook either. You know roughly what's in it and where, and you
+look it up when you need it. These days Claude does the looking up: it reads the docs for me.
+-->
+
+---
+
+# Hot Take <span class="take-no">#412</span>
+
+<p class="hot-take">“Experience is just undocumented knowledge”</p>
+
+- Not 100% true <span class="eg">that's why it's a hot take</span>
+- But a lot of knowledge is lost only because nobody wrote it down
+- Now AI does the writing
+- Our job: organise it <span class="eg">a table of contents, good section headings</span>
+
+<style>
+.take-no { color: var(--orange); }
+.hot-take {
+  font-size: 2.1em; font-weight: 600; color: var(--deep);
+  border-left: 6px solid var(--orange); padding: 0.2em 0 0.2em 0.8em; margin: 0.6em 0 1em;
+}
+</style>
+
+<!--
+Daniel's hot take, said as a joke ("#412": one of many). The number is made up; play it straight.
+Why he thinks it: a lot of everyday knowledge lives only in people's heads or in chat threads that scroll away:
+workarounds, quirks of old in-house tools, "you have to restart that one first". Manuals rarely cover the odd bug
+or the edge case; a senior engineer fixes it because they've seen it before, a junior has nothing to read.
+Writing docs is rarely rewarded, so the knowledge stays with a few people, and when they leave, it leaves too.
+Not 100% true: some experience survives even good documentation (judgement, taste, knowing what to try first).
+But a lot is lost only because nobody recorded it.
+Where AI comes in: it does the writing now, so recording is cheap. What's left for us is organising the knowledge:
+the table of contents and good section headings (back to the textbook: remember the contents, look up the rest).
 -->
 
 ---
@@ -401,76 +521,6 @@ Still my job: deciding what's true. It can find two pages that disagree; I decid
 -->
 
 ---
-
-# Source Control
-
-- A save point for your work, like a save game <span class="eg">go back to any point, any time</span>
-- See exactly what changed, line by line, and who changed it
-- Many people change the same project without overwriting each other
-- Claude writes the "what I changed" note for each save
-- One more step puts it online <span class="eg">this deck updates itself every time I save it to GitHub</span>
-
-<!--
-Source control (Git, GitHub): every save ("commit") is a snapshot with a note saying what changed and why.
-Like Google Docs' version history, but for a whole folder and many people at once.
-Claude writes the commit notes, and they're better than mine were ("fixed stuff").
-The deck itself: pushing to GitHub rebuilds and publishes the website automatically (GitHub Pages).
-Claude asks permission before it pushes: I stay the one who decides what goes online.
--->
-
----
-
-# Testing
-
-- Small programs that check the real program still works
-- They run every time something changes, in seconds
-- Writing them is tedious, so people skip it; Claude writes them
-- Still my job: deciding *what* to check <span class="eg">"what if the guess has the same letter twice?"</span>
-- Tests also check Claude's work
-
-<!--
-A test: "give the program this, expect that". For the Wordle game: answer ABIDE, guess SPEED, only one E should be
-coloured. If a change breaks that, the test fails straight away instead of a player finding it.
-Claude writes tests quickly; the judgement is in knowing which cases matter (the tricky ones).
-Tests check Claude too: when it changes something, the tests say whether it broke anything else.
-(In the live Wordle prompt we said "Don't run any tests" only to save time on stage.)
--->
-
----
-
-# Monitoring
-
-- A running app keeps a diary of everything it does <span class="eg">the logs</span>
-- Far more than anyone can read
-- When something breaks, someone has to find the lines that matter
-- Claude reads the logs for me and points to the cause
-- Still my job: knowing what "normal" looks like <span class="eg">and whether its answer makes sense</span>
-
-<!--
-Once an app is live, real people use it, at all hours. It writes a line for each thing it does: "user logged in",
-"payment failed", "took 3 seconds". Monitoring is watching those, with alerts when something looks wrong.
-Before: hours scrolling through logs. Now: "here are today's logs, why did payments fail at 2 pm?"
-(A real example from work to add.)
--->
-
-
----
-
-# 100 vs 50 vs 20
-
-- In my field I'm still better than Claude (I hope): if I'm 100, Claude is maybe a 50
-- But in many jobs that don't need deep thinking, Claude is better than me
-- There I'm maybe a 20, so even a 50 is much better than me
-- Don't try to be 100 at everything; be 100 at something, and Claude won't make you obsolete
-
-<!--
-After "Coding is not just coding": apart from those parts of the job, there are other things I have to do, outside
-my field. There Claude is better than me, and I'm fine if it takes control. (A real example from work to add.)
-Claude makes mistakes; in my own field I catch them.
-Earlier version, if useful: "at 0 you can't tell when the 50 is wrong; that's what your degree is for: 0 to 100".
--->
-
----
 routeAlias: learning
 ---
 
@@ -512,7 +562,7 @@ routeAlias: mcp
 - For this demonstration, I pre-built some python scripts so that things run faster
 
 <!--
-Optional sub-section of Beyond Coding. Demo set up in ../blender (its own Blender MCP), with pre-built Python scripts
+Sub-section of Claude Code (moved from Beyond Coding 2026-11-01). Demo set up in ../blender (its own Blender MCP), with pre-built Python scripts
 so it runs faster on stage.
 On stage: Blender is already open (not a cold start).
 Same lesson as Wordle: the more precisely you direct, the better the result. "Make a room" vs "a 4 m wall, a
@@ -520,4 +570,19 @@ window on the left, the sofa facing it".
 Python: a programming language; Blender has one built in, so almost anything you can click, a script can do.
 Why not just an API? An MCP server is an interface designed for the AI: you choose what it may do (read, not
 delete). "The API is the kitchen, MCP is the menu."
+-->
+
+---
+routeAlias: agents
+---
+
+# A Team of Agents
+
+- Several Claude sessions, each with its own job, working together
+
+<!--
+Placeholder (2026-11-01): last sub-section of Claude Code. Several agents, each with a set responsibility, e.g. the
+kanji clips: an art director that keeps the style guide, a character designer, and one that puts it all together,
+messaging each other while I make the decisions (docs/kanji-video-case-study.md, Part 2, step 6). Slides still to
+write.
 -->

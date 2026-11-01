@@ -28,20 +28,22 @@ dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editin
 
 | Path | What it is |
 |---|---|
+| `mcp-demo/` | **A separate project** (2026-11-01): a website changed only through MCP, a possible MCP demo. It has its own `CLAUDE.md`; when working on the deck, leave it alone and don't act on its notes |
 | `ideas.md` | Daniel's scratch pad: loose thoughts for the talk, not yet decided. Add new ones there, dated |
 | `slides/slides.md` | The deck ([Slidev](https://sli.dev) v53, Vue 3 + Vite): title, the map, then each section's slides, with speaker notes |
 | `slides/topics.ts` | **Every node on the map**: title, teaser, main point or sub-section, `optional`, position. Also the visited state and talk order |
-| `slides/components/Hub.vue` | The map: circuit tree, sub-sections radiating out on hover, details card, visited dots |
-| `slides/components/TitleTree.vue` | Title-slide decoration: an L-shaped circuit in the bottom-right corner (fixed drawing, not from `topics.ts`) |
+| `slides/components/Hub.vue` | The map: main points on a horizontal line, sub-sections rising above on hover, details card, visited dots |
+| `slides/components/TitleTree.vue` | Title-slide decoration: a circuit tree in the bottom-right corner (fixed drawing, not from `topics.ts`); the only circuit outside the map |
 | `slides/components/LearningGraph.vue` | "Learning backwards": a book as a tiered chapter graph; buttons play reading in order (breadth-first to chapter 13) and working backwards (13, 10, 7) |
 | `slides/components/PromptCard.vue` | The Wordle prompt as a terminal-style card with a **Copy** button (put the prompt between `<PromptCard>` tags) |
 | `slides/components/DocViewer.vue` | Scrollable plain-text document with section-jump buttons and a line count; used by the two below |
 | `slides/components/ClaudeMdViewer.vue` | "A real CLAUDE.md": this file, read at build time. **Shown to the audience**, so keep it current and readable |
 | `slides/components/SkillViewer.vue` | "Skill Example": the phrasebook's `add-phrases` skill, from the copy in `slides/examples/add-phrases-SKILL.md` (re-copy if the skill changes) |
-| `slides/global-top.vue` | On every slide: section marker top-right, Map button bottom-right, end-of-section nudge |
+| `slides/global-top.vue` | On every slide: section marker bottom-left, Map button bottom-right, end-of-section nudge |
 | `slides/slide-bottom.vue` | Under each slide: a warm paper background (`--optional-bg`) on slides in an optional section |
-| `slides/setup/shortcuts.ts` | Keys: arrows run along a main point's chain of pages and stop at its ends; `H` = map; → / ← on the map |
-| `slides/style.css` | Colours (`--deep`, `--teal`, `--orange`), heading underline, bullets, the prompt card, key words (`.key`) |
+| `slides/setup/shortcuts.ts` | Keys: arrows run along a main point's chain of pages and stop at its ends; `H` = map; → / ← on the map; `T` = next colour theme |
+| `slides/style.css` | Colours as named roles (`--deep`, `--teal`, `--orange`, `--muted`, …) for each theme, headings, bullets, the prompt card, key words (`.key`) |
+| `slides/theme.ts` | Colour themes: Indigo (dark indigo with yellow; the default) and Pastel (cream, soft cyan and soft orange, brown-orange text); both tunable with `C`. `T` or the button by Map switches; remembered in the browser |
 | `slides/public/` | (to create) static files, e.g. screenshots, videos |
 | `.github/workflows/pages.yml` | Builds and deploys to GitHub Pages on every push to `main` |
 
@@ -76,7 +78,8 @@ It was removed deliberately; it's preserved at the `ml-deck` tag. Machine learni
 
 **Audience:** university students with **little to no coding background**. No code on slides beyond plain-English
 prompts; explain terms like file, terminal, app. **Length:** 25 minutes core, plus up to 5 flexible minutes
-covered by optional sub-sections. **Main message:** software engineering is still worth learning, because the skill has
+covered by optional sub-sections. (Update 2026-10-30: the slot is **2 hours**, so there's room for flexible parts,
+e.g. a ~15-minute live flight-project demo; see `ideas.md`.) **Main message:** software engineering is still worth learning, because the skill has
 moved from typing to directing and judging. Secondary: use AI well for your own learning.
 
 **Daniel's own lines (keep his wording):**
@@ -94,9 +97,9 @@ moved from typing to directing and judging. Secondary: use AI well for your own 
 **Naming:** the deck says "Claude Code" only as the product name (intro slides, the Claude Code slide, the map);
 the Claude Code slide then says "From here on, we'll just call it Claude", and the rest says "Claude".
 
-**Structure: a map.** The hub slide is a circuit-tree map: the trunk is the main points in order; each point's
-**sub-sections** branch off it in orange and radiate out on hover (scattered above and below, left to right in talk
-order); an **optional** one has a dashed halo and its slides a warm paper background. A main point and its
+**Structure: a map.** The hub slide is a horizontal line of the main points in order (left to right, names
+underneath); each point's **sub-sections** rise on a riser above it on hover (bottom to top in talk order, labels
+to the right); an **optional** one has a dashed halo. Every slide, the map included, has the same background. A main point and its
 sub-sections form one chain: the arrow keys run along it and stop at its ends. `H` or the Map button goes to the
 map, and → on the map opens the next part of the talk. Current map (source of truth: `slides/topics.ts`), with
 each part's slides:
@@ -105,16 +108,22 @@ each part's slides:
 Introduction         Have you heard of AI? (with "What I use" and a disclaimer: not an AI expert; Who am I?
                      removed 2026-10-08) · The blind men and the elephant (we each see one side of AI)
 Claude Code          Claude Code (terminal or app, "just Claude", a folder, let's build an app)
-  Wordle               the live prompt
+  Wordle Demo          the live prompt
   Context and Memory   Context and Memory · Memory · A real CLAUDE.md
   Skills               Skills · Skill Example
                        (Save and Ship, optional, removed 2026-10-08 for time)
-Beyond Coding        So am I still coding? · Making AI videos
-  Coding is not just coding   Coding is not just coding · Documentation · Markdown · Keeping the wiki tidy ·
-                              Source Control · Testing · Monitoring · 100 vs 50 vs 20 (expanded 2026-10-27)
-  Learning with AI*    Learning with AI · Learning backwards (interactive chapter graph)
-  MCP (Blender)*       Blender driven by Python through an MCP server
-Wrap-up              Closing remarks
+  MCP                  Blender driven by Python through an MCP server (moved from Beyond Coding 2026-11-01)
+  A Team of Agents     (placeholder, 2026-11-01: several sessions, each with its own job)
+Interlude            So am I still coding? · Animation Demo (placeholder: AI artwork + Blender motion,
+                     docs/kanji-video-case-study.md; replaced the Higgsfield "Making AI videos" slide). A smaller
+                     main point, added 2026-11-01 between the two halves
+Beyond Coding        Coding is not just coding (the list of what follows)
+  Source Control       Source Control
+  Testing              Testing
+  Monitoring           Monitoring
+  Documentation        Documentation · Do you memorise the textbook? · Hot Take #412 · Markdown · Keeping the wiki tidy
+  Learning             Learning with AI · Learning backwards (interactive chapter graph)
+Wrap-up              100 vs 50 vs 20 (moved here 2026-11-01) · Closing remarks
 ```
 
 ## Demos
@@ -164,11 +173,6 @@ run Aseprite in the background on files, so the audience wouldn't see the app be
 final message on design warnings in earlier runs). The laptop needs `gh auth login`; Claude asks permission before
 pushing, which can be an audience moment.
 
-**Keep a known bug for a live fix** (decided 2026-10-07). On the map, a visited sub-section's faded line (opacity
-0.35) and faded circle (0.5) overlap, so the join looks darker. **Don't fix it.** Daniel will fix it live as an
-example of "I still need to understand the problem to direct Claude" (the fix: fade the whole branch group once,
-not each part). It comes up on the "So am I still coding?" slide ("explain it to the AI agent, e.g. the hub page").
-
 ## Ideas not taken (yet)
 
 - **Session replay:** a recorded Claude Code session stepped through on clicks, terminal on one side and a
@@ -182,7 +186,7 @@ not each part). It comes up on the "So am I still coding?" slide ("explain it to
 
 ## Open questions for Daniel (2026-10-08)
 
-- Visuals for "Making AI videos" (Higgsfield screenshots); the QR code on the closing slide.
+- Slides for the Animation Demo (the kanji clips); the QR code on the closing slide.
 - "Claude is a smart Google" isn't on any slide yet.
 - Real examples from his work: the intro story, the jobs where he's a 20 (100 vs 50 vs 20), Monitoring.
 - Stale speaker note: MCP ("read, not delete" doesn't fit a Blender MCP that runs any Python).

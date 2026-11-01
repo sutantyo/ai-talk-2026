@@ -1,19 +1,103 @@
-/* Colours shared with the hub (components/Hub.vue). --accent is teal in the core talk and
-   switches to orange on sub-sections (set on <html> by global-top.vue). */
+/* Colours. Every colour in the deck is a named role here; a theme (theme.ts) is one set of values for these names,
+   chosen by data-theme on <html>. Components use the same names (Hub.vue, LearningGraph.vue, DocViewer.vue, ...).
+   --accent is the core colour in the core talk and switches to the sub-section colour on sub-sections
+   (set on <html> by global-top.vue). */
 :root {
-  --deep: #0f4c5c;
-  --teal: #13a89e;
-  --orange: #f28c38;
-  --ink: #12313a;
+  /* Pastel (the values on :root; Indigo is the default theme): a soft cream-beige slide, soft cyan as the main accent (sub-sections, which most content
+     slides are), a soft desaturated orange for main points, and text in a warm,
+     desaturated brown-orange. Lines and text are a step deeper than true pastels, so they stay readable on the cream.
+     Every colour comes from six numbers (OKLCH: lightness, colourfulness, hue), which the colour panel
+     (ColourPanel.vue, key C) changes live. */
+  --px-l: 0.95;           /* background lightness */
+  --px-c: 0.026;          /* background colourfulness */
+  --px-h: 92;             /* background hue: 90 cream */
+  --px-sub: 207;          /* main accent hue (sub-sections): 207 cyan */
+  --px-core: 58;          /* main points' hue: 58 orange */
+  --px-text: 55;          /* text hue: 55 brown-orange */
+
+  --deep: oklch(0.37 0.05 var(--px-text));    /* headings, bold words */
+  --teal: oklch(0.63 0.09 var(--px-core));    /* main points ("core") */
+  --orange: oklch(0.59 0.08 var(--px-sub));   /* sub-sections, highlights */
+  --ink: oklch(0.44 0.05 var(--px-text));     /* body text */
+  --soft: oklch(0.47 0.05 var(--px-text));    /* secondary text: subtitles, the map's details card */
+  --muted: oklch(0.52 0.04 var(--px-text));   /* examples, captions, notes */
+  --quiet: var(--muted);                      /* the section marker, the map's legend */
+  --key: oklch(0.5 0.08 var(--px-sub));       /* a key word in a sentence: darker than --orange, so it reads as text */
+  --on-core: #fff;                            /* text on a filled core-colour shape */
+  --on-sub: #fff;                             /* text on a filled sub-section-colour shape */
+  --bg: oklch(var(--px-l) var(--px-c) var(--px-h));  /* slide background */
+  --ring-fill: var(--bg);                     /* inside of the ring nodes (bullets, the map) */
+  --surface: oklch(calc(var(--px-l) + 0.03) calc(var(--px-c) * 0.6) var(--px-h));      /* windows on a slide */
+  --surface-tab: oklch(0.91 0.03 var(--px-sub));                                       /* a window's title tab */
+  --line: oklch(calc(var(--px-l) - 0.11) calc(var(--px-c) + 0.015) var(--px-h));       /* borders and separators */
+  --code-bg: oklch(calc(var(--px-l) - 0.04) calc(var(--px-c) + 0.01) var(--px-h));
+  --highlight: oklch(0.91 0.04 var(--px-core));                                        /* a highlighted line */
+  --paper: oklch(calc(var(--px-l) - 0.035) calc(var(--px-c) + 0.005) var(--px-h));    /* "what you type" */
+  --paper-line: var(--line);
+  --shadow: 120, 90, 60;                      /* RGB of shadows */
+  --term-bg: oklch(0.33 0.035 var(--px-text)); --term-bar: oklch(0.29 0.03 var(--px-text));  /* the prompt card */
+  --term-text: oklch(0.97 0.01 var(--px-h)); --term-muted: var(--surface-tab);
+  /* The map (Hub.vue): on the same background as every slide */
+  --map-bg: var(--bg); --map-glow: var(--bg); --map-trunk: var(--ink);
+  --map-decor: oklch(0.87 0.03 var(--px-sub)); --map-lit: #ffffff; --map-base: oklch(0.83 0.035 var(--px-sub));
+  --map-card: var(--surface); --map-opt-label: oklch(0.45 0.08 var(--px-core)); --map-hover: #000;
+  --map-hl: oklch(0.7 0.16 212);
+  --map-hint: var(--muted);
+  /* Learning backwards (LearningGraph.vue) */
+  --graph-edge: oklch(0.84 0.04 var(--px-core)); --graph-ring: oklch(0.72 0.06 var(--px-core));
+  --graph-skip-ring: oklch(0.89 0.03 var(--px-core)); --graph-skip-text: oklch(0.78 0.05 var(--px-core));
   --accent: var(--teal);
-  /* Background of slides in an optional section (slide-bottom.vue): warm paper, so "you can skip this" shows. */
-  --optional-bg: #fbf5ea;
 }
+
+/* Indigo: dark indigo with yellow as the main accent (Daniel's favourite colours), a pale periwinkle for main points
+   and a brighter blue for the map's main line. (Tuned to a dark blue-teal with green on 2026-11-01, then back.) Most content slides are in
+   sub-sections, so the main accent takes the sub-section role (bullets, key words, "≠"); main points are a pale
+   accent of their own. The windows on a slide are a deeper shade.
+   Every colour comes from five numbers (OKLCH: lightness, colourfulness, hue), which the colour panel
+   (ColourPanel.vue, key C) changes live: */
+:root[data-theme='indigo'] {
+  --ix-l: 0.24;      /* background lightness, 0 = black */
+  --ix-c: 0.09;      /* background colourfulness, 0 = grey */
+  --ix-h: 275;       /* background hue: 275 indigo, lower is greener (230 blue, 200 teal) */
+  --ix-sub: 85;      /* main accent hue (sub-sections): 85 yellow, 125 green */
+  --ix-core: 275;    /* main points' hue */
+
+  --deep: #ffffff;
+  --teal: oklch(0.8 0.1 var(--ix-core));
+  --orange: oklch(0.86 0.17 var(--ix-sub));
+  --ink: oklch(0.94 0.02 var(--ix-h));
+  --soft: oklch(0.86 0.04 var(--ix-h));
+  --muted: oklch(0.76 0.06 var(--ix-h));
+  --quiet: var(--muted);
+  --key: var(--orange);
+  --on-core: var(--bg);
+  --on-sub: var(--bg);
+  --bg: oklch(var(--ix-l) var(--ix-c) var(--ix-h));
+  --deeper: oklch(calc(var(--ix-l) - 0.04) var(--ix-c) var(--ix-h));
+  --ring-fill: var(--bg);
+  --surface: var(--deeper);
+  --surface-tab: oklch(calc(var(--ix-l) - 0.07) var(--ix-c) var(--ix-h));
+  --line: oklch(calc(var(--ix-l) + 0.12) var(--ix-c) var(--ix-h));
+  --code-bg: oklch(calc(var(--ix-l) + 0.07) var(--ix-c) var(--ix-h));
+  --highlight: oklch(0.4 0.08 var(--ix-sub));
+  --paper: var(--deeper);
+  --paper-line: var(--line);
+  --shadow: 0, 0, 0;
+  --term-bg: var(--deeper); --term-bar: var(--surface-tab); --term-text: var(--ink); --term-muted: var(--muted);
+  --map-bg: var(--bg); --map-glow: var(--bg); --map-trunk: oklch(calc(var(--ix-l) + 0.22) calc(var(--ix-c) * 1.6) var(--ix-h));
+  --map-decor: oklch(calc(var(--ix-l) + 0.05) var(--ix-c) var(--ix-h)); --map-lit: #ffffff;
+  --map-base: var(--line); --map-card: var(--bg); --map-opt-label: oklch(0.9 0.1 var(--ix-sub)); --map-hover: #ffffff;
+  --map-hl: oklch(0.76 0.2 52);
+  --map-hint: oklch(0.68 0.05 var(--ix-h));
+  --graph-edge: oklch(calc(var(--ix-l) + 0.14) var(--ix-c) var(--ix-h)); --graph-ring: oklch(calc(var(--ix-l) + 0.3) var(--ix-c) var(--ix-h));
+  --graph-skip-ring: oklch(calc(var(--ix-l) + 0.05) var(--ix-c) var(--ix-h)); --graph-skip-text: oklch(calc(var(--ix-l) + 0.18) var(--ix-c) var(--ix-h));
+}
+
 html[data-topic-kind='sub'] { --accent: var(--orange); }
 
 /* Slide transitions (slide-left forward, slide-right back; set in the headmatter). Instead of the whole page
    moving, the slide cross-fades and only the content under the heading slides a short way, so the parts every
-   slide shares (the heading's position, its underline) stay put. */
+   slide shares (the heading's position) stay put. */
 :is(.slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active) {
   transition: opacity var(--slidev-transition-duration) ease;
 }
@@ -36,29 +120,11 @@ html[data-map-move] :is(.slide-left-enter-from, .slide-left-leave-to, .slide-rig
 
 .slidev-layout { color: var(--ink); }
 
-/* Headings: deep teal, underlined by a small circuit: a trace running into a ring node, with a branch
-   splitting off underneath to a second node. Every line ends at the centre of its node, so nothing floats.
-   The branch is drawn first, so it sits under the main trace (same layering as the map).
-   Main points: teal trace, orange branch. Sub-sections: the colours swap. */
+/* Headings: plain, in the heading colour. */
 .slidev-layout h1 {
   color: var(--deep);
   font-weight: 700;
-  position: relative;
-  /* Room for the underline that grows with the heading, so letters that dip below the line (g, y, p) never touch it. */
-  padding-bottom: calc(0.3em + 28px);
   margin-bottom: 40px;
-}
-.slidev-layout h1::after {
-  content: '';
-  position: absolute;
-  left: -2px;
-  bottom: 0;
-  width: 150px;
-  height: 28px;
-  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='28' viewBox='0 -2 150 28'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M58 7 L71 20 H131' stroke='%23f28c38' stroke-width='3'/><circle cx='131' cy='20' r='4.5' fill='white' stroke='%23f28c38' stroke-width='2.8'/><path d='M2 7 H101' stroke='%2313a89e' stroke-width='4'/><circle cx='101' cy='7' r='6' fill='white' stroke='%2313a89e' stroke-width='3.5'/></g></svg>") no-repeat;
-}
-html[data-topic-kind='sub'] .slidev-layout h1::after {
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='150' height='28' viewBox='0 -2 150 28'><g fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M58 7 L71 20 H131' stroke='%2313a89e' stroke-width='3'/><circle cx='131' cy='20' r='4.5' fill='white' stroke='%2313a89e' stroke-width='2.8'/><path d='M2 7 H101' stroke='%23f28c38' stroke-width='4'/><circle cx='101' cy='7' r='6' fill='white' stroke='%23f28c38' stroke-width='3.5'/></g></svg>");
 }
 
 /* Bullets: few words, large, well spaced, each on a small ring node in the accent colour. */
@@ -74,17 +140,17 @@ html[data-topic-kind='sub'] .slidev-layout h1::after {
   box-sizing: border-box;
   border: 3px solid var(--accent);
   border-radius: 50%;
-  background: #fff;
+  background: var(--ring-fill);
 }
 .slidev-layout strong { color: var(--deep); }
 
 /* Examples after a bullet's key word, e.g. "Chat  ChatGPT · Claude · Gemini": smaller and muted. */
-.slidev-layout .eg { margin-left: 0.6em; font-size: 0.72em; font-weight: 400; color: #6b8790; letter-spacing: 0.01em; }
+.slidev-layout .eg { margin-left: 0.6em; font-size: 0.72em; font-weight: 400; color: var(--muted); letter-spacing: 0.01em; }
 
 /* Inline code, e.g. CLAUDE.md */
 .slidev-layout :not(pre) > code {
   color: var(--deep);
-  background: #e9f7f5;
+  background: var(--code-bg);
   padding: 0.1em 0.35em;
   border-radius: 4px;
   font-variant-ligatures: none;
@@ -96,22 +162,22 @@ html[data-topic-kind='sub'] .slidev-layout h1::after {
 .slidev-layout.title-slide h1 { font-size: 3.6rem; line-height: 1.1; max-width: 55%; }
 .slidev-layout.title-slide h1 .neq { color: var(--orange); }
 .slidev-layout.title-slide p { max-width: 50%; }
-.slidev-layout.title-slide .subtitle { font-size: 1.35rem; color: #34515a; margin: 0; }
+.slidev-layout.title-slide .subtitle { font-size: 1.35rem; color: var(--soft); margin: 0; }
 .slidev-layout.title-slide .byline { font-size: 1rem; font-weight: 600; color: var(--teal); margin-top: 28px; }
 
 /* A prompt typed into Claude Code (Wordle slide): a small terminal window, but plain English in the slide font,
    since the audience reads it while it runs. */
-.slidev-layout .prompt-card { margin-top: -6px; border-radius: 12px; overflow: hidden; background: #12313a;
-  box-shadow: 0 8px 24px rgba(15, 76, 92, 0.18); }
+.slidev-layout .prompt-card { margin-top: -6px; border-radius: 12px; overflow: hidden; background: var(--term-bg);
+  box-shadow: 0 8px 24px rgba(var(--shadow), 0.18); }
 .slidev-layout .prompt-card .prompt-bar { padding: 7px 16px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em;
-  color: #9fc4cb; background: #0d262d; }
-.slidev-layout .prompt-card p { margin: 0; padding: 18px 24px 22px 50px; position: relative; color: #f3f8f9;
+  color: var(--term-muted); background: var(--term-bar); }
+.slidev-layout .prompt-card p { margin: 0; padding: 18px 24px 22px 50px; position: relative; color: var(--term-text);
   font-size: 1.25rem; line-height: 1.55; }
 .slidev-layout .prompt-card .prompt-mark { position: absolute; left: 24px; color: var(--orange); font-weight: 800; }
 
 /* A key word inside a bullet, e.g. "context" on Claude's memory: bold, in a darker teal than --teal so it stays
    readable as text on white. */
-.slidev-layout .key { color: #0e8a81; font-weight: 800; }
+.slidev-layout .key { color: var(--key); font-weight: 800; }
 
 /* Sub-points under a bullet, e.g. the two example prompts on Making AI videos: smaller, with a smaller ring. */
 .slidev-layout ul ul { margin-top: 0.45em; }
@@ -124,16 +190,19 @@ html[data-topic-kind='sub'] .slidev-layout h1::after {
 .slidev-layout ul ul > li > .eg.note:only-child { margin-left: 0; font-size: 0.95rem; }
 
 /* Introduction: the disclaimer under "What I use", and the elephant picture */
-.slidev-layout .disclaimer { margin-top: 1.2em; font-size: 0.85em; font-style: italic; color: #6b8790; }
+.slidev-layout .disclaimer {
+  position: absolute; right: 4rem; bottom: 6rem; max-width: 22rem; margin: 0;
+  font-size: 0.85em; font-style: italic; line-height: 1.5; color: var(--muted); text-align: right;
+}
 .slidev-layout .elephant { margin: -0.4em 0 0; text-align: center; }
 .slidev-layout .elephant img { max-height: 340px; margin: 0 auto; border-radius: 4px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); }
-.slidev-layout .elephant figcaption { margin-top: 0.5em; font-size: 0.7rem; color: #6b8790; }
+.slidev-layout .elephant figcaption { margin-top: 0.5em; font-size: 0.7rem; color: var(--muted); }
 
 /* Markdown slide: what you type next to what you see */
 .slidev-layout .md-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0.6em 0 0.9em; }
-.slidev-layout .md-label { margin: 0 0 0.3em; font-size: 0.8rem; font-weight: 700; color: #6b8790; text-transform: uppercase; letter-spacing: 0.06em; }
-.slidev-layout .md-raw { margin: 0; padding: 0.8em 1em; background: #f4f1ea; border-radius: 6px; font-size: 0.95rem; line-height: 1.5; font-variant-ligatures: none; white-space: pre; }
-.slidev-layout .md-rendered { padding: 0.8em 1em; border: 1px solid #e2ddd2; border-radius: 6px; font-size: 0.95rem; line-height: 1.5; }
+.slidev-layout .md-label { margin: 0 0 0.3em; font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.slidev-layout .md-raw { margin: 0; padding: 0.8em 1em; background: var(--paper); border-radius: 6px; font-size: 0.95rem; line-height: 1.5; font-variant-ligatures: none; white-space: pre; }
+.slidev-layout .md-rendered { padding: 0.8em 1em; border: 1px solid var(--paper-line); border-radius: 6px; font-size: 0.95rem; line-height: 1.5; }
 .slidev-layout .md-h { font-size: 1.35rem; font-weight: 700; color: var(--deep); margin-bottom: 0.3em; }
 .slidev-layout .md-li::before { content: '•'; margin: 0 0.5em 0 0.2em; }
 .slidev-layout .md-link { color: var(--teal); text-decoration: underline; }

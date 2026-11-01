@@ -45,15 +45,15 @@ const branches: { d: string, end: [number, number], dashed?: boolean }[] = [
 .title-tree { position: absolute; right: 22px; bottom: 18px; width: 50%; height: auto; overflow: visible; }
 .trace { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1;
   animation: draw 1s ease-out forwards; }
-.trunk { stroke: #0f4c5c; stroke-width: 9; animation-duration: 1.4s; }
-.branch { stroke: #f28c38; stroke-width: 4; opacity: 0.85; }
+.trunk { stroke: var(--map-trunk); stroke-width: 9; animation-duration: 1.4s; }
+.branch { stroke: var(--orange); stroke-width: 4; opacity: 0.85; }
 .node { opacity: 0; animation: appear 0.35s ease-out forwards; }
-.ring { fill: #fff; stroke-width: 5; }
-.core .ring { stroke: #13a89e; }
-.sub .ring { stroke: #f28c38; }
-.halo { fill: none; stroke: #f28c38; stroke-width: 2; stroke-dasharray: 3 3.6; }
-.core .pip { fill: #13a89e; }
-.sub .pip { fill: #f28c38; }
+.ring { fill: var(--ring-fill); stroke-width: 5; }
+.core .ring { stroke: var(--teal); }
+.sub .ring { stroke: var(--orange); }
+.halo { fill: none; stroke: var(--orange); stroke-width: 2; stroke-dasharray: 3 3.6; }
+.core .pip { fill: var(--teal); }
+.sub .pip { fill: var(--orange); }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes appear { to { opacity: 1; } }
 </style>

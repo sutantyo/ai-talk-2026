@@ -124,21 +124,22 @@ const caption = computed(() => {
 .learning { display: flex; align-items: center; gap: 28px; margin-top: -12px; }
 .graph { width: 640px; flex: none; overflow: visible; }
 
-.edge { stroke: #cfdcdf; stroke-width: 3; stroke-linecap: round; transition: stroke 0.3s, stroke-width 0.3s; }
+.edge { stroke: var(--graph-edge); stroke-width: 3; stroke-linecap: round; transition: stroke 0.3s, stroke-width 0.3s; }
 .book .edge.lit { stroke: var(--teal); stroke-width: 4; }
 .back .edge.lit { stroke: var(--orange); stroke-width: 5; }
 
-.chapter circle { fill: #fff; stroke: #b7c9cd; stroke-width: 3; transition: fill 0.3s, stroke 0.3s; }
-.chapter text { font-size: 15px; font-weight: 700; fill: #6b8790; text-anchor: middle; dominant-baseline: middle;
+.chapter circle { fill: var(--ring-fill); stroke: var(--graph-ring); stroke-width: 3; transition: fill 0.3s, stroke 0.3s; }
+.chapter text { font-size: 15px; font-weight: 700; fill: var(--muted); text-anchor: middle; dominant-baseline: middle;
   transition: fill 0.3s; }
 .chapter.goal circle { stroke: var(--orange); stroke-dasharray: 5 4; }
 .chapter.goal text { fill: var(--orange); }
 .book .chapter.lit circle { fill: var(--teal); stroke: var(--teal); stroke-dasharray: none; }
 .back .chapter.lit circle { fill: var(--orange); stroke: var(--orange); stroke-dasharray: none; }
-.chapter.lit text { fill: #fff; }
+.book .chapter.lit text { fill: var(--on-core); }
+.back .chapter.lit text { fill: var(--on-sub); }
 /* Skipped chapters fade by colour, not opacity: their white fill must stay solid so the lines don't show through. */
-.chapter.skipped circle { stroke: #dbe5e7; }
-.chapter.skipped text { fill: #b3c4c8; }
+.chapter.skipped circle { stroke: var(--graph-skip-ring); }
+.chapter.skipped text { fill: var(--graph-skip-text); }
 .chapter { transform-box: fill-box; transform-origin: center; }
 .chapter.lit { animation: pop 0.35s ease-out; }
 @keyframes pop { 50% { transform: scale(1.18); } }
@@ -146,17 +147,17 @@ const caption = computed(() => {
 
 .panel { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 220px; }
 .panel button { font: inherit; font-size: 0.95rem; font-weight: 700; padding: 9px 14px; border-radius: 999px;
-  border: 2.5px solid; background: #fff; cursor: pointer; transition: background 0.2s, color 0.2s, opacity 0.2s; }
+  border: 2.5px solid; background: transparent; cursor: pointer; transition: background 0.2s, color 0.2s, opacity 0.2s; }
 .panel button.book { color: var(--teal); border-color: var(--teal); }
-.panel button.book:hover:not(:disabled) { background: var(--teal); color: #fff; }
+.panel button.book:hover:not(:disabled) { background: var(--teal); color: var(--on-core); }
 .panel button.back { color: var(--orange); border-color: var(--orange); }
-.panel button.back:hover:not(:disabled) { background: var(--orange); color: #fff; }
+.panel button.back:hover:not(:disabled) { background: var(--orange); color: var(--on-sub); }
 .panel button:disabled { opacity: 0.45; cursor: default; }
-.panel button.reset { align-self: center; border: none; background: transparent; padding: 4px 10px; font-size: 0.8rem; color: #6b8790; }
+.panel button.reset { align-self: center; border: none; background: transparent; padding: 4px 10px; font-size: 0.8rem; color: var(--muted); }
 .count { display: flex; align-items: baseline; gap: 8px; margin-top: 14px; color: var(--deep); }
 .count .num { font-size: 3.2rem; font-weight: 800; line-height: 1; }
 .book .count .num { color: var(--teal); }
 .back .count .num { color: var(--orange); }
 .count .unit { font-size: 1rem; font-weight: 600; }
-.caption { margin: 0; min-height: 2.6em; font-size: 0.9rem; color: #6b8790; }
+.caption { margin: 0; min-height: 2.6em; font-size: 0.9rem; color: var(--muted); }
 </style>

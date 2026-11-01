@@ -2,6 +2,7 @@ import type { NavOperations, ShortcutOptions } from '@slidev/types'
 import { defineShortcutsSetup } from '@slidev/types'
 import { useNav } from '@slidev/client'
 import { chainOf, deadEnd, deadEndAt, lastClicks, lastSlideNo, TALK_ORDER, useTopicSlides, visited } from '../topics'
+import { nextTheme, panelOpen } from '../theme'
 
 // A main point and its sub-sections form one chain (e.g. Claude Code → Wordle → Context and Memory → Skills).
 // The arrow keys run along the chain and never leave it:
@@ -71,5 +72,7 @@ export default defineShortcutsSetup((nav: NavOperations, base: ShortcutOptions[]
   return [
     ...base.map(s => (s.name && replace[s.name] ? { ...s, fn: replace[s.name] } : s)),
     { name: 'go_hub', key: 'h', fn: () => go('hub') },
+    { name: 'next_theme', key: 't', fn: nextTheme },
+    { name: 'colour_panel', key: 'c', fn: () => { panelOpen.value = !panelOpen.value } },
   ]
 })

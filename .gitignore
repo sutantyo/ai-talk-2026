@@ -3,3 +3,5 @@ dist/
 .venv
 .DS_Store
 .impeccable/
+# Licensed pixel art (Franuka, Humble Bundle): no redistribution, keep out of this public repo
+coding-rpg-demo/assets/

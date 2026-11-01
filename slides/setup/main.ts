@@ -1,6 +1,7 @@
 import { defineAppSetup } from '@slidev/types'
 // @ts-expect-error Slidev's virtual module: the deck's slides, the same list useNav() reads
 import { slides } from '#slidev/slides'
+import '../theme' // sets the colour theme on <html> before the first slide shows
 
 // Slides slide within a section, but any move to or from the map fades (see style.css).
 // Slidev can't do this from frontmatter alone: going forward it uses the transition of the slide just before the
