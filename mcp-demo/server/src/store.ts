@@ -1,5 +1,5 @@
 import type { Db } from './db.js';
-import type { PlaylistPage, Playlist, Video } from '../../shared/protocol.js';
+import type { PlaylistPage, Playlist, Video, VideoSource } from '../../shared/protocol.js';
 
 export interface GoogleIdentity {
   sub: string;
@@ -20,7 +20,9 @@ export interface UserStore {
 }
 
 export interface NewVideo {
+  /** YouTube video id, or a Facebook reel id when `source` is 'facebook'. */
   youtubeId: string;
+  source: VideoSource;
   title: string;
   channel: string;
   thumbnailUrl: string;
@@ -53,6 +55,7 @@ interface VideoRow {
   id: string;
   playlist_id: string;
   youtube_id: string;
+  source: VideoSource;
   title: string;
   channel: string;
   thumbnail_url: string;
@@ -67,6 +70,7 @@ function toVideo(row: VideoRow): Video {
   return {
     id: row.id,
     youtubeId: row.youtube_id,
+    source: row.source,
     title: row.title,
     channel: row.channel,
     thumbnailUrl: row.thumbnail_url,
@@ -104,7 +108,7 @@ export function createUserStore(db: Db): UserStore {
 
 export function createLibraryStore(db: Db): LibraryStore {
   const videoColumns =
-    'v.id, v.playlist_id, v.youtube_id, v.title, v.channel, v.thumbnail_url, v.is_short, v.added_at, v.watched_at';
+    'v.id, v.playlist_id, v.youtube_id, v.source, v.title, v.channel, v.thumbnail_url, v.is_short, v.added_at, v.watched_at';
 
   async function videosOf(userId: string, playlistId: string | null): Promise<VideoRow[]> {
     const { rows } = await db.query<VideoRow>(
@@ -160,11 +164,11 @@ export function createLibraryStore(db: Db): LibraryStore {
       const existing = playlist.videos.find((v) => v.youtubeId === video.youtubeId);
       if (existing !== undefined) return { status: 'already_there', video: existing };
       const { rows } = await db.query<VideoRow>(
-        `insert into videos (playlist_id, youtube_id, title, channel, thumbnail_url, is_short)
-         values ($1, $2, $3, $4, $5, $6)
+        `insert into videos (playlist_id, youtube_id, source, title, channel, thumbnail_url, is_short)
+         values ($1, $2, $3, $4, $5, $6, $7)
          on conflict (playlist_id, youtube_id) do update set title = excluded.title
-         returning id, playlist_id, youtube_id, title, channel, thumbnail_url, is_short, added_at, watched_at`,
-        [playlistId, video.youtubeId, video.title, video.channel, video.thumbnailUrl, video.isShort]
+         returning id, playlist_id, youtube_id, source, title, channel, thumbnail_url, is_short, added_at, watched_at`,
+        [playlistId, video.youtubeId, video.source, video.title, video.channel, video.thumbnailUrl, video.isShort]
       );
       return { status: 'added', video: toVideo(rows[0]) };
     },

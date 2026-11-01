@@ -11,6 +11,7 @@ import { resolveClientDir } from './clientDir.js';
 import { loadEnvFile, envFilePath } from './envFile.js';
 import { ChangeHub } from './events.js';
 import { createOEmbedLookup } from './youtube.js';
+import { createFacebookLookup } from './facebook.js';
 import { ChannelService } from './channels.js';
 import { createYouTubeChannelSource } from './youtubeChannels.js';
 
@@ -64,7 +65,7 @@ const app = buildServer({
     now
   },
   library: { library, changes, channels, devLoginEmail: config.devLoginEmail, googleClientId: config.googleClientId },
-  mcp: { library, lookupVideo: createOEmbedLookup(), changes, channels, channelSource, publicBaseUrl: config.publicBaseUrl },
+  mcp: { library, lookupVideo: createOEmbedLookup(), lookupFacebookReel: createFacebookLookup(), changes, channels, channelSource, publicBaseUrl: config.publicBaseUrl },
   oauth: {
     store: createPostgresOAuthStore(db),
     publicBaseUrl: config.publicBaseUrl,

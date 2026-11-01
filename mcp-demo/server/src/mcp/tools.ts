@@ -4,6 +4,7 @@ import type { ChangeHub } from '../events.js';
 import type { ChannelService } from '../channels.js';
 import { ChannelLookupError, parseChannelRef, type ChannelSource } from '../youtubeChannels.js';
 import { parseYouTubeId, VideoLookupError, type LookupVideo } from '../youtube.js';
+import { parseFacebookReel, type LookupFacebookReel } from '../facebook.js';
 import { PLAYLIST_PAGES, PAGE_TITLES, type PlaylistPage, type Playlist } from '../../../shared/protocol.js';
 
 /**
@@ -16,6 +17,7 @@ import { PLAYLIST_PAGES, PAGE_TITLES, type PlaylistPage, type Playlist } from '.
 export interface ToolContext {
   library: LibraryStore;
   lookupVideo: LookupVideo;
+  lookupFacebookReel: LookupFacebookReel;
   changes: ChangeHub;
   channels: ChannelService;
   channelSource: ChannelSource;
@@ -58,7 +60,7 @@ function isPage(value: unknown): value is PlaylistPage {
 function describePlaylist(p: Playlist): string {
   const lines = [`- "${p.name}" (id ${p.id}, ${p.videos.length} video${p.videos.length === 1 ? '' : 's'})`];
   for (const v of p.videos) {
-    lines.push(`    • ${v.title} — ${v.channel || 'unknown channel'}${v.watchedAt ? ' [watched]' : ''} (youtu.be/${v.youtubeId})`);
+    lines.push(`    • ${v.title} — ${v.channel || 'unknown channel'}${v.watchedAt ? ' [watched]' : ''} (${v.source === 'facebook' ? `facebook.com/reel/${v.youtubeId}` : `youtu.be/${v.youtubeId}`})`);
   }
   return lines.join('\n');
 }
@@ -155,7 +157,7 @@ const TOOLS: ToolDefinition[] = [
   {
     name: 'add_videos',
     title: 'Add videos to a playlist',
-    description: `Adds YouTube videos to one playlist, by link (youtube.com/watch?v=…, youtu.be/…, shorts/…) or 11-character video id. Up to ${MAX_VIDEOS_PER_CALL} per call. Title, channel and thumbnail are looked up from YouTube. A video already in that playlist is left as it is. Videos whose owners turned off embedding are refused, because they cannot play on the page. Shorts go only into playlists on the "shorts" page, and those playlists take only Shorts: anything else is refused with the reason, so put it in a playlist on the right page.`,
+    description: `Adds videos to one playlist: YouTube videos by link (youtube.com/watch?v=…, youtu.be/…, shorts/…) or 11-character video id, and Facebook reels by link (facebook.com/reel/…). A Facebook reel counts as a Short, and Facebook does not give its title, so pass one as { link, title } (a few words describing it); without one it is called "Reel by <creator>". Up to ${MAX_VIDEOS_PER_CALL} per call. For YouTube, title, channel and thumbnail are looked up from YouTube. A video already in that playlist is left as it is. Videos whose owners turned off embedding are refused, because they cannot play on the page. Shorts (and reels) go only into playlists on the "shorts" page, and those playlists take only Shorts: anything else is refused with the reason, so put it in a playlist on the right page.`,
     inputSchema: {
       type: 'object',
       properties: {
@@ -163,10 +165,23 @@ const TOOLS: ToolDefinition[] = [
         page: { type: 'string', enum: ['watch', 'saved', 'shorts'], description: 'Needed only when more than one page has a playlist with that name.' },
         videos: {
           type: 'array',
-          items: { type: 'string' },
+          items: {
+            anyOf: [
+              { type: 'string' },
+              {
+                type: 'object',
+                properties: {
+                  link: { type: 'string' },
+                  title: { type: 'string', maxLength: 200, description: 'Used for Facebook reels, which have no title of their own.' }
+                },
+                required: ['link'],
+                additionalProperties: false
+              }
+            ]
+          },
           minItems: 1,
           maxItems: MAX_VIDEOS_PER_CALL,
-          description: 'YouTube links or video ids.'
+          description: 'YouTube links or ids, Facebook reel links, or { link, title } for a reel.'
         }
       },
       required: ['playlist', 'videos'],
@@ -175,8 +190,20 @@ const TOOLS: ToolDefinition[] = [
     scope: LIBRARY_WRITE,
     async run(args, context) {
       const links = args.videos;
-      if (!Array.isArray(links) || links.length === 0 || links.some((l) => typeof l !== 'string')) {
-        return toolError('videos must be a list of YouTube links or ids.');
+      const entries = Array.isArray(links)
+        ? links.map((l) =>
+            typeof l === 'string'
+              ? { link: l, title: undefined }
+              : l !== null && typeof l === 'object' && typeof (l as { link?: unknown }).link === 'string'
+                ? {
+                    link: (l as { link: string }).link,
+                    title: typeof (l as { title?: unknown }).title === 'string' ? (l as { title: string }).title : undefined
+                  }
+                : null
+          )
+        : [];
+      if (!Array.isArray(links) || entries.length === 0 || entries.some((e) => e === null)) {
+        return toolError('videos must be a list of links (or { link, title } for a Facebook reel).');
       }
       if (links.length > MAX_VIDEOS_PER_CALL) return toolError(`At most ${MAX_VIDEOS_PER_CALL} videos per call.`);
       const found = await resolvePlaylist(args, context);
@@ -185,16 +212,21 @@ const TOOLS: ToolDefinition[] = [
 
       const lines: string[] = [];
       const added: string[] = [];
-      for (const link of links as string[]) {
-        const youtubeId = parseYouTubeId(link);
-        if (youtubeId === null) {
-          lines.push(`✗ ${link}: not a YouTube video link.`);
+      for (const entry of entries as Array<{ link: string; title: string | undefined }>) {
+        const link = entry.link;
+        const reel = parseFacebookReel(link);
+        const youtubeId = reel === null ? parseYouTubeId(link) : null;
+        if (reel === null && youtubeId === null) {
+          lines.push(`✗ ${link}: not a YouTube video or Facebook reel link.`);
           continue;
         }
         try {
-          const details = await context.lookupVideo(youtubeId);
+          const details =
+            reel !== null ? await context.lookupFacebookReel(reel, entry.title) : await context.lookupVideo(youtubeId!);
           if (details.isShort && playlist.page !== 'shorts') {
-            lines.push(`✗ "${details.title}" is a YouTube Short. Shorts go only in a playlist on the Shorts page.`);
+            lines.push(
+              `✗ "${details.title}" is a ${details.source === 'facebook' ? 'Facebook reel, which counts as a Short' : 'YouTube Short'}. Shorts go only in a playlist on the Shorts page.`
+            );
             continue;
           }
           if (!details.isShort && playlist.page === 'shorts') {
@@ -235,11 +267,14 @@ TOOLS.push(
     name: 'follow_channel',
     title: 'Follow a channel quietly',
     description:
-      'Follows a YouTube channel on the Channels page, without subscribing on YouTube (YouTube never learns about it). Accepts @handle, a channel link, or a link to one of its videos. Its latest uploads appear on the page, newest first, and are checked again at most every 30 minutes.',
+      'Follows a YouTube channel on the Channels page, without subscribing on YouTube (YouTube never learns about it). Accepts @handle, a channel link, or a link to one of its videos. Also accepts a playlist link (youtube.com/playlist?list=…), which follows just that playlist, such as one series from a big channel. Its latest videos appear on the page, newest first, and are checked again at most every 30 minutes.',
     inputSchema: {
       type: 'object',
       properties: {
-        channel: { type: 'string', description: 'e.g. "@blenderguru", "https://www.youtube.com/@kurzgesagt", or a video link.' }
+        channel: {
+          type: 'string',
+          description: 'e.g. "@blenderguru", "https://www.youtube.com/@kurzgesagt", a video link, or a playlist link.'
+        }
       },
       required: ['channel'],
       additionalProperties: false
@@ -247,13 +282,13 @@ TOOLS.push(
     scope: LIBRARY_WRITE,
     async run(args, context) {
       const ref = typeof args.channel === 'string' ? parseChannelRef(args.channel) : null;
-      if (ref === null) return toolError('That is not a YouTube channel, @handle or video link.');
+      if (ref === null) return toolError('That is not a YouTube channel, @handle, video or playlist link.');
       try {
         const info = await context.channelSource.resolve(ref);
         const { status, channel } = await context.channels.follow(context.userId, info);
         const latest = channel.uploads[0];
         return ok(
-          `${status === 'followed' ? 'Now following' : 'Already following'} ${channel.title} (${channel.uploads.length} recent uploads).` +
+          `${status === 'followed' ? 'Now following' : 'Already following'} ${channel.kind === 'playlist' ? `the playlist "${channel.title}"${channel.owner ? ` by ${channel.owner}` : ''}` : channel.title} (${channel.uploads.length} recent ${channel.kind === 'playlist' ? 'videos' : 'uploads'}).` +
             (latest ? ` Newest: ${latest.isShort ? 'a Short, ' : ''}"${latest.title}", ${ago(latest.publishedAt)}.` : '')
         );
       } catch (error) {
@@ -285,7 +320,7 @@ TOOLS.push(
       const text = channels
         .map((c) =>
           [
-            `${c.title} (${c.url})`,
+            `${c.kind === 'playlist' ? `Playlist "${c.title}"${c.owner ? ` by ${c.owner}` : ''}` : c.title} (${c.url})`,
             ...c.uploads
               .slice(0, perChannel)
               .map((u) => `    • ${u.isShort ? '[Short] ' : ''}${u.title} — ${ago(u.publishedAt)} (youtu.be/${u.youtubeId})`)

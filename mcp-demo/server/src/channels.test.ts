@@ -5,7 +5,7 @@ import { ChangeHub, type LibraryChange } from './events.js';
 import { ChannelService, CHECK_INTERVAL_MS } from './channels.js';
 import type { ChannelSource, FeedUpload } from './youtubeChannels.js';
 
-const CHANNEL = { channelId: 'UCOKHwx1VCdgnxwbjyb9Iu1g', title: 'Blender Guru', avatarUrl: '', url: 'https://www.youtube.com/channel/UCOKHwx1VCdgnxwbjyb9Iu1g' };
+const CHANNEL = { channelId: 'UCOKHwx1VCdgnxwbjyb9Iu1g', kind: 'channel' as const, owner: '', title: 'Blender Guru', avatarUrl: '', url: 'https://www.youtube.com/channel/UCOKHwx1VCdgnxwbjyb9Iu1g' };
 
 let db: Db;
 let userId: string;

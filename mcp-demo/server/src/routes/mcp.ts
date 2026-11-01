@@ -3,6 +3,7 @@ import type { ApiDeps } from './auth.js';
 import type { LibraryStore } from '../store.js';
 import type { ChangeHub } from '../events.js';
 import type { LookupVideo } from '../youtube.js';
+import type { LookupFacebookReel } from '../facebook.js';
 import type { ChannelService } from '../channels.js';
 import type { ChannelSource } from '../youtubeChannels.js';
 import { mcpResourceUrl } from '../oauth/metadata.js';
@@ -34,6 +35,7 @@ import { findTool, grantsScope, toolDescriptors } from '../mcp/tools.js';
 export interface McpDeps {
   library: LibraryStore;
   lookupVideo: LookupVideo;
+  lookupFacebookReel: LookupFacebookReel;
   changes: ChangeHub;
   channels: ChannelService;
   channelSource: ChannelSource;
@@ -214,6 +216,7 @@ export function registerMcpRoutes(app: FastifyInstance, api: ApiDeps, mcp: McpDe
       const result = await tool.run((args ?? {}) as Record<string, unknown>, {
         library: mcp.library,
         lookupVideo: mcp.lookupVideo,
+        lookupFacebookReel: mcp.lookupFacebookReel,
         changes: mcp.changes,
         channels: mcp.channels,
         channelSource: mcp.channelSource,

@@ -40,6 +40,7 @@ describe('createOEmbedLookup', () => {
     const lookup = createOEmbedLookup(respond(200, { title: 'A video', author_name: 'A channel' }));
     expect(await lookup('dQw4w9WgXcQ')).toEqual({
       youtubeId: 'dQw4w9WgXcQ',
+      source: 'youtube',
       title: 'A video',
       channel: 'A channel',
       isShort: false,

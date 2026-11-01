@@ -63,6 +63,7 @@ export function createOEmbedLookup(fetchImpl: typeof fetch = fetch): LookupVideo
     const isShort = await isShortVideo(youtubeId, fetchImpl);
     return {
       youtubeId,
+      source: 'youtube',
       title: typeof body.title === 'string' && body.title !== '' ? body.title : 'Untitled video',
       channel: typeof body.author_name === 'string' ? body.author_name : '',
       isShort,

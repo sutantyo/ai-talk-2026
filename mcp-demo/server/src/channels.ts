@@ -11,6 +11,8 @@ const UPLOADS_SHOWN = 30;
 
 interface FeedRow {
   channel_id: string;
+  kind: 'channel' | 'playlist';
+  owner: string;
   title: string;
   avatar_url: string;
   url: string;
@@ -46,7 +48,7 @@ export class ChannelService {
   /** The user's channels with their latest uploads, the channel with the newest upload first. */
   async list(userId: string): Promise<Channel[]> {
     const { rows: feeds } = await this.db.query<FeedRow>(
-      `select f.channel_id, f.title, f.avatar_url, f.url, f.checked_at
+      `select f.channel_id, f.kind, f.owner, f.title, f.avatar_url, f.url, f.checked_at
          from channel_feeds f join channel_follows c on c.channel_id = f.channel_id
         where c.user_id = $1`,
       [userId]
@@ -68,9 +70,10 @@ export class ChannelService {
   /** Follows a channel (already resolved from a link) and fetches its uploads straight away. */
   async follow(userId: string, info: ChannelInfo): Promise<FollowOutcome> {
     await this.db.query(
-      `insert into channel_feeds (channel_id, title, avatar_url, url) values ($1, $2, $3, $4)
-       on conflict (channel_id) do update set title = excluded.title, avatar_url = excluded.avatar_url`,
-      [info.channelId, info.title, info.avatarUrl, info.url]
+      `insert into channel_feeds (channel_id, kind, owner, title, avatar_url, url) values ($1, $2, $3, $4, $5, $6)
+       on conflict (channel_id) do update
+         set title = excluded.title, owner = excluded.owner, avatar_url = excluded.avatar_url`,
+      [info.channelId, info.kind, info.owner, info.title, info.avatarUrl, info.url]
     );
     const inserted = await this.db.query(
       `insert into channel_follows (user_id, channel_id) values ($1, $2) on conflict do nothing`,
@@ -141,6 +144,8 @@ export class ChannelService {
   private toChannel(feed: FeedRow, uploads: UploadRow[]): Channel {
     return {
       channelId: feed.channel_id,
+      kind: feed.kind,
+      owner: feed.owner,
       title: feed.title,
       url: feed.url,
       avatarUrl: feed.avatar_url,

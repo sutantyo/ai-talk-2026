@@ -74,6 +74,8 @@
             <div class="thumb">
               <img src={tile.thumbnailUrl} alt="" loading="lazy" />
               {#if fresh.has(tile.key)}<span class="badge">New</span>{/if}
+              {#if tile.tag}<span class="tag" title="Already in your playlists">{tile.tag}</span>{/if}
+              {#if tile.source === 'facebook'}<span class="source" title="From Facebook">f</span>{/if}
               {#if tile.watched}
                 <span class="tick" aria-label="Watched">✓</span>
                 <span class="progress"></span>
@@ -245,6 +247,34 @@
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+  }
+  .tag {
+    position: absolute;
+    left: 8px;
+    bottom: 8px;
+    max-width: calc(100% - 16px);
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba(15, 15, 16, 0.82);
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .source {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #1877f2;
+    color: #fff;
+    font: 800 14px/1 ui-sans-serif, system-ui, sans-serif;
   }
   .tick {
     position: absolute;

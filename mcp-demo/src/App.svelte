@@ -52,12 +52,33 @@
         sub: v.channel,
         thumbnailUrl: v.thumbnailUrl,
         isShort: v.isShort,
+        source: v.source,
         watched: p.page !== 'saved' && v.watchedAt !== null,
         videoId: p.page !== 'saved' ? v.id : undefined,
         context: p.name,
         channel: v.channel
       }))
     };
+  }
+
+  /** Where each YouTube video already sits in the playlists, for the tags on channel uploads. */
+  const placed = $derived.by(() => {
+    const map = new Map<string, { pages: Set<string>; watched: boolean }>();
+    for (const p of playlists) {
+      for (const v of p.videos) {
+        const entry = map.get(v.youtubeId) ?? { pages: new Set<string>(), watched: false };
+        entry.pages.add(PAGE_TITLES[p.page]);
+        entry.watched ||= v.watchedAt !== null;
+        map.set(v.youtubeId, entry);
+      }
+    }
+    return map;
+  });
+
+  function placementTag(youtubeId: string): string | undefined {
+    const entry = placed.get(youtubeId);
+    if (!entry) return undefined;
+    return `${entry.watched ? '✓ ' : ''}${[...entry.pages].join(' · ')}`;
   }
 
   function uploadTile(c: Channel, u: Channel['uploads'][number], sub: string): Tile {
@@ -68,6 +89,8 @@
       sub,
       thumbnailUrl: u.thumbnailUrl,
       isShort: u.isShort,
+      source: 'youtube',
+      tag: placementTag(u.youtubeId),
       watched: false,
       context: c.title,
       channel: c.title
@@ -79,7 +102,9 @@
     return {
       rowKey: `channel:${c.channelId}`,
       title: c.title,
-      note: c.checkedAt ? `checked ${ago(c.checkedAt, now)}` : 'not checked yet',
+      note:
+        (c.kind === 'playlist' ? `playlist${c.owner ? ` by ${c.owner}` : ''} · ` : '') +
+        (c.checkedAt ? `checked ${ago(c.checkedAt, now)}` : 'not checked yet'),
       avatarUrl: c.avatarUrl,
       link: c.url,
       emptyText: 'No videos lately, only Shorts. They are on the Shorts page.',
@@ -277,9 +302,16 @@
       <main class="page">
         {#if featured}
           <section class="hero">
-            <img class="backdrop" src={`https://i.ytimg.com/vi/${featured.tile.youtubeId}/maxresdefault.jpg`} alt=""
-              onerror={(e) => ((e.currentTarget as HTMLImageElement).src = `https://i.ytimg.com/vi/${featured.tile.youtubeId}/hqdefault.jpg`)} />
+            <!-- Thumbnails top out at 1280x720, so the full-width background is the
+                 same image blurred (nothing to pixelate), and the sharp copy is a
+                 card no wider than it can be shown crisply. -->
+            <img class="backdrop" src={`https://i.ytimg.com/vi/${featured.tile.youtubeId}/hqdefault.jpg`} alt="" />
             <div class="shade"></div>
+            <button class="poster" aria-label={`Play ${featured.tile.title}`} onclick={() => play(featured.tile)}>
+              <img src={`https://i.ytimg.com/vi/${featured.tile.youtubeId}/maxresdefault.jpg`} alt=""
+                onerror={(e) => ((e.currentTarget as HTMLImageElement).src = `https://i.ytimg.com/vi/${featured.tile.youtubeId}/hqdefault.jpg`)} />
+              <span class="poster-play" aria-hidden="true">▶</span>
+            </button>
             <div class="copy">
               <p class="eyebrow">{featured.eyebrow}</p>
               <h1>{featured.tile.title}</h1>
@@ -429,13 +461,84 @@
       opacity: 0;
     }
   }
+  /*
+    A compact strip: the thumbnail at a size it can be shown sharply (YouTube's
+    largest is 1280x720), the words beside it, wrapping freely. Short, so the
+    playlists start high on the page.
+  */
   .hero {
     position: relative;
-    min-height: min(78vh, 56vw);
-    display: flex;
-    align-items: flex-end;
-    padding: 120px var(--gutter) clamp(40px, 7vw, 100px);
+    display: grid;
+    grid-template-columns: clamp(390px, 45vw, 720px) minmax(0, 1fr);
+    grid-template-areas: 'poster copy';
+    align-items: center;
+    column-gap: clamp(20px, 3vw, 44px);
+    padding: 96px var(--gutter) clamp(28px, 4vw, 48px);
     overflow: hidden;
+  }
+  .hero .copy {
+    grid-area: copy;
+    max-width: 900px;
+  }
+  .hero .copy h1 {
+    font-size: clamp(24px, 2.6vw, 40px);
+    line-height: 1.12;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .hero:not(.empty) + .rows {
+    margin-top: 0;
+  }
+  .poster {
+    grid-area: poster;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    transition: transform 0.3s var(--ease);
+  }
+  .poster:hover {
+    transform: scale(1.02);
+  }
+  .poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .poster-play {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 76px;
+    height: 76px;
+    display: grid;
+    place-items: center;
+    padding-left: 6px;
+    border-radius: 50%;
+    background: rgba(15, 15, 16, 0.6);
+    font-size: 30px;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .poster:hover .poster-play,
+  .poster:focus-visible .poster-play {
+    opacity: 1;
+  }
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'poster' 'copy';
+      row-gap: 16px;
+      padding-top: 84px;
+    }
   }
   .shorts-head {
     padding: 110px var(--gutter) 8px;
@@ -454,18 +557,20 @@
     min-height: 52vh;
     background: radial-gradient(ellipse at 20% 0%, rgba(229, 72, 77, 0.22), transparent 60%);
   }
+  /* Ambient colour from the video: blurred, so its low resolution never shows. */
   .backdrop {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
     object-fit: cover;
+    filter: blur(60px) saturate(1.3) brightness(0.55);
   }
   .shade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(15, 15, 16, 0.92) 0%, rgba(15, 15, 16, 0.4) 50%, transparent 75%),
-      linear-gradient(to top, var(--bg) 0%, transparent 40%);
+    background: linear-gradient(to right, rgba(15, 15, 16, 0.85) 0%, rgba(15, 15, 16, 0.35) 55%, rgba(15, 15, 16, 0.15) 100%),
+      linear-gradient(to top, var(--bg) 0%, transparent 45%);
   }
   .copy {
     position: relative;

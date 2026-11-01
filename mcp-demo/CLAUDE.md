@@ -8,13 +8,16 @@ demo for Daniel's talk "Coding ≠ Typing" and as a tool he keeps using afterwar
 background only: don't act on its tasks or open questions here, and don't touch `../slides/` or anything else
 outside this folder unless Daniel asks. The rules from it that apply here are repeated under Constraints below.
 
-## What it is (built 2026-11-02, not deployed yet)
+## What it is (built 2026-11-02, deployed 2026-11-02 at https://couch-test.up.railway.app)
 
 A Netflix-style page with a **page switcher**: **To Watch** (videos still to watch), **Saved** (watched and
 worth keeping), **Channels** and **Shorts** (both added 2026-11-02). To Watch, Saved and Shorts are series of
 **playlists**, shown as rows of thumbnails. Channels has one row per channel followed **quietly** (no YouTube
 subscription) with its latest ordinary uploads newest first, the channel that uploaded most recently at the top.
-On To Watch, Saved and Channels the newest video is the big "hero" at the top.
+On To Watch, Saved and Channels the newest video is a compact "Up next" strip at the top: thumbnail on
+the left, title, channel and buttons beside it (Daniel's choice, 2026-11-02). A full-width Netflix banner was tried
+and dropped twice: YouTube thumbnails top out at 1280x720, so stretched across the screen they pixelate, and a
+sharp thumbnail-sized banner left a gap on his ~2000 px-wide screen.
 
 **Shorts live only on the Shorts page** (Daniel, 2026-11-02), enforced by the MCP server: `add_videos` refuses a
 Short for a To Watch or Saved playlist and an ordinary video for a Shorts playlist, saying which page to use; a
@@ -36,7 +39,16 @@ the page" rule to allow that (2026-11-02).
 - `add_videos`: up to 20 links or ids into one playlist (by name or id). Title, channel and thumbnail come from
   YouTube's oEmbed; videos with embedding turned off are refused, because they can't play on the page. Shorts
   only into `shorts` playlists, and only Shorts there.
-- `follow_channel`: by `@handle`, channel link, `UC…` id or a link to one of its videos.
+  **Facebook reels** too (2026-11-02, `server/src/facebook.ts`): `facebook.com/reel/<id>`, as `{ link, title }`
+  because Facebook gives no title (else "Reel by <creator>"). They count as Shorts. Creator and poster come from
+  Facebook's embeddable player page (`/plugins/video.php`; oEmbed without a key gives only embed code, the reel
+  page answers 400); the poster link expires in days, so a copy is stored as a `data:` URL. Played in Facebook's
+  own player, which loads Facebook's scripts on sight (no privacy mode; Daniel accepted) and takes no pause/play
+  commands, so Shorts' click layer is left off for reels. Stored with `source = 'facebook'` and the reel id in the
+  `youtube_id` column. First reel: "Wombat in the hay" (Josh Neille) in Shorts › Wombat.
+- `follow_channel`: by `@handle`, channel link, `UC…` id or a link to one of its videos, or a **playlist** link
+  (`youtube.com/playlist?list=…`, deployed 2026-11-02; Daniel hadn't decided whether he wants it, it went out
+  with the Facebook change). A playlist's feed lists its first 15 entries in the playlist's own order.
 - `list_channels`: latest uploads per channel with "3 days ago" times, Shorts marked `[Short]` ("what's new from my
   channels?").
 There is **no delete, rename, move or unfollow**: the tool list is the guard. Not decided yet: a tool to move a
@@ -82,14 +94,20 @@ refused unless `PUBLIC_BASE_URL` is `http://localhost`. Delete `.data/` to start
 local server with Ctrl+C (it closes the database cleanly): once, force-stopping it mid-request left a PGlite folder
 that would not open again (`RuntimeError: Aborted()`); deleting `.data/` fixed it. Railway uses real Postgres.
 
-**Deploy to Railway** (not done yet; needs Daniel):
-1. Google Cloud console: an OAuth "Web application" client; add the Railway URL under Authorised JavaScript origins.
-2. Railway: new service from the GitHub repo, **Root Directory `mcp-demo`** (`railway.json` sets build, start and
-   the `/api/health` check); attach a Postgres database (sets `DATABASE_URL`).
-3. Variables: `SESSION_SECRET` (32+ random chars), `GOOGLE_CLIENT_ID`, `ALLOWED_EMAILS` (his Google account),
-   `SECURE_COOKIES=true`, `PUBLIC_BASE_URL=https://<app>.up.railway.app`. Never set `DEV_LOGIN_EMAIL` there.
-4. Claude: Settings → Connectors → Add custom connector → `https://<app>.up.railway.app/mcp`; sign in with Google,
-   Allow. It then works in claude.ai, the phone app and Claude Code.
+**Deployed** (2026-11-02): Railway project **couch** (workspace "sutantyo's Projects", next to the phrasebook) with
+a Postgres database and a service **couch** at **https://couch-test.up.railway.app** (Daniel picked the name;
+`couch` itself wouldn't take). Deployed by uploading this folder with the Railway CLI, **not from GitHub**
+(`railway up` packs the folder as it is on disk, committed or not): `cd mcp-demo && railway up --service couch --ci`
+redeploys. Files git ignores (`.env`,
+`.data/`) are not uploaded. Variables: `DATABASE_URL` (reference to Postgres), `SESSION_SECRET` (generated, never
+printed), `GOOGLE_CLIENT_ID`, `ALLOWED_EMAILS` (Daniel's Google account only), `SECURE_COOKIES=true`,
+`PUBLIC_BASE_URL=https://couch-test.up.railway.app`; never `DEV_LOGIN_EMAIL`.
+Google: a separate Cloud project **Couch**, OAuth client "Couch web" with JavaScript origins
+`https://couch-test.up.railway.app` and `http://localhost:8080`, kept in **Testing** with Daniel as the only test
+user (Daniel wants it limited to himself: Google's test-user list and `ALLOWED_EMAILS` are both just him).
+Claude connector: `https://couch-test.up.railway.app/mcp`.
+Railway warns that `railway.json` (config as code) is deprecated and stops working on 2026-12-01: run
+`railway config migrate` before then.
 
 ## Checked 2026-11-02
 
@@ -103,8 +121,16 @@ that would not open again (`RuntimeError: Aborted()`); deleting `.data/` fixed i
   Brownlee (by handle, link and video link), then Veritasium while the page was open on To Watch: it jumped to
   Channels with the toast; a made-up handle got "YouTube has no channel at …". Checked in Edge (Chromium) at
   1440 px and 390 px (phone).
-  **Not checked:** Safari/WebKit, a real Claude connector (needs the Railway deploy), Railway cold-start timing
-  (Claude allows about 10 s for discovery and tokens).
+  **Not checked:** Safari/WebKit, Railway cold-start timing (Claude allows about 10 s for discovery and tokens).
+- **First real run, hosted** (2026-11-02): Claude Code (Opus 5.5) through the `couch` connector (added with
+  `claude mcp add --scope user --transport http couch …/mcp`, then authenticated: Google sign-in, Allow). "Add
+  4DhcSPkEbwI to To Watch under a Claude playlist": `list_playlists` 6 ms, `create_playlist` 11 ms, `add_videos`
+  210 ms on the server (Railway logs); first tool call to video added about 4 s, nearly all of it Claude between
+  calls. One run, in a long interactive session; time before the first call not included. Sent to the deck session.
+- From Railway, YouTube answers the channel page and feed too: `follow_channel` on `@pepwithchasanddrdave` (Planet
+  PEP) resolved the channel and read 15 uploads (2026-11-02).
+- The YouTube player's own title bar (top left) can't be hidden; `iv_load_policy=3` turns off its info cards,
+  which stacked on top of the title. Nothing of Couch's sits over an ordinary video.
 - Telling a Short from a video, no key: `HEAD youtube.com/shorts/<id>` answers 200 for a Short and 303 (to
   `/watch`) for anything else; oEmbed can't tell (same 200x113 for both). Channel feeds link Shorts as
   `/shorts/<id>`, so feed uploads need no extra request. Shorts have a 1080x1920 `oar2.jpg` thumbnail; videos 404.

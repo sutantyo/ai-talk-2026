@@ -29,11 +29,18 @@ export const PAGE_TITLES: Record<PageId, string> = {
   shorts: 'Shorts'
 };
 
+/** Where a video plays from. Facebook reels count as Shorts. */
+export type VideoSource = 'youtube' | 'facebook';
+
 export interface Video {
   /** This app's own id for the entry; a YouTube video can sit in more than one playlist. */
   id: string;
-  /** YouTube's 11-character video id. */
+  /**
+   * YouTube's 11-character video id, or for `source: 'facebook'` the reel's
+   * numeric id. (Named before Facebook reels existed.)
+   */
   youtubeId: string;
+  source: VideoSource;
   title: string;
   channel: string;
   thumbnailUrl: string;
@@ -61,9 +68,13 @@ export interface ChannelUpload {
 }
 
 export interface Channel {
-  /** YouTube's channel id, `UC` + 22 characters. */
+  /** YouTube's channel id (`UC` + 22 characters), or a playlist's id for a followed playlist. */
   channelId: string;
+  /** A whole channel, or one playlist (a series) followed the same way. */
+  kind: 'channel' | 'playlist';
   title: string;
+  /** For a playlist, the channel that made it; empty for a channel. */
+  owner: string;
   url: string;
   avatarUrl: string;
   /** When YouTube was last asked for this channel's uploads; null if never. */

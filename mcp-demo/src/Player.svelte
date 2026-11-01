@@ -95,10 +95,17 @@
     };
   });
 
-  // Privacy-enhanced mode: YouTube sets no cookies until the video plays.
+  const isFacebook = $derived(tile.source === 'facebook');
+  // YouTube: privacy-enhanced mode, no cookies until the video plays.
+  // Facebook: its own embeddable player; it takes no commands from this page.
   const src = $derived(
-    `https://www.youtube-nocookie.com/embed/${tile.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1` +
-      `&origin=${encodeURIComponent(location.origin)}`
+    isFacebook
+      ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(`https://www.facebook.com/reel/${tile.youtubeId}`)}&show_text=false&autoplay=true&width=360`
+      : `https://www.youtube-nocookie.com/embed/${tile.youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&enablejsapi=1` +
+          `&origin=${encodeURIComponent(location.origin)}`
+  );
+  const watchUrl = $derived(
+    isFacebook ? `https://www.facebook.com/reel/${tile.youtubeId}` : `https://www.youtube.com/watch?v=${tile.youtubeId}`
   );
 </script>
 
@@ -130,7 +137,7 @@
     {#key tile.youtubeId}
     <iframe
       bind:this={frame}
-      onload={startListening}
+      onload={() => !isFacebook && startListening()}
       {src}
       title={tile.title}
       allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
@@ -138,7 +145,7 @@
       referrerpolicy="strict-origin-when-cross-origin"
     ></iframe>
     {/key}
-    {#if tile.isShort}
+    {#if tile.isShort && !isFacebook}
       <button class="catcher" aria-label={playing ? 'Pause' : 'Play'} onclick={togglePlay}>
         {#if !playing}<span class="paused" aria-hidden="true">▶</span>{/if}
       </button>
@@ -155,8 +162,8 @@
           {tile.watched ? '✓ Watched' : 'Mark watched'}
         </button>
       {/if}
-      <a class="youtube" href={`https://www.youtube.com/watch?v=${tile.youtubeId}`} target="_blank" rel="noreferrer">
-        Open on YouTube
+      <a class="youtube" href={watchUrl} target="_blank" rel="noreferrer">
+        Open on {isFacebook ? 'Facebook' : 'YouTube'}
       </a>
       <button class="close" aria-label="Close" onclick={() => dialog?.close()}>✕</button>
     </div>

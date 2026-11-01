@@ -9,6 +9,10 @@ export interface Tile {
   thumbnailUrl: string;
   /** Shorts get tall cards and the vertical player. */
   isShort: boolean;
+  /** 'facebook' for a Facebook reel (then youtubeId holds the reel id). */
+  source: 'youtube' | 'facebook';
+  /** On channel uploads: which playlist pages already have this video ("✓ To Watch" when watched there). */
+  tag?: string;
   watched: boolean;
   /** Set for playlist videos, which can be marked watched; absent for channel uploads. */
   videoId?: string;

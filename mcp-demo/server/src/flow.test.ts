@@ -8,6 +8,7 @@ import { createPostgresOAuthStore } from './oauth/store.js';
 import { ChangeHub, type LibraryChange } from './events.js';
 import { VideoLookupError, type LookupVideo } from './youtube.js';
 import { ChannelService } from './channels.js';
+import type { LookupFacebookReel } from './facebook.js';
 import type { ChannelSource } from './youtubeChannels.js';
 import type { LibraryResponse } from '../../shared/protocol.js';
 
@@ -24,8 +25,17 @@ const REDIRECT = 'http://localhost:4567/callback';
 const lookupVideo: LookupVideo = async (youtubeId) => {
   if (youtubeId === 'NoEmbed0000') throw new VideoLookupError('cannot be played outside YouTube');
   const isShort = youtubeId.startsWith('Short');
-  return { youtubeId, title: `Title of ${youtubeId}`, channel: 'Some channel', isShort, thumbnailUrl: `https://i.ytimg.com/vi/${youtubeId}/x.jpg` };
+  return { youtubeId, source: 'youtube', title: `Title of ${youtubeId}`, channel: 'Some channel', isShort, thumbnailUrl: `https://i.ytimg.com/vi/${youtubeId}/x.jpg` };
 };
+
+const lookupFacebookReel: LookupFacebookReel = async (reel, title) => ({
+  youtubeId: reel.reelId,
+  source: 'facebook',
+  title: title ?? 'Reel by Someone',
+  channel: 'Someone',
+  thumbnailUrl: 'data:image/jpeg;base64,AAAA',
+  isShort: true
+});
 
 let db: Db;
 let app: FastifyInstance;
@@ -63,6 +73,8 @@ beforeAll(async () => {
   const channelSource: ChannelSource = {
     resolve: async () => ({
       channelId: 'UCOKHwx1VCdgnxwbjyb9Iu1g',
+      kind: 'channel',
+      owner: '',
       title: 'Blender Guru',
       avatarUrl: '',
       url: 'https://www.youtube.com/channel/UCOKHwx1VCdgnxwbjyb9Iu1g'
@@ -87,7 +99,7 @@ beforeAll(async () => {
     clientDir: null,
     api,
     library: { library, changes, channels, devLoginEmail: 'owner@test.invalid', googleClientId: '' },
-    mcp: { library, lookupVideo, changes, channels, channelSource, publicBaseUrl: BASE },
+    mcp: { library, lookupVideo, lookupFacebookReel, changes, channels, channelSource, publicBaseUrl: BASE },
     oauth: { store: createPostgresOAuthStore(db), publicBaseUrl: BASE, googleClientId: '' }
   });
   await app.ready();
@@ -209,7 +221,7 @@ describe('organising through the tools', () => {
     expect(result.isError).toBeFalsy();
     const text = result.content[0].text;
     expect(text).toContain('Added 2 of 5');
-    expect(text).toContain('not a YouTube video link');
+    expect(text).toContain('not a YouTube video or Facebook reel link');
     expect(text).toContain('cannot be played outside YouTube');
     expect(text).toContain('already in this playlist');
   });
@@ -227,6 +239,19 @@ describe('organising through the tools', () => {
     for (const playlist of library.playlists) {
       expect(playlist.videos.every((v) => v.isShort === (playlist.page === 'shorts'))).toBe(true);
     }
+  });
+
+  it('adds a Facebook reel to Shorts only, with the title it was given', async () => {
+    const wrong = await callTool('add_videos', { playlist: 'Blender', page: 'watch', videos: ['https://www.facebook.com/reel/1804615860166129'] });
+    expect(wrong.content[0].text).toContain('Facebook reel, which counts as a Short');
+    const right = await callTool('add_videos', {
+      playlist: 'Funny',
+      videos: [{ link: 'https://www.facebook.com/reel/1804615860166129', title: 'Wombat in the hay' }]
+    });
+    expect(right.content[0].text).toContain('✓ "Wombat in the hay" (Someone)');
+    const library = (await app.inject({ method: 'GET', url: '/api/library', headers: { cookie } })).json() as LibraryResponse;
+    const reel = library.playlists.find((p) => p.name === 'Funny')!.videos.find((v) => v.source === 'facebook')!;
+    expect(reel).toMatchObject({ youtubeId: '1804615860166129', isShort: true, title: 'Wombat in the hay' });
   });
 
   it('shows the result on the page API, and lets the page mark a video watched', async () => {

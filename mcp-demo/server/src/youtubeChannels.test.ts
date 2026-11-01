@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseChannelPage, parseChannelRef, parseFeed } from './youtubeChannels.js';
+import { parseChannelPage, parseChannelRef, parseFeed, parsePlaylistFeedHead } from './youtubeChannels.js';
 
 describe('parseChannelRef', () => {
   it.each([
@@ -12,6 +12,13 @@ describe('parseChannelRef', () => {
     ['https://www.youtube.com/user/someone', 'https://www.youtube.com/user/someone']
   ])('reads %s as a channel page', (input, url) => {
     expect(parseChannelRef(input)).toEqual({ kind: 'page', url });
+  });
+
+  it('reads a playlist link or id as a playlist', () => {
+    const id = 'PLDTPrMoGHssAfgMMS3L5LpLNFMNp1U_Nq';
+    expect(parseChannelRef(`https://www.youtube.com/playlist?list=${id}`)).toEqual({ kind: 'playlist', playlistId: id });
+    expect(parseChannelRef(id)).toEqual({ kind: 'playlist', playlistId: id });
+    expect(parseChannelRef('https://www.youtube.com/playlist?list=nonsense')).toBeNull();
   });
 
   it('reads a video link as "the channel of this video"', () => {
@@ -31,6 +38,8 @@ describe('parseChannelPage', () => {
       '<meta property="og:image" content="https://yt3.googleusercontent.com/abc=s900-c-k-no-rj">';
     expect(parseChannelPage(html)).toEqual({
       channelId: 'UCsXVk37bltHxD1rDPwtNM8Q',
+      kind: 'channel',
+      owner: '',
       title: 'Kurzgesagt &ndash; In a Nutshell & more',
       avatarUrl: 'https://yt3.googleusercontent.com/abc=s88-c-k-no-rj',
       url: 'https://www.youtube.com/channel/UCsXVk37bltHxD1rDPwtNM8Q'
@@ -53,5 +62,18 @@ describe('parseFeed', () => {
       { youtubeId: 'bbbbbbbbbbb', title: 'New', publishedAt: '2026-10-28T23:17:30.000Z', isShort: true },
       { youtubeId: 'aaaaaaaaaaa', title: 'Old & gold', publishedAt: '2026-10-17T01:55:40.000Z', isShort: false }
     ]);
+  });
+});
+
+describe('parsePlaylistFeedHead', () => {
+  it('reads the playlist title and its owner from the feed head, not from an entry', () => {
+    const xml = `<feed><title>If You&#39;re Listening | ABC News In-depth</title>
+      <author><name>ABC News In-depth</name><uri>https://www.youtube.com/channel/UCxcrzzhQDj5zKJbXfIscCtg</uri></author>
+      <entry><title>An episode</title><author><name>Someone else</name><uri>x</uri></author></entry></feed>`;
+    expect(parsePlaylistFeedHead(xml)).toEqual({
+      title: "If You're Listening | ABC News In-depth",
+      owner: 'ABC News In-depth',
+      ownerUrl: 'https://www.youtube.com/channel/UCxcrzzhQDj5zKJbXfIscCtg'
+    });
   });
 });

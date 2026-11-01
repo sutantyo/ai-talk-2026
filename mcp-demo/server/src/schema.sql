@@ -68,7 +68,7 @@ create table if not exists oauth_refresh_tokens (
 -- Channels followed quietly (2026-11-02). A YouTube channel's feed is shared by
 -- everyone who follows it, so it is checked once however many follow it.
 create table if not exists channel_feeds (
-  channel_id  text primary key check (channel_id ~ '^UC[A-Za-z0-9_-]{22}$'),
+  channel_id  text primary key check (channel_id ~ '^[A-Za-z0-9_-]{12,80}$'),
   title       text        not null,
   avatar_url  text        not null default '',
   url         text        not null,
@@ -108,5 +108,45 @@ begin
   ) then
     alter table playlists drop constraint playlists_page_check;
     alter table playlists add constraint playlists_page_check check (page in ('watch', 'saved', 'shorts'));
+  end if;
+end $$;
+
+-- Playlists followed like channels (2026-11-02): a series such as ABC's "If You're
+-- Listening". Same feed format; the id is the playlist's. The id check is widened
+-- only while it still demands a UC… channel id.
+alter table channel_feeds add column if not exists kind text not null default 'channel';
+alter table channel_feeds add column if not exists owner text not null default '';
+
+do $$
+begin
+  if exists (
+    select 1 from pg_constraint
+     where conname = 'channel_feeds_channel_id_check'
+       and pg_get_constraintdef(oid) like '%^UC%'
+  ) then
+    alter table channel_feeds drop constraint channel_feeds_channel_id_check;
+    alter table channel_feeds add constraint channel_feeds_channel_id_check
+      check (channel_id ~ '^[A-Za-z0-9_-]{12,80}$');
+  end if;
+end $$;
+
+-- Facebook reels (2026-11-02): a video now has a source. For 'facebook' the
+-- youtube_id column holds the reel's numeric id (the column keeps its name so
+-- nothing else has to move). The id check is replaced only while it still knows
+-- YouTube alone.
+alter table videos add column if not exists source text not null default 'youtube';
+
+do $$
+begin
+  if exists (
+    select 1 from pg_constraint
+     where conname = 'videos_youtube_id_check'
+       and pg_get_constraintdef(oid) not like '%facebook%'
+  ) then
+    alter table videos drop constraint videos_youtube_id_check;
+    alter table videos add constraint videos_youtube_id_check check (
+      (source = 'youtube' and youtube_id ~ '^[A-Za-z0-9_-]{11}$')
+      or (source = 'facebook' and youtube_id ~ '^[0-9]{5,25}$')
+    );
   end if;
 end $$;
