@@ -54,6 +54,18 @@ the page" rule to allow that (2026-11-02).
 There is **no delete, rename, move or unfollow**: the tool list is the guard. Not decided yet: a tool to move a
 video from To Watch to Saved, and unfollowing.
 
+**The skill: `.claude/skills/add-to-couch/SKILL.md`** (2026-11-02, Daniel's request; for the talk's "MCP, then
+Skills" step). Plain English: before adding, list every page and look for the same video; if it's already in Saved,
+or elsewhere, say where and ask before saving it twice; then pick the playlist and add it. Hard rules stay in the
+server; the skill holds the judgment. It loads in Claude Code sessions started in `mcp-demo/`.
+Measured 2026-11-02 (Claude Code 2.1.316, Opus 5.5, headless, one run each, adding switched off so nothing changed):
+*"Add https://www.youtube.com/watch?v=uWnUnMphmPM to my Claude playlist on To Watch in Couch"* (that video is
+already in Saved › AI). **With the skill:** Claude picked `add-to-couch` on its own, listed all pages, found it in
+Saved › AI and asked "Do you still want a second copy in To Watch › Claude?"; 6.2 s by Claude Code's own count
+(12.1 s wall, including start-up and a 3 s wait for input), about US$0.26. **Without it** (same prompt from a folder
+without the skill): Claude listed only the To Watch page, said the video "isn't one of them yet", and went to add
+it, which failed only because adding was switched off; 7.5 s.
+
 **Checking channels** (`server/src/channels.ts`): a channel's RSS feed is asked at most every 30 minutes, only
 when the page is open (it asks the server every 10 minutes) or Claude calls `list_channels`. Feeds are shared
 between users. Uploads not seen before get the "New" badge and a toast; the first check after following doesn't
