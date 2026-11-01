@@ -1,0 +1,56 @@
+:root {
+  color-scheme: dark;
+  --bg: #0f0f10;
+  --bg-raised: #1b1b1d;
+  --bg-hover: #26262a;
+  --ink: #f4f1ec;
+  --ink-dim: #a8a39b;
+  --ink-faint: #6f6b65;
+  --rule: rgba(244, 241, 236, 0.12);
+  --accent: #e5484d;
+  --accent-ink: #ffffff;
+  --glow: #ffb224;
+  --card-w: clamp(220px, 19vw, 300px);
+  --short-w: clamp(150px, 11vw, 200px);
+  --gutter: clamp(16px, 4vw, 56px);
+  --radius: 6px;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  font-family: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
