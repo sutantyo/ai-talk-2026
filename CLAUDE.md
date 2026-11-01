@@ -11,21 +11,17 @@ and rehearsing the live demos (see To do and Open questions at the end). The ori
 Public repo `sutantyo/ai-talk-2026` (renamed from `ai-essentials-interactive` on 2026-10-07). Live at
 https://sutantyo.github.io/ai-talk-2026/.
 
-Everything for the talk lives under one parent folder (a plain folder, not a repo); on Daniel's MacBook,
-the one he presents from, that's `~/repos/uni/2026-ai-talk/`:
+Everything for the talk lives in this repo, at `~/repos/uni/ai-talk-2026/` on the MacBook Daniel presents from
+(moved 2026-11-02; the old parent folder `~/repos/uni/2026-ai-talk/` is gone, and with it the Blender demo folder).
 
-```
-2026-ai-talk/
-├── slides/                     this repo (sutantyo/ai-talk-2026): the deck, the spec, this file
-├── japanese-phrasebook-demo/   sutantyo/japanese-phrasebook-demo: the old skills demo (dropped 2026-11-02)
-├── blender/                    the old Blender MCP demo (dropped 2026-11-03)
-└── wordle-demo/                only words.js: ANSWERS and ALLOWED word lists for 4 to 7 letters (about 1 MB)
-```
-
-Wordle is built live on stage; `wordle-demo/` holds only the prepared word lists (keep anything else out: Claude
-reads what's in the folder). `words.js` (2026-10-08): `ANSWERS[n]` are common words (Google's 10,000 most common, no
-swears, names/places/brands removed: about 1,000 to 1,300 per length), `ALLOWED[n]` the dwyl/english-words
-dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editing; a header comment explains it.
+Wordle is built live on stage from `wordle-demo/`, which holds only the prepared word lists (keep anything else
+out: Claude reads what's in the folder). `wordle-demo/.claude/settings.local.json` (not in git, set up on the
+presenting laptop) excludes this file with `claudeMdExcludes`, so the live Claude doesn't load the talk notes
+(checked 2026-11-02: without it, Claude quoted this file's Wordle prompt back). `words.js` (rebuilt 2026-11-02 after
+the original was lost): `ANSWERS[n]` are common words (Google's 10,000 most common, no swears; names, places, brands,
+web jargon and adult or violent words removed: 851, 1,095, 1,178 and 1,188 for 4 to 7 letters), `ALLOWED[n]` the
+dwyl/english-words dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editing; a header
+comment explains it.
 
 | Path | What it is |
 |---|---|
@@ -78,7 +74,9 @@ It was removed deliberately; it's preserved at the `ml-deck` tag. Machine learni
   in headless browsers is harmless. `npx slidev export --format png` renders every slide for a visual check.
 - Check in Safari too (Daniel presents from a Mac): Playwright's WebKit is installed (`import { webkit } from
   'playwright-core'`). Safari paints a round line cap for a zero-length dash, so a "hidden" `stroke-dashoffset`
-  trace with round caps leaves a dot; hide it with `opacity: 0` as well.
+  trace with round caps leaves a dot; hide it with `opacity: 0` as well. Real Safari (26.4) also misplaces SVG
+  transforms with `transform-box: view-box` and a pixel `transform-origin` (nodes jumped, spins orbited), though
+  Playwright's WebKit doesn't: use `transform-box: fill-box; transform-origin: center`.
 - Commit and push only when Daniel asks.
 
 ## The talk: agreed plan
@@ -149,8 +147,8 @@ Wrap-up
 
 **Wordle, built live** (decided 2026-10-07). A Wordle-style browser game called "Guess the Word" (not "Wordle",
 a New York Times trademark that has had GitHub clones taken down; the repo name `wordle-demo` is fine). Stage steps:
-`cd ~/repos/uni/2026-ai-talk/wordle-demo` → `claude --effort low` → the prompt on the Wordle slide → `open index.html`.
-Delete `index.html` between rehearsals; keep `words.js`. Publish later as `sutantyo/wordle-demo` with GitHub Pages
+`cd ~/repos/uni/ai-talk-2026/wordle-demo` → `claude --effort low` → the prompt on the Wordle slide → `open index.html`.
+Delete `index.html` between rehearsals and don't commit it; keep `words.js` (committed). Publish later as `sutantyo/wordle-demo` with GitHub Pages
 (the older repo of that name was deleted by Daniel on 2026-10-07).
 
 **Measured 2026-10-07: the live Wordle prompt** (Claude Code 2.1.292, Opus 5.5, plugins off, headless, one run each).
@@ -184,8 +182,9 @@ questions with 「。」 where the book uses 「？」; that rule was then added
 is for" example). Live, the skill shows the phrases and waits for Daniel's OK before adding. The Skills slide keeps
 it simple ("tell Claude the skill's name"), so either name it in the demo or call the automatic pick a bonus.
 
-**MCP: Blender** (dropped 2026-11-03; MCP now shows only Couch). Set up in `2026-ai-talk/blender`; Blender already open on
-stage, not a cold start. DaVinci Resolve was considered and dropped: an MCP server needs its external scripting,
+**MCP: Blender** (dropped 2026-11-03; MCP now shows only Couch). Its folder (`2026-ai-talk/blender`) was lost when
+the talk moved into this repo on 2026-11-02. The plan was: Blender already open on stage, not a cold start. DaVinci
+Resolve was considered and dropped: an MCP server needs its external scripting,
 which is Studio-only (paid), and the free edition lost Python scripting entirely in v21.1. Aseprite MCPs exist but
 run Aseprite in the background on files, so the audience wouldn't see the app being driven.
 
