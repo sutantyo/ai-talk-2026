@@ -72,7 +72,7 @@ function meta(t: Topic) {
         @mouseenter="openBranches(t.parent!)" @mouseleave="closeSoon"
       >
         <!-- optional: a thin dashed halo, drawn under the line so the line meets a solid ring -->
-        <circle v-if="t.optional" :cx="t.x" :cy="t.y" r="19" class="halo" :style="{ transformOrigin: `${t.x}px ${t.y}px` }" />
+        <circle v-if="t.optional" :cx="t.x" :cy="t.y" r="19" class="halo" />
         <path :d="branchPath(t)" class="branch-hit" />
         <path :d="branchPath(t)" pathLength="1" class="branch" />
         <g
@@ -83,9 +83,9 @@ function meta(t: Topic) {
           @click="go(t.alias)" @keydown.enter="go(t.alias)"
         >
           <circle :cx="t.x" :cy="t.y" r="26" class="hit" />
-          <g class="pop" :style="{ transformOrigin: `${t.x}px ${t.y}px` }">
+          <g class="pop">
             <circle :cx="t.x" :cy="t.y" r="12" class="ripple" />
-            <g class="dot" :style="{ transformOrigin: `${t.x}px ${t.y}px` }">
+            <g class="dot">
               <circle :cx="t.x" :cy="t.y" r="12" pathLength="1" class="ring" />
               <circle :cx="t.x" :cy="t.y" r="8" class="inner" />
               <circle :cx="t.x" :cy="t.y" r="11.5" class="inner rim" />
@@ -124,7 +124,7 @@ function meta(t: Topic) {
         @click="go(t.alias)" @keydown.enter="go(t.alias)"
       >
         <circle :cx="t.x" :cy="t.y" r="26" class="hit" />
-        <g class="dot" :style="{ transformOrigin: `${t.x}px ${t.y}px` }">
+        <g class="dot">
           <circle :cx="t.x" :cy="t.y" :r="t.minor ? 9 : 15" class="ring" />
           <circle :cx="t.x" :cy="t.y" :r="t.minor ? 3.5 : 6" class="core-dot" />
         </g>
@@ -163,7 +163,7 @@ function meta(t: Topic) {
   stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; transition: stroke-dashoffset 0.2s ease-in, opacity 0.2s; }
 /* opacity 0 while folded: Safari still paints a round cap for the zero-length dash, leaving a stray dot. */
 .branch-hit { fill: none; stroke: transparent; stroke-width: 26; }
-.branch-group .pop { transform-box: view-box; transform: scale(0); transition: transform 0.15s ease-in, opacity 0.2s; }
+.branch-group .pop { transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform 0.15s ease-in, opacity 0.2s; }
 .branch-group .opt-label { opacity: 0; transition: opacity 0.12s; }
 .ripple { fill: none; stroke: var(--sub); stroke-width: 3; opacity: 0; transform-box: fill-box; transform-origin: center; }
 
@@ -204,12 +204,12 @@ function meta(t: Topic) {
 
 .node { cursor: pointer; outline: none; opacity: 0; animation: appear 0.35s ease-out forwards; }
 .hit { fill: transparent; }
-.dot { transform-box: view-box; transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.dot { transform-box: fill-box; transform-origin: center; transition: transform 0.2s cubic-bezier(0.3, 1.6, 0.5, 1); }
 .node.hover .dot { transform: scale(1.45); }
 .ring { fill: var(--ring-fill); stroke-width: 5; }
 .core .ring { stroke: var(--core); }
 .sub .ring { stroke: var(--sub); }
-.halo { fill: none; stroke: var(--sub); stroke-width: 2; stroke-dasharray: 3 3.6; transform-box: view-box;
+.halo { fill: none; stroke: var(--sub); stroke-width: 2; stroke-dasharray: 3 3.6; transform-box: fill-box; transform-origin: center;
   transform: scale(0); transition: transform 0.15s ease-in, opacity 0.2s; }
 .branch-group.open .halo { transform: scale(1); transition: transform 0.32s cubic-bezier(0.3, 1.6, 0.5, 1) 0.4s; }
 .core-dot { fill: currentColor; }
