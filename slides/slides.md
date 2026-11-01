@@ -337,22 +337,17 @@ routeAlias: skills
 
 # Skills
 
-- If there's a complex task we do again and again, we can teach Claude how to do it
-- We call this a <span class="key">skill</span>: the steps, written in plain English, with a name
-- Whenever we need it, we just tell Claude the name of the skill to use
+- MCP gave Claude the tools; a <span class="key">skill</span> tells it how I want the job done
+- The steps, written in plain English, with a name
+- Claude uses it when my request matches <span class="eg">or I tell it the skill's name</span>
 
 <!--
-A skill is a short written instruction file with a name and a description. To keep it simple, the slide only says
-"tell Claude the name" (e.g. /add-phrases ...). Claude can also pick a skill on its own when the request matches its
-description: in the measured run it chose add-phrases unprompted. Either name it in the demo so it matches the slide,
-or let it choose and say "it can even work out which skill to use by itself". Like a recipe card for one job: written once, used every time.
-add-phrases: adds phrases the way the book does them (its collections, its style, its punctuation).
+Straight after MCP (Couch): same app, one step further. The MCP server holds the hard rules (no delete, Shorts only
+on the Shorts page) that Claude can't get around. The skill holds my judgment: what I'd want done before adding.
+A skill is a short file with a name and a description; Claude reads the description up front and picks the skill
+when a request matches. Like a recipe card for one job: written once, used every time.
 CLAUDE.md is about the project; a skill is about a task.
 Students can write one on day one: it's just writing down how you want something done.
-Demo: japanese-phrasebook-demo (npm start, http://localhost:4173; npm run demo:reset between rehearsals).
-Measured 2026-10-07: "Add some phrases for buying medicine at a pharmacy" → Claude chose add-phrases on its own and
-added 6 phrases in a new Pharmacy collection in 24 s. It ended questions with 「。」 instead of 「？」, so that rule was
-added to the skill: a real example of what a skill is for. Live, it shows the phrases and waits for my OK.
 -->
 
 ---
@@ -362,11 +357,32 @@ added to the skill: a real example of what a skill is for. Live, it shows the ph
 <SkillViewer />
 
 <!--
-The real add-phrases skill from my Japanese phrasebook (a copy in slides/examples/; re-copy if the skill changes).
+Couch's real add-to-couch skill (mcp-demo/.claude/skills/add-to-couch/SKILL.md, read at build time).
 The description: the top block is all Claude reads up front; it decides from this when to use the skill.
-Show me first: it shows the phrases and waits for my OK before adding anything.
-Never: the don'ts, the same idea as in CLAUDE.md.
+Check first: look on every page, not just the one I named.
+Ask me first: if it's already saved, say where and wait for my yes.
 Plain English throughout: anyone who knows how they want a job done can write one.
+-->
+
+---
+
+# With and without the skill
+
+"Add this video to my Claude playlist on To Watch" <span class="eg">it's already in Saved</span>
+
+- **Without the skill:** Claude looked only at To Watch, didn't find it, and went to add a second copy
+- **With the skill:** Claude checked every page, found it in Saved, and asked first <span class="eg">"Do you still want a second copy?"</span>
+- Without it, Claude looked only where I pointed. With it, Claude checked everything and asked first
+
+<!--
+Measured 2026-11-02 by the couch session (Claude Code 2.1.316, Opus 5.5, headless, one run each, against the live
+Couch with adding switched off so no data changed). Prompt: "Add https://www.youtube.com/watch?v=uWnUnMphmPM to my
+Claude playlist on To Watch in Couch"; the video was already in Saved > AI.
+With the skill (run in mcp-demo/): Claude chose add-to-couch on its own, listed every page, found it, and asked
+"Do you still want a second copy in To Watch > Claude?". 6.2 s, about US$0.26.
+Without (run from a folder without the skill): it listed only To Watch, said the video "isn't one of them yet" and
+went to add it; the add failed only because adding was switched off for the test. 7.5 s.
+Live: start Claude in mcp-demo/ (the skill only loads there), Couch open in the browser beside it.
 -->
 
 ---

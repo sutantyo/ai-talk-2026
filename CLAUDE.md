@@ -16,7 +16,7 @@ the one he presents from, that's `~/repos/uni/2026-ai-talk/`:
 ```
 2026-ai-talk/
 ├── slides/                     this repo (sutantyo/ai-talk-2026): the deck, the spec, this file
-├── japanese-phrasebook-demo/   sutantyo/japanese-phrasebook-demo: the skills demo (see below)
+├── japanese-phrasebook-demo/   sutantyo/japanese-phrasebook-demo: the old skills demo (dropped 2026-11-02)
 ├── blender/                    the MCP demo: its own .mcp.json with a Blender MCP, plus pre-built Python scripts
 └── wordle-demo/                only words.js: ANSWERS and ALLOWED word lists for 4 to 7 letters (about 1 MB)
 ```
@@ -39,7 +39,7 @@ dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editin
 | `slides/components/PromptCard.vue` | The Wordle prompt as a terminal-style card with a **Copy** button (put the prompt between `<PromptCard>` tags) |
 | `slides/components/DocViewer.vue` | Scrollable plain-text document with section-jump buttons and a line count; used by the two below |
 | `slides/components/ClaudeMdViewer.vue` | "A real CLAUDE.md": this file, read at build time. **Shown to the audience**, so keep it current and readable |
-| `slides/components/SkillViewer.vue` | "Skill Example": the phrasebook's `add-phrases` skill, from the copy in `slides/examples/add-phrases-SKILL.md` (re-copy if the skill changes) |
+| `slides/components/SkillViewer.vue` | "Skill Example": Couch's `add-to-couch` skill, read at build time from `mcp-demo/.claude/skills/` |
 | `slides/global-top.vue` | On every slide: section marker bottom-left, Map button bottom-right, end-of-section nudge |
 | `slides/slide-bottom.vue` | Under each slide: a warm paper background (`--optional-bg`) on slides in an optional section |
 | `slides/setup/shortcuts.ts` | Keys: arrows run along a main point's chain of pages and stop at its ends; `H` = map; → / ← on the map; `T` = next colour theme |
@@ -114,7 +114,8 @@ Claude Code          Claude Code (terminal or app, "just Claude", a folder, let'
   MCP                  MCP (Blender): driven by Python through an MCP server (moved from Beyond Coding 2026-11-01)
                        · MCP (Couch): mcp-demo/, a page only Claude can change (added 2026-11-02). Before Skills
                        since 2026-11-02: hard rules in the server, then judgment in a skill
-  Skills               Skills · Skill Example
+  Skills               Skills · Skill Example · With and without the skill (Couch's add-to-couch skill; replaced
+                       the phrasebook 2026-11-02)
                        (Save and Ship, optional, removed 2026-10-08 for time)
   A Team of Agents     (placeholder, 2026-11-01: several sessions, each with its own job)
 Interlude            So am I still coding? · Animation Demo (placeholder: AI artwork + Blender motion,
@@ -154,7 +155,8 @@ from memory, and called itself "Wordle". Now the contrast in the Wordle slide's 
 repo (*"Change the game so words are 6 letters instead of 5."*) took **39 s**, and GitHub Pages served it **about
 44 s** after the push. Its `CLAUDE.md` said not to read its 1 MB word file, and Claude didn't.
 
-**Skills: `japanese-phrasebook-demo`** (decided 2026-10-07; public, `sutantyo/japanese-phrasebook-demo`).
+**Skills: `japanese-phrasebook-demo`** (dropped 2026-11-02 for Couch's `add-to-couch` skill, which follows the Couch MCP
+slide; kept here for the record. Decided 2026-10-07; public, `sutantyo/japanese-phrasebook-demo`).
 A local, offline version of Daniel's online Japanese phrasebook (whose real version uses an MCP connector, which
 is why it couldn't host skills): Svelte 5 page + Fastify + SQLite (`node:sqlite`), a `phrase` command with no
 delete, and three project skills (`add-phrases`, `add-variation`, `review-phrases`) written in plain English to

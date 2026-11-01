@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import DocViewer from './DocViewer.vue'
-// A copy of the add-phrases skill from japanese-phrasebook-demo (.claude/skills/add-phrases/SKILL.md). It's copied,
-// not read from there, because the deck's CI build only has this repo; re-copy it if the skill changes.
-import raw from '../examples/add-phrases-SKILL.md?raw'
+// Couch's add-to-couch skill (mcp-demo/.claude/skills/add-to-couch/SKILL.md), read at build time, so the slide always
+// shows the current version.
+import raw from '../../mcp-demo/.claude/skills/add-to-couch/SKILL.md?raw'
 
 const sections = [
   { label: 'The description', from: (l: string) => l === '---' },
-  { label: 'Show me first', from: (l: string) => l.startsWith('## 4.') },
-  { label: 'Never', from: (l: string) => l === '## Never' },
+  { label: 'Check first', from: (l: string) => l.startsWith('## 1.') },
+  { label: 'Ask me first', from: (l: string) => l.startsWith('## 2.') },
 ]
 </script>
 
 <template>
-  <DocViewer :text="raw" filename="add-phrases / SKILL.md" :sections="sections" caption="A skill from my Japanese phrasebook" />
+  <DocViewer :text="raw" filename="add-to-couch / SKILL.md" :sections="sections" caption="A skill for Couch" />
 </template>
