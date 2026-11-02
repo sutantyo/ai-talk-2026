@@ -724,23 +724,97 @@ Claude asks permission before it pushes: I stay the one who decides what goes on
 
 ---
 routeAlias: testing
+layout: full
 ---
 
-# Testing
+<div class="why-test">
+  <span>Why do we do testing?</span>
+  <div v-click class="marks"><svg viewBox="0 0 300 150" aria-hidden="true">
+    <path d="M68 115 L22 148 L104 126 Z" fill="#fff" stroke="#111" stroke-width="3" stroke-dasharray="7 6" stroke-linejoin="round" />
+    <ellipse cx="160" cy="70" rx="138" ry="62" fill="#fff" stroke="#111" stroke-width="3" stroke-dasharray="7 6" />
+    <path d="M72 112 L30 141 L104 120 Z" fill="#fff" />
+  </svg><b>to get full marks…</b></div>
+</div>
 
-- Small programs that check the real program still works
-- They run every time something changes, in seconds
-- Writing them is tedious, so people skip it; Claude writes them
-- Still my job: deciding *what* to check <span class="eg">"what if the guess has the same letter twice?"</span>
-- Tests also check Claude's work
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+/* the comic page's grey rays, with the question in one caption box */
+.why-test { position: absolute; inset: 0; display: grid; place-items: center;
+  background: repeating-conic-gradient(from 0deg at 50% 52%, #d9d9d9 0deg 6deg, #f4f4f4 6deg 12deg); }
+.why-test span { padding: 22px 44px; background: #ffd400; border: 4px solid #111; box-shadow: 8px 9px 0 #111;
+  transform: rotate(-2deg); font: 400 72px/1 Bangers, sans-serif; letter-spacing: 0.03em; color: #111; }
+.why-test .marks { position: absolute; right: 110px; bottom: -6px; width: 240px; height: 110px; transform: rotate(3deg); }   /* low, tail off the bottom edge: it comes from the audience */
+.why-test .marks svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.why-test .marks b { position: absolute; left: 14%; right: 4%; top: 6%; bottom: 22%; display: grid; place-items: center;
+  text-align: center; font: italic 600 19px/1.1 Nunito, sans-serif; color: #666; }   /* a whisper: dashed bubble, small and quiet */
+</style>
 
-<!--
-A test: "give the program this, expect that". For the Wordle game: answer ABIDE, guess SPEED, only one E should be
-coloured. If a change breaks that, the test fails straight away instead of a player finding it.
-Claude writes tests quickly; the judgement is in knowing which cases matter (the tricky ones).
-Tests check Claude too: when it changes something, the tests say whether it broke anything else.
-(In the live Wordle prompt we said "Don't run any tests" only to save time on stage.)
--->
+---
+layout: full
+---
+
+<div class="bored">
+  <div class="assign">
+    <div class="tag">Assignment 2: Selection sort</div>
+<pre>/**
+ * Sort the array into ascending
+ * order, in place, using
+ * selection sort.
+ */
+public static void selectionSort(
+        int[] arr) {
+    // TODO
+}</pre>
+  </div>
+  <div class="cases">
+    <div class="box">
+      <div class="head">The fun tests</div>
+      <div class="t fun"><b>✓</b>sorts {5, 2, 9, 1}</div>
+      <div class="t fun"><b>✓</b>leaves a sorted array sorted</div>
+      <div class="t fun"><b>✓</b>sorts a reverse-sorted array</div>
+      <div class="t fun"><b>✓</b>sorts 10,000 elements</div>
+    </div>
+    <div class="box dull">
+      <div class="head">…and the boring ones</div>
+      <div class="grid">
+        <div class="t">an empty array?</div><div class="t">null?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+.bored { position: absolute; inset: 0; padding: 28px 46px 60px; display: grid; grid-template-columns: 440px 1fr; gap: 30px; align-items: center;
+  background: repeating-conic-gradient(from 0deg at 50% 52%, #d9d9d9 0deg 6deg, #f4f4f4 6deg 12deg); }
+.bored .assign, .bored .box { background: #fff; border: 3px solid #111; box-shadow: 7px 7px 0 #111; padding: 16px 20px; }
+.bored .assign { transform: rotate(-1.2deg); }
+.bored .tag, .bored .head { display: inline-block; padding: 4px 14px; background: #ffd400; border: 2.5px solid #111;
+  font: 400 28px/1 Bangers, sans-serif; letter-spacing: 0.03em; color: #111; }
+.bored .assign pre { margin: 14px 0 0; background: none; padding: 0; font: 500 18px/1.45 'Fira Code', ui-monospace, monospace;
+  font-variant-ligatures: none; color: #222; white-space: pre; }
+.bored .box + .box { margin-top: 22px; }
+.bored .t { margin: 8px 0 0; font: 600 21px/1.3 'Fira Code', ui-monospace, monospace; font-variant-ligatures: none; color: #111; }
+.bored .t.fun { font-size: 18px; }
+.bored .t.fun b { display: inline-grid; place-items: center; width: 26px; height: 26px; margin-right: 10px; border-radius: 50%;
+  background: #1fae4b; border: 2px solid #111; color: #fff; font: 900 15px Nunito, sans-serif; vertical-align: 2px; }
+.bored .dull { transform: rotate(0.8deg); }
+.bored .dull .head { background: #ddd; }
+.bored .dull .grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 18px; }
+.bored .dull .t { font-size: 17px; color: #666; }
+</style>
+
+---
+layout: full
+---
+
+<CouchTests view="groups" />
+
+---
+layout: full
+---
+
+<CouchTests view="basic" />
 
 ---
 routeAlias: monitoring
