@@ -964,6 +964,15 @@ layout: full
 <GitTimeline />
 
 ---
+layout: full
+---
+
+<HotTake no="97">
+  Learn Git as a save game first. Branches can wait.
+  <template #note><v-click>commit, log, diff, restore. Then branch and merge.</v-click></template>
+</HotTake>
+
+---
 routeAlias: documentation
 ---
 
