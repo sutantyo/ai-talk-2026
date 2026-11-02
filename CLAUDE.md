@@ -154,11 +154,18 @@ Beyond Coding        "Coding is not just coding." (Homer Simpson thinking it, a 
   Source Control       Source Control (i.e. Git), a title page · Elden Ring and Skyrim box art, nothing else · Skyrim's real Load menu (a screenshot from
                        gameaccessibilityguidelines.com, credited on the slide) · essay_final_FINAL_really.docx: a real
                        File Explorer screenshot of a folder full of hand-made versions (public/source-control/final-folder.png) · A straight Git timeline: eight real
-                       commits from this deck's own repo (components/GitTimeline.vue) (2026-11-03; "what's the difference?": you can't
+                       commits from this deck's own repo (components/GitTimeline.vue) · Hot Take #97 ("Learn Git as a save game
+                       first. Branches can wait.") (2026-11-03; "what's the difference?": you can't
                        keep several saves in Elden Ring; covers are fair use, from Wikipedia; the old bullet slide is
                        parked in ideas.md)
-  Documentation        Documentation · Do you memorise the textbook? · Hot Take #412 · Undocumented knowledge · Markdown · Keeping the wiki tidy
-  Learning             Learning with AI · Learning backwards (interactive chapter graph)
+  Documentation        Documentation (a plain title page) · Hot Take #412 · Code comments (a first-year Java method
+                       whose comments only repeat the code) · Wiki (a wiki agent on a local clone; the other
+                       agents send it summaries; written for AI agents, still readable for humans) · Issues and pull requests (links to flight-watch #23, #24, #36, #37;
+                       an Azure DevOps work item's Development section, a Microsoft Learn screenshot)
+  Learning             Learning with AI (a plain title page) · Learning backwards (interactive chapter graph) ·
+                       Things you can do (Gemini Notebook, Matt Pocock's /teach skill, the Foundation for COMP1010
+                       page; Daniel discusses or demos each, 2026-11-03; the "Learning with AI" bullet slide and a manga
+                       version were dropped 2026-11-03)
 Wrap-up              100 vs 50 vs 20 (moved here 2026-11-01) · Closing remarks
 ```
 
@@ -206,6 +213,14 @@ stage, not a cold start. DaVinci Resolve was considered and dropped: an MCP serv
 which is Studio-only (paid), and the free edition lost Python scripting entirely in v21.1. Aseprite MCPs exist but
 run Aseprite in the background on files, so the audience wouldn't see the app being driven.
 
+**Who wrote this bug? (Source Control, planted 2026-11-03 in `sutantyo/flight-watch`):** search `qf25` in lower case
+and the app can't find the flight (`QF25` works). `git blame` on `server/feeds/routes.js` (the `const number = …` line
+in `lookupRoute`) points to Gaurav's commit `940856a`, 26 Oct, "Routes: adsbdb takes either case, so stop
+upper-casing the flight number": pushed straight to `main` with no pull request, and it changed the test from
+`' qf 25 '` to `' QF 25 '` so everything still passes (151 tests). adsbdb does take either case, but the flight-number
+check two lines below only accepts capitals. Ask Claude: "Searching qf25 finds nothing but QF25 works. Who changed
+this, when, and why?"
+
 **Git time travel (Source Control, idea 2026-11-03, to try on the MacBook):** show the deck as it was at commit
 `4877136` (8 Oct) without touching the live deck: before the talk, `git worktree add ../deck-oct8 4877136`, then
 `cd ../deck-oct8 && npm install && npx slidev --port 3031`, and switch to that browser tab on stage. Never check out an
@@ -215,6 +230,18 @@ version still runs.
 **Stage setup:** run Claude Code without Daniel's personal plugins (the impeccable design hook made Claude spend its
 final message on design warnings in earlier runs). The laptop needs `gh auth login`; Claude asks permission before
 pushing, which can be an audience moment.
+
+## To do
+
+- **flight-watch on the MacBook** (for "Who wrote this bug?"): clone `sutantyo/flight-watch`, `npm install`,
+  `npm start` → http://localhost:3200, then check `QF25` finds the route and `qf25` finds nothing. It can't run on
+  GitHub Pages (it needs its own server).
+- **Push the `data/pacific-replay` branch** (only on the Windows PC so far), so `REPLAY=pacific npm start` works on
+  the MacBook if the venue's network fails.
+- **flight-watch wiki:** Daniel creates the first page on the new repo; then push the rewritten wiki (9 commits, in
+  `C:\repos\uni\flight-watch-wiki`) over it.
+- **Git time travel:** try the worktree steps above on the MacBook.
+- **After the talk, maybe:** host flight-watch somewhere like Railway so students can try it.
 
 ## Ideas not taken (yet)
 
