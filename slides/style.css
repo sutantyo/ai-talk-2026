@@ -195,15 +195,6 @@ html[data-map-move] :is(.slide-left-enter-from, .slide-left-leave-to, .slide-rig
   font-size: 0.85em; font-style: italic; line-height: 1.5; color: var(--muted); text-align: right;
 }
 
-/* Markdown slide: what you type next to what you see */
-.slidev-layout .md-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 0.6em 0 0.9em; }
-.slidev-layout .md-label { margin: 0 0 0.3em; font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-.slidev-layout .md-raw { margin: 0; padding: 0.8em 1em; background: var(--paper); border-radius: 6px; font-size: 0.95rem; line-height: 1.5; font-variant-ligatures: none; white-space: pre; }
-.slidev-layout .md-rendered { padding: 0.8em 1em; border: 1px solid var(--paper-line); border-radius: 6px; font-size: 0.95rem; line-height: 1.5; }
-.slidev-layout .md-h { font-size: 1.35rem; font-weight: 700; color: var(--deep); margin-bottom: 0.3em; }
-.slidev-layout .md-li::before { content: '•'; margin: 0 0.5em 0 0.2em; }
-.slidev-layout .md-link { color: var(--teal); text-decoration: underline; }
-
 /* Interlude: a person's photo on one half, their details appear on the other half on a click; white in every theme */
 .slidev-layout .person { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; background: #fff; color: #1d1b2e; }
 .slidev-layout .person.flip figure { order: 2; }

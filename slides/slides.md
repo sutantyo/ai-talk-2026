@@ -974,17 +974,47 @@ layout: full
 
 ---
 routeAlias: documentation
+layout: full
 ---
 
-# Documentation
+<div class="doc-title"><h2>Documentation</h2></div>
 
-- Code says *how*; documentation says *what* and *why*
-- **Team handbook** <span class="eg">the wiki: how things work, how to set up</span>
-- **To-do and bug list** <span class="eg">issues: what's broken, what's next</span>
-- **"What I changed and why"** <span class="eg">pull requests: notes for the person who checks my work</span>
-- AI writes my documentation now, and it's much cleaner
-- **Drift**: the code changes, the docs and comments don't <span class="eg">AI makes keeping them in step trivial</span>
-- For me, the biggest change is the writing, not the code
+<style>
+.doc-title { position: absolute; inset: 0; display: grid; place-items: center; background: #07070c; }
+.doc-title h2 { margin: 0; font: 900 84px/1 Nunito, sans-serif; color: #f2ede0; }
+</style>
+
+---
+layout: full
+---
+
+<HotTake no="412">
+  Experience is just undocumented knowledge.
+</HotTake>
+
+---
+
+# Code comments
+
+```java
+// this method calculates the average of the marks
+public static double average(int[] marks) {
+    // create a variable called total and set it to 0
+    int total = 0;
+    // loop through every mark in the array
+    for (int i = 0; i < marks.length; i++) {
+        // add the mark to the total
+        total = total + marks[i];
+    }
+    // divide the total by the number of marks and return it
+    return (double) total / marks.length;
+}
+```
+
+<style>
+.slidev-layout pre, .slidev-layout pre code { font-variant-ligatures: none; }
+.slidev-layout pre code { font-size: 17px; line-height: 1.55; }
+</style>
 
 <!--
 Daniel's line: the biggest change is the writing, not the code. AI writes his documentation (wiki entries, issues,
@@ -999,116 +1029,50 @@ to match", or "check the docs against the code and list what's out of date".
 
 ---
 
-# Do you memorise the textbook?
+# Wiki
 
-- As a student, you read the textbook <span class="eg">and sometimes memorise it for the exam</span>
-- But why?
-- If a page of the book answers the question, is it a good exam question?
-- You don't need to memorise the book
-- Remember the table of contents <span class="eg">later on, roughly what's in it</span>
-- Documentation is the same <span class="eg">know what's there; look it up when you need it</span>
+My opinions:
 
-<!--
-Daniel's points: as a student you're often required to read the textbook, and sometimes memorise it for the exam.
-The question is why. If a question can be answered easily by looking up a page in the textbook, is that a good
-question for an exam?
-His claim: you don't need to memorise a textbook. It's good enough to remember the table of contents, or later on,
-roughly remember what's in the book.
-Link to documentation: nobody memorises the team handbook either. You know roughly what's in it and where, and you
-look it up when you need it. These days Claude does the looking up: it reads the docs for me.
--->
-
----
-layout: full
----
-
-<HotTake no="412">
-  Experience is just undocumented knowledge.
-  <template #note><v-click>Not 100% true. That's why it's a hot take.</v-click></template>
-</HotTake>
+- Documentation is cheap, so write it up
+- Clone the wiki locally, then have an agent running on it
+- Ask your other agents to send a summary of what was done to the wiki agent
+- Write the wiki for AI agents, but keep it readable for humans
 
 ---
 
-# Undocumented knowledge
-
-- A lot of knowledge is lost only because nobody wrote it down
-- Now AI does the writing
-- Our job: organise it <span class="eg">a table of contents, good section headings</span>
-
-<!--
-Daniel's hot take, said as a joke ("#412": one of many). The number is made up; play it straight.
-Why he thinks it: a lot of everyday knowledge lives only in people's heads or in chat threads that scroll away:
-workarounds, quirks of old in-house tools, "you have to restart that one first". Manuals rarely cover the odd bug
-or the edge case; a senior engineer fixes it because they've seen it before, a junior has nothing to read.
-Writing docs is rarely rewarded, so the knowledge stays with a few people, and when they leave, it leaves too.
-Not 100% true: some experience survives even good documentation (judgement, taste, knowing what to try first).
-But a lot is lost only because nobody recorded it.
-Where AI comes in: it does the writing now, so recording is cheap. What's left for us is organising the knowledge:
-the table of contents and good section headings (back to the textbook: remember the contents, look up the rest).
--->
-
----
-
-# Markdown
+# Issues and pull requests
 
 <script setup>
-const raw = `# Week 3 notes
-
-**Exam:** Friday, 10 am
-
-- Read chapter 4
-- Redo *question 2*
-- [Lecture slides](https://…)`
+const base = import.meta.env.BASE_URL
 </script>
 
-Plain text, with a few symbols for formatting
+<div class="ipr">
+<div>
 
-<div class="md-compare">
-  <div>
-    <p class="md-label">What you type</p>
-<pre class="md-raw">{{ raw }}</pre>
-  </div>
-  <div>
-    <p class="md-label">What you see</p>
-    <div class="md-rendered">
-      <div class="md-h">Week 3 notes</div>
-      <div><b>Exam:</b> Friday, 10 am</div>
-      <div class="md-li">Read chapter 4</div>
-      <div class="md-li">Redo <i>question 2</i></div>
-      <div class="md-li"><span class="md-link">Lecture slides</span></div>
-    </div>
-  </div>
+<p class="lbl">flight-watch on GitHub</p>
+
+- Issue [#23](https://github.com/sutantyo/flight-watch/issues/23): a bug report
+- Pull request [#24](https://github.com/sutantyo/flight-watch/pull/24): its fix
+- Issue [#36](https://github.com/sutantyo/flight-watch/issues/36): a discussion
+- Issue [#37](https://github.com/sutantyo/flight-watch/issues/37): a big task, split up
+- [All issues](https://github.com/sutantyo/flight-watch/issues?q=is%3Aissue) · [All pull requests](https://github.com/sutantyo/flight-watch/pulls?q=is%3Apr)
+
+</div>
+<figure>
+  <p class="lbl">Azure DevOps</p>
+  <img :src="base + 'documentation/ado-development.png'" alt="An Azure DevOps user story with its linked pull request and commit">
+  <figcaption>A work item lists its pull requests and commits. Screenshot: Microsoft Learn</figcaption>
+</figure>
 </div>
 
-- Used by wikis, GitHub, note apps and AI chat replies <span class="eg">CLAUDE.md is Markdown too</span>
-
-<!--
-Markdown: a way to write formatted text with ordinary characters. # makes a heading, ** makes bold, * italic,
-- a bullet list, [text](link) a link. Readable even before it's formatted, which is why it's everywhere.
-The bold and bullets in ChatGPT's or Claude's answers: that's Markdown being displayed.
-The CLAUDE.md and the skill from earlier in the talk: both Markdown files.
-Worth learning: it takes ten minutes, and you'll use it for notes, READMEs, and talking to AI.
--->
-
----
-
-# Keeping the wiki tidy
-
-- A wiki grows messy: many authors, many years
-- Claude reads the whole wiki before writing a page
-- **Same style** <span class="eg">the same headings, tone and terms on every page</span>
-- **No duplicates** <span class="eg">"we already have a page on this; I'll add to it"</span>
-- **Nothing out of date** <span class="eg">finds pages that contradict each other or the code</span>
-- **Linked up** <span class="eg">points each page to the related ones</span>
-
-<!--
-What AI is great at: reading everything, every time, and never getting bored. A person writing a new page doesn't
-check fifty old ones first; Claude does.
-Example ask, plain English: "Add a page on how we release a new version. Check the wiki first: if a page already
-covers it, add to that one, and match the style of the other pages."
-Still my job: deciding what's true. It can find two pages that disagree; I decide which one is right.
-(A real example from work to add.)
--->
+<style>
+.ipr { display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; margin-top: 0.4em; }
+.ipr .lbl { margin: 0 0 8px; font: 800 14px Nunito, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
+.ipr li { font-size: 0.9em; }
+.ipr figure { margin: 0; }
+.ipr img { width: 100%; border-radius: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 0.4); }
+.ipr figcaption { margin-top: 6px; font-size: 0.62rem; color: var(--muted); }
+</style>
 
 ---
 routeAlias: learning
