@@ -449,15 +449,38 @@ layout: full
 
 ---
 routeAlias: beyond
+layout: full
 ---
 
-# Coding is not just coding
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
 
-- Source Control
-- Testing
-- Monitoring
-- Documentation
-- Learning
+<div class="doh">
+  <div class="pic">
+    <img :src="base + 'beyond/homer-thinking.jpg'" alt="Homer Simpson, thinking">
+    <svg class="thought" viewBox="0 0 340 124" aria-hidden="true"><ellipse cx="170" cy="62" rx="166" ry="58" fill="#fff" stroke="#111" stroke-width="2.5" /></svg>
+    <div class="words">Coding is not<br>just coding.</div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+/* The picture sits smaller in the bottom-right corner, on the same blue as its own background, so the edges vanish.
+   Our thought bubble covers its "mmm... donuts" one; positions are fractions of the picture, so they scale with it. */
+.doh { position: absolute; inset: 0; overflow: hidden; background: rgb(2 90 153); }
+.doh .pic { position: absolute; right: 0; bottom: 0; width: 48%; aspect-ratio: 4 / 3; container-type: inline-size; }
+.doh .pic img { width: 100%; height: 100%; max-width: none; display: block; }
+.doh .thought, .doh .words { position: absolute; left: 43.9%; top: 33.5%; width: 34.7%; height: 16.9%;
+  transform: scale(1.75); transform-origin: 72% 100%; }   /* bigger, growing up and left from where the thought dots meet it */
+.doh .words { display: grid; place-items: center; font: 400 4.1cqw/1.05 'Patrick Hand', cursive; color: #111; text-align: center; }
+</style>
+
+---
+layout: full
+---
+
+<ComicBursts />
 
 <!--
 Opens Beyond Coding, after the Interlude: the rest of the job, beyond the code. Each item is a
