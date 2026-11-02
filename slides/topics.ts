@@ -37,7 +37,7 @@ const CORE: Topic[] = [
   { id: 'claude-code', kind: 'core', alias: 'claude-code', x: 318, y: TRUNK_Y, minutes: 10,
     title: 'Claude Code', teaser: 'Still a chat, but one that can work on your computer' },
   { id: 'interlude', kind: 'core', minor: true, alias: 'interlude', x: 505, y: TRUNK_Y, minutes: 5,
-    title: 'Interlude', teaser: "So am I still coding? Then making an animation: AI artwork, moved by Blender" },
+    title: 'Interlude', teaser: "Am I still coding? Why we code, the fundamentals, and a chef" },
   { id: 'beyond', kind: 'core', alias: 'beyond', x: 693, y: TRUNK_Y, minutes: 10,
     title: 'Beyond Coding', teaser: 'The rest of the job beyond the code, and learning' },
   { id: 'close', kind: 'core', minor: true, alias: 'close', x: 880, y: TRUNK_Y, minutes: 2,

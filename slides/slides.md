@@ -11,7 +11,7 @@ drawings:
   enabled: false
 fonts:
   sans: Nunito
-  weights: '400,600,700'
+  weights: '400,600,700,900'
 layout: default
 class: title-slide
 ---
@@ -133,34 +133,319 @@ To demonstrate, let's build a simple app: hand over to the Wordle demo (next on 
 
 ---
 routeAlias: interlude
+layout: full
 ---
 
-# So am I still coding?
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
 
-- I still make the important decisions
-- I need to be able to explain it to the AI agent
-- I decide how AI should evaluate the end result
-- "I'm still coding, I'm just not typing"
+<div class="wanderer">
+  <img :src="base + 'interlude/wanderer.jpg'" alt="Caspar David Friedrich, Wanderer above the Sea of Fog: a man on a rock, looking out over fog">
+  <div class="frame"></div>
+  <header>
+    <div class="orn"><span class="badge">&lt;/&gt;</span></div>
+    <div class="t1">Am I</div>
+    <div class="t2"><span>Still</span></div>
+    <div class="t3">coding?</div>
+    <div class="orn"><svg class="badge" viewBox="0 0 24 24"><path d="M3 18 L10 7 L13.5 12 L16 9 L21 18 Z M8.2 10 L10 12.4 L11.6 10.2" /></svg></div>
+  </header>
+  <article lang="en">
+    <p class="intro"><span class="drop">I</span> built a game without writing a single line of code. I built an app without even reading the source code. How can I call myself a coder?</p>
+    <p>My keyboard has started to gather dust. The semicolon key, once my most trusted companion, now goes untouched for weeks. I used to know where every bracket closed; now I ask, and someone else closes them for me.</p>
+    <p>At dinner parties, when people ask what I do, I hesitate. Programmer? Engineer? Director? I tell Claude what I want, I read what it says, I nod, I frown, I say "no, not like that", and somehow software appears.</p>
+    <p>Is this how painters felt when the camera arrived? They kept painting, of course, but they had to decide what painting was for.</p>
+    <p>So I stand here and look out over the fog, and wonder whether there is still a coder standing on this rock, or just a man in a good coat with a walking stick and strong opinions about how things should work.</p>
+    <p>Perhaps that was always the job. I shall embrace it. Now even my jokes are written by Claude. Maybe that is why they are not as funny. And, no, you are not meant to read all this.</p>
+  </article>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ultra&family=Oswald:wght@600&family=Playfair+Display:ital,wght@1,900&family=Cormorant+SC:wght@600&family=EB+Garamond:wght@400&display=swap');
+.wanderer { position: absolute; inset: 0; --tan: #d89a4e; --cream: #ece3d3; --ink: #1e1a16; color: var(--cream); }
+.wanderer img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; display: block; filter: brightness(0.5) saturate(0.85) sepia(0.15); }
+.wanderer .frame { position: absolute; inset: 14px; border: 1px solid var(--tan); outline: 1px solid var(--tan); outline-offset: -6px; pointer-events: none; }
+.wanderer header { position: absolute; left: 60px; top: 42px; width: 290px; text-align: center; text-transform: uppercase; }
+.wanderer .orn { display: flex; align-items: center; gap: 8px; margin: 0 auto; width: 170px; }
+.wanderer .orn::before, .wanderer .orn::after { content: ''; flex: 1; height: 2px; background: var(--tan); }
+.wanderer .badge { width: 38px; height: 38px; border: 2px solid var(--tan); border-radius: 50%; display: grid; place-items: center;
+  font: 700 13px Oswald, sans-serif; color: var(--tan); box-sizing: border-box; padding: 6px; }
+.wanderer svg.badge path { fill: none; stroke: var(--tan); stroke-width: 1.6; stroke-linejoin: round; }
+.wanderer .t1 { margin-top: 10px; padding-top: 6px; border-top: 2px solid var(--tan); font: 400 70px/1 Ultra, serif; letter-spacing: 0.02em; }
+.wanderer .t2 { margin: 6px 0; }
+.wanderer .t2 span { display: block; background: var(--tan); color: var(--ink); font: 600 74px/1.05 Oswald, sans-serif; letter-spacing: 0.04em; }
+.wanderer .t3 { padding-bottom: 8px; border-bottom: 2px solid var(--tan); margin-bottom: 10px; font: italic 900 66px/1.05 'Playfair Display', serif;
+  text-transform: none; color: var(--tan); }
+.wanderer article { position: absolute; right: 44px; bottom: 74px; width: 248px; column-count: 2; column-gap: 10px; padding: 5px 0 6px; border-top: 3px double var(--tan);
+  border-bottom: 3px double var(--tan); font: 400 6.5px/1.25 'EB Garamond', serif; text-align: justify; hyphens: auto; }
+.wanderer article p { margin: 0; text-indent: 1em; font-size: 6.5px; line-height: 1.3; text-wrap: pretty; }
+.wanderer article p.intro { font: 600 7.5px/1.25 'Cormorant SC', serif; text-indent: 0; margin-bottom: 3px; text-align: left; }
+.wanderer .drop { float: left; font: 400 23px/0.78 Ultra, serif; color: var(--tan); margin: 1px 3px 0 0; }
+</style>
+
+<!-- Caspar David Friedrich, Wanderer above the Sea of Fog (about 1818), public domain, via Wikimedia Commons. -->
+
+---
+layout: full
+clicks: 2
+---
+
+<div class="words" :class="'s' + $clicks">
+  <span class="w coding">Coding</span>
+  <span class="w typing">Typing</span>
+  <span class="w sd">Software Development</span>
+  <span class="sym neq">≠</span>
+  <span class="sym eq">≈</span>
+</div>
+
+<style>
+.words { position: absolute; inset: 0; }
+.words .w, .words .sym { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; line-height: 1;
+  transition: left 0.9s cubic-bezier(.6,0,.2,1), top 0.9s cubic-bezier(.6,0,.2,1), font-size 0.9s, opacity 0.6s, transform 0.9s, color 0.6s; }
+.words .coding { font: 900 100px Nunito, sans-serif; color: var(--orange); left: 300px; top: 250px; }
+.words .typing { font: 900 58px Nunito, sans-serif; color: var(--ink); left: 720px; top: 140px; }
+.words .sd { font: 900 46px Nunito, sans-serif; color: var(--teal); left: 650px; top: 410px; }
+.words .sym { font: 300 96px Nunito, sans-serif; color: var(--ink); opacity: 0; left: 510px; top: 276px; }
+/* the strike through Typing */
+.words .typing::after { content: ''; position: absolute; left: -4%; right: -4%; top: 52%; height: 6px; border-radius: 3px;
+  background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform 0.5s 0.6s; }
+
+/* click 1: Coding ≠ Typing */
+.words.s1 .coding { top: 276px; }
+.words.s1 .coding { left: 270px; }
+.words.s1 .typing { left: 720px; top: 276px; font-size: 80px; opacity: 0.75; }
+.words.s1 .typing::after { transform: scaleX(1); }
+.words.s1 .neq { opacity: 1; }
+.words.s1 .sd { opacity: 0.2; }
+
+/* click 2: Coding = Software Development */
+.words.s2 .coding { left: 490px; top: 170px; font-size: 92px; }
+.words.s2 .typing { left: 720px; top: 640px; opacity: 0; transform: translate(-50%, -50%) rotate(14deg); }
+.words.s2 .typing::after { transform: scaleX(1); }
+.words.s2 .eq { opacity: 1; left: 490px; top: 282px; font-size: 72px; }
+.words.s2 .sd { left: 490px; top: 390px; font-size: 64px; opacity: 1; }
+</style>
+
+---
+layout: full
+---
+
+<div class="ask">Why do you code?</div>
+
+<style>
+.ask { position: absolute; inset: 0; display: grid; place-items: center; font: 900 76px Nunito, sans-serif; color: var(--ink); }
+</style>
+
+---
+layout: full
+---
+
+<HotTake no="71">
+  Nobody actually wants to code.
+  <template #note><v-click>They just want to solve a problem, or make something.</v-click></template>
+  <template #ps><v-click at="1">(p.s. I don't like code golf)</v-click></template>
+</HotTake>
+
+---
+layout: full
+---
+
+<div class="qa">
+  <p class="q">If AI can do the coding for you, do you still need to know the fundamentals?</p>
+  <p v-click class="a">Yes!</p>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&display=swap');
+.qa { position: absolute; inset: 0; padding: 0 90px; display: flex; flex-direction: column; justify-content: center; gap: 40px; }
+.qa .q { margin: 0; max-width: 700px; font: 500 46px/1.2 Newsreader, serif; color: var(--ink); }
+.qa .a { margin: 0; text-align: right; font: 500 46px/1.2 Newsreader, serif; color: var(--orange); }
+</style>
+
+---
+layout: full
+clicks: 2
+---
+
+<UnitPath :step="$clicks" />
+
+---
+layout: full
+clicks: 2
+---
+
+<WordCloud :step="$clicks" />
+
+---
+layout: full
+---
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
+
+<div class="person">
+  <figure>
+    <img :src="base + 'interlude/ramsay.jpg'" alt="Gordon Ramsay in chef's whites">
+    <small v-click="1">Photo: Dave Pullig, CC BY 2.0</small>
+  </figure>
+  <v-click>
+    <dl>
+      <dt>Name</dt><dd class="name">Gordon Ramsay</dd>
+      <dt>Occupation</dt><dd>Chef, restaurant owner, TV presenter</dd>
+      <dt>Famous for</dt><dd>Hell's Kitchen, Kitchen Nightmares, MasterChef; his restaurants have won 17 Michelin stars</dd>
+      <dt>Net worth</dt><dd>About US$220 million</dd>
+    </dl>
+  </v-click>
+</div>
 
 <!--
-The interlude, between Claude Code and Beyond Coding, straight after the Claude Code demos. Wordle, the CLAUDE.md note, the skill, the save and the
-push: all automated. Say it: "I didn't write a single line of code." Ask the question and let them answer, then:
-director, not typist.
-Coding ≠ Typing: the title of the talk.
+Photo first, then a click for the details. All the technical skill in the world: he can do every job in the
+kitchen, and on Kitchen Nightmares he tastes one dish and knows what's wrong.
+Sources: Wikipedia (Gordon Ramsay: 17 Michelin stars overall for his restaurant group, 8 held now); net worth is
+Celebrity Net Worth's estimate (checked 2026-11-02), not an official figure. Photo: Wikimedia Commons,
+"Gordon Ramsay.jpg" (Dave Pullig, 2006, CC BY 2.0); the credit line is what the licence asks for.
 -->
 
 ---
+layout: full
+---
 
-# Animation Demo
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
 
-- AI draws the artwork, Blender moves it
+<div class="person flip">
+  <figure>
+    <img :src="base + 'interlude/snyder.jpg'" alt="Lynsi Snyder under an In-N-Out awning">
+    <small v-click="1">Photo: In-N-Out Burger, CC BY 4.0</small>
+  </figure>
+  <v-click>
+    <dl>
+      <dt>Name</dt><dd class="name">Lynsi Snyder</dd>
+      <dt>Occupation</dt><dd>Owner of In-N-Out Burger</dd>
+      <dt>Famous for</dt><dd>In-N-Out, started by her grandparents in 1948; the youngest female billionaire in the US in 2012</dd>
+      <dt>Net worth</dt><dd>US$8.7 billion</dd>
+    </dl>
+  </v-click>
+</div>
 
 <!--
-Placeholder (2026-11-01): the Interlude's animation, after "So am I still coding?"; replaces the old Higgsfield
-"Making AI videos" slide. Material: docs/kanji-video-case-study.md (the kanji clips: AI video alone failed, then
-AI artwork plus Blender motion worked). Same message: knowing the craft is what makes the result good. Slides
-still to write.
+After Gordon Ramsay: photo first, then a click for the details. No famous cooking skills, she runs kitchens she
+doesn't cook in, and she's worth about 40 times more. Let that sink in, then the next slide.
+Sources: Wikipedia (Lynsi Snyder): In-N-Out founded 1948 by her grandparents Harry and Esther Snyder; sole owner
+since her 35th birthday; youngest American female billionaire in 2012 (Bloomberg Billionaires Index); No. 153 on
+the Forbes 400 in 2025 with US$8.7 billion. Photo: Wikimedia Commons, "Lynsi Snyder.jpg" (In-N-Out Burger,
+CC BY 4.0).
 -->
+
+---
+layout: full
+---
+
+<div class="lead-q">
+  <p>You still need to learn the fundamentals</p>
+  <p v-click>…but has learning changed with AI?</p>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&display=swap');
+.lead-q { position: absolute; left: 90px; right: 90px; top: 50%; transform: translateY(-50%); }
+.lead-q p { margin: 0 0 28px; font: 500 46px/1.2 Newsreader, serif; color: var(--ink); white-space: nowrap; }
+.lead-q p + p { color: var(--orange); }
+</style>
+
+---
+layout: full
+---
+
+<div class="memo"><b>fundamentals</b><span>vs</span><i>things you can look up</i></div>
+
+<style>
+.memo { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  font: 900 64px/1.1 Nunito, sans-serif; text-align: center; }
+.memo b { font-weight: 900; color: var(--orange); }
+.memo span { margin: 10px 0; font-style: italic; font-weight: 600; font-size: 34px; color: var(--muted); }
+.memo i { font-style: normal; color: var(--teal); }
+</style>
+
+---
+layout: full
+---
+
+<div class="loops">
+  <div class="lp"><div class="lang">Java</div>
+<pre>for (int i = 1; i &lt;= 5; i++) {
+    System.out.println(i);
+}</pre></div>
+  <div class="lp"><div class="lang">Python</div>
+<pre>for i in range(1, 6):
+    print(i)</pre></div>
+  <div class="lp"><div class="lang">Scratch</div>
+    <div class="scratch">
+      <div class="blk var">set <i>i</i> to <b>1</b></div>
+      <div class="blk ctl">repeat <b>5</b>
+        <div class="inner">
+          <div class="blk look">say <b class="r">i</b></div>
+          <div class="blk var">change <i>i</i> by <b>1</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="lp en"><div class="lang">English, to Claude</div>
+    <p>“Print the numbers 1 to 5.”</p>
+  </div>
+</div>
+
+<style>
+.loops { position: absolute; inset: 0; padding: 48px 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.lp { border: 1.5px solid var(--line); border-radius: 12px; padding: 14px 18px; background: var(--deeper); }
+.lp .lang { font: 800 14px Nunito, sans-serif; letter-spacing: 0.12em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.lp pre { margin: 0; background: none; padding: 0; font: 500 19px/1.5 'Fira Code', ui-monospace, monospace;
+  font-variant-ligatures: none; color: var(--ink); white-space: pre; }
+.lp.en p { margin: 18px 0 0; font: 500 32px/1.25 Newsreader, serif; color: var(--ink); }
+/* Scratch's own block colours */
+.scratch { font: 700 16px Nunito, sans-serif; color: #fff; }
+.blk { display: inline-block; padding: 6px 12px; border-radius: 6px; margin: 2px 0; }
+.blk b, .blk i { display: inline-block; font-style: normal; padding: 0 9px; margin: 0 2px; border-radius: 12px; background: #fff; color: #575e75; }
+.blk b.r { background: #ff8c1a; color: #fff; }
+.blk.var { background: #ff8c1a; }
+.blk.look { background: #9966ff; }
+.blk.ctl { background: #ffab19; display: block; width: fit-content; padding-bottom: 10px; }
+.blk.ctl .inner { margin: 6px 0 0 14px; display: flex; flex-direction: column; align-items: flex-start; }
+.scratch > .blk { display: block; width: fit-content; }
+</style>
+
+---
+layout: full
+---
+
+<HotTake no="88">
+  A web API is just a bunch of functions that live on the internet.
+</HotTake>
+
+---
+layout: full
+---
+
+<div class="again">Am I still coding if I use AI?</div>
+<ul class="again-points">
+  <li v-click>I decide what the problem is</li>
+  <li v-click>I choose how to solve it <span class="aside">(with AI's help)</span></li>
+  <li v-click>I judge whether the result is right</li>
+  <li v-click class="also">And I have to know how to tell AI all this</li>
+</ul>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500&display=swap');
+.again { position: absolute; left: 90px; top: 33%; transform: translateY(-50%);
+  font: 500 52px/1.15 Newsreader, serif; color: var(--ink); white-space: nowrap; }
+.again-points { position: absolute; left: 90px; right: 90px; top: 44%; margin: 0; padding: 0; list-style: none; }
+.again-points li { margin: 0 0 14px; padding: 0; font: 500 30px/1.3 Newsreader, serif; color: var(--orange); }
+.again-points li::before { content: none; }
+.again-points .aside { color: var(--muted); }
+.again-points li.also { margin-top: 26px; color: var(--ink); text-align: right; }
+</style>
 
 ---
 routeAlias: beyond
@@ -501,23 +786,21 @@ look it up when you need it. These days Claude does the looking up: it reads the
 -->
 
 ---
+layout: full
+---
 
-# Hot Take <span class="take-no">#412</span>
+<HotTake no="412">
+  Experience is just undocumented knowledge.
+  <template #note><v-click>Not 100% true. That's why it's a hot take.</v-click></template>
+</HotTake>
 
-<p class="hot-take">“Experience is just undocumented knowledge”</p>
+---
 
-- Not 100% true <span class="eg">that's why it's a hot take</span>
-- But a lot of knowledge is lost only because nobody wrote it down
+# Undocumented knowledge
+
+- A lot of knowledge is lost only because nobody wrote it down
 - Now AI does the writing
 - Our job: organise it <span class="eg">a table of contents, good section headings</span>
-
-<style>
-.take-no { color: var(--orange); }
-.hot-take {
-  font-size: 2.1em; font-weight: 600; color: var(--deep);
-  border-left: 6px solid var(--orange); padding: 0.2em 0 0.2em 0.8em; margin: 0.6em 0 1em;
-}
-</style>
 
 <!--
 Daniel's hot take, said as a joke ("#412": one of many). The number is made up; play it straight.
