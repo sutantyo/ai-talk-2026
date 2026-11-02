@@ -818,23 +818,98 @@ layout: full
 
 ---
 routeAlias: monitoring
+layout: full
 ---
 
-# Monitoring
+<MonitorHud />
 
-- A running app keeps a diary of everything it does <span class="eg">the logs</span>
-- Far more than anyone can read
-- When something breaks, someone has to find the lines that matter
-- Claude reads the logs for me and points to the cause
-- Still my job: knowing what "normal" looks like <span class="eg">and whether its answer makes sense</span>
+---
+clicks: 2
+---
 
-<!--
-Once an app is live, real people use it, at all hours. It writes a line for each thing it does: "user logged in",
-"payment failed", "took 3 seconds". Monitoring is watching those, with alerts when something looks wrong.
-Before: hours scrolling through logs. Now: "here are today's logs, why did payments fail at 2 pm?"
-(A real example from work to add.)
--->
+# Logs
 
+- Logs used to be just text in a file, everyone's requests mixed together
+
+<div class="logline" :class="'s' + $clicks">
+<pre><span class="ln mine"><span class="p-time">2026-11-03 09:14:02.381</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">POST /checkout started</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.384</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">3b81d6a0f27c</span> <span class="p-msg">GET /products?category=shoes</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.390</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">e04f7a5c9d13</span> <span class="p-msg">POST /login</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.397</span> <span class="p-lvl lv-error">[ERROR]</span> <span class="tr">9a6d2b0e8f45</span> <span class="p-msg">image service timed out after 2000 ms</span></span>
+<span class="ln mine"><span class="p-time">2026-11-03 09:14:02.402</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">loaded cart: 2 items, $37.50</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.415</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">3b81d6a0f27c</span> <span class="p-msg">GET /products/88</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.421</span> <span class="p-lvl lv-warn">[WARN] </span> <span class="tr">e04f7a5c9d13</span> <span class="p-msg">wrong password (attempt 2 of 5)</span></span>
+<span class="ln mine"><span class="p-time">2026-11-03 09:14:02.433</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">discount code SAVE40 applied: -$40.00</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.452</span> <span class="p-lvl lv-error">[ERROR]</span> <span class="tr">3b81d6a0f27c</span> <span class="p-msg">reviews service returned 500</span></span>
+<span class="ln mine"><span class="p-time">2026-11-03 09:14:02.471</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">order total: -$2.50</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.488</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">e04f7a5c9d13</span> <span class="p-msg">POST /login</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:02.493</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">e04f7a5c9d13</span> <span class="p-msg">signed in: user 5521</span></span>
+<span class="ln mine"><span class="p-time">2026-11-03 09:14:02.502</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">charging card ending 4242: -$2.50</span></span>
+<span class="ln mine culprit"><span class="p-time">2026-11-03 09:14:03.910</span> <span class="p-lvl lv-error">[ERROR]</span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">payment rejected: amount must be positive</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:03.918</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">e04f7a5c9d13</span> <span class="p-msg">GET /account</span></span>
+<span class="ln mine"><span class="p-time">2026-11-03 09:14:03.925</span> <span class="p-lvl lv-info">[INFO] </span> <span class="tr">7c2e9f41b08d</span> <span class="p-msg">order 10442 marked failed</span></span>
+<span class="ln"><span class="p-time">2026-11-03 09:14:03.931</span> <span class="p-lvl lv-error">[ERROR]</span> <span class="tr">3b81d6a0f27c</span> <span class="p-msg">POST /cart/add failed: database busy</span></span></pre>
+</div>
+
+<style>
+.logline { margin: 0.4em 0 0; padding: 14px 18px; background: var(--code-bg); border-radius: 8px; }
+.logline pre { margin: 0; background: none; padding: 0; font: 500 13px/1.38 'Fira Code', ui-monospace, monospace;
+  font-variant-ligatures: none; white-space: pre; color: var(--ink); }
+.logline .p-time { color: var(--teal); }
+.logline .p-lvl { color: var(--orange); }
+.logline .lv-warn { color: #ffc24b; }
+.logline .lv-error { color: #ff6b81; }
+.logline .p-msg { color: var(--ink); }
+.logline .tr { color: var(--muted); }
+.logline .ln { transition: opacity 0.4s, background 0.4s; }
+/* click 1: the error that starts the hunt; click 2: everything from the same request, the rest faded */
+.logline.s1 .culprit, .logline.s2 .culprit { outline: 2px solid #ff6b81; outline-offset: 2px; border-radius: 3px; }
+.logline.s2 .ln { opacity: 0.25; }
+.logline.s2 .ln.mine { opacity: 1; background: rgb(255 143 177 / 0.14); }
+.logline.s2 .ln.mine .tr { color: #ff8fb1; font-weight: 700; }
+</style>
+
+---
+
+# Logs, now
+
+- Real systems collect logs into a database you can search
+
+<div class="kql">
+  <div>
+    <p class="lbl">The question <span>(KQL, as in Azure Monitor)</span></p>
+<pre>AppLogs | where TraceId == "7c2e9f41b08d" | order by Timestamp asc | project Timestamp, Level, Message</pre>
+  </div>
+  <div>
+    <p class="lbl">The answer <span>(the same seven rows, in order)</span></p>
+<table class="ans"><thead><tr><th>Timestamp</th><th>Level</th><th>Message</th></tr></thead><tbody><tr class=""><td>09:14:02.381</td><td>INFO</td><td>POST /checkout started</td></tr><tr class=""><td>09:14:02.402</td><td>INFO</td><td>loaded cart: 2 items, $37.50</td></tr><tr class=""><td>09:14:02.433</td><td>INFO</td><td>discount code SAVE40 applied: -$40.00</td></tr><tr class=""><td>09:14:02.471</td><td>INFO</td><td>order total: -$2.50</td></tr><tr class=""><td>09:14:02.502</td><td>INFO</td><td>charging card ending 4242: -$2.50</td></tr><tr class="err"><td>09:14:03.910</td><td>ERROR</td><td>payment rejected: amount must be positive</td></tr><tr class=""><td>09:14:03.925</td><td>INFO</td><td>order 10442 marked failed</td></tr></tbody></table>
+  </div>
+</div>
+
+<style>
+.kql { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 0.2em; }
+.kql pre { margin: 0; padding: 14px 16px; background: var(--code-bg); border-radius: 8px; font: 500 13.5px/1.42 'Fira Code', ui-monospace, monospace;
+  font-variant-ligatures: none; white-space: pre; color: var(--ink); }
+.kql .lbl { margin: 0 0 6px; font: 800 14px Nunito, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--orange); }
+.kql .ans { width: 100%; border-collapse: collapse; background: var(--code-bg); border-radius: 8px; overflow: hidden;
+  font: 500 13.5px/1.35 'Fira Code', ui-monospace, monospace; font-variant-ligatures: none; }
+.kql .ans th { padding: 6px 14px; text-align: left; font: 800 12px Nunito, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  border-bottom: 1px solid var(--line); }
+.kql .ans td { padding: 1px 14px; color: var(--ink); }
+.kql .ans tr.err td { color: #ff6b81; }
+.kql .lbl span { font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--muted); }
+</style>
+
+
+---
+
+# Try it on your computer's logs
+
+<PromptCard>What errors has my computer logged in the last 7 days? Group them, explain each one in plain English, and tell me if any are worth worrying about. Only read the logs: don't change, delete or fix anything.</PromptCard>
+
+- **But be careful**
+  - What it reads goes to the AI company, and logs can hold your name, devices and Wi-Fi networks
+  - Read each command before you allow it; never give it administrator access for this
 
 ---
 routeAlias: documentation
