@@ -76,17 +76,26 @@ behind ChatGPT, Gemini and Claude.)
 -->
 
 ---
-
-# The blind men and the elephant
+layout: full
+---
 
 <script setup>
 const base = import.meta.env.BASE_URL
 </script>
 
-<figure class="elephant">
+<figure class="elephant-full">
   <img :src="base + 'blind-monks-elephant.jpg'" alt="Blind monks feeling different parts of an elephant: trunk, tusk, ear, side, tail">
-  <figcaption>Hanabusa Itchō, <i>Blind monks examining an elephant</i> (print, 1888) · public domain, via Wikimedia Commons</figcaption>
+  <figcaption><b>The blind men and the elephant</b><span>Hanabusa Itchō, <i>Blind monks examining an elephant</i> (print, 1888)</span></figcaption>
 </figure>
+
+<style>
+.elephant-full { position: absolute; inset: 0; margin: 0; }
+.elephant-full img { width: 100%; height: 100%; object-fit: cover; object-position: center 45%; display: block; }
+.elephant-full figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 28px 16px;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.7)); color: #fff; display: flex; align-items: baseline; gap: 14px; }
+.elephant-full figcaption b { font-size: 1.3rem; font-weight: 900; }
+.elephant-full figcaption span { font-size: 0.7rem; opacity: 0.75; }
+</style>
 
 <!--
 The old parable: blind men each touch one part of an elephant (the trunk, a tusk, an ear, the side, the tail)

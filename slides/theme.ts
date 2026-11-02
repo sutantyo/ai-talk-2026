@@ -50,8 +50,8 @@ export const TUNINGS: Record<ThemeId, Tuning[]> = {
     { id: 'px-text', label: 'Text hue (55 brown-orange)', min: 0, max: 360, step: 1, value: 55 },
   ],
   indigo: [
-    { id: 'ix-l', label: 'Background lightness', min: 0.1, max: 0.4, step: 0.005, value: 0.24 },
-    { id: 'ix-h', label: 'Background hue (lower = greener)', min: 150, max: 300, step: 1, value: 275 },
+    { id: 'ix-l', label: 'Background lightness', min: 0.1, max: 0.4, step: 0.005, value: 0.125 },
+    { id: 'ix-h', label: 'Background hue (lower = greener)', min: 150, max: 300, step: 1, value: 235 },
     { id: 'ix-c', label: 'Background colourfulness', min: 0, max: 0.16, step: 0.005, value: 0.09 },
     { id: 'ix-sub', label: 'Main accent hue (85 yellow, 125 green)', min: 20, max: 200, step: 1, value: 85 },
     { id: 'ix-core', label: 'Main points hue', min: 0, max: 360, step: 1, value: 275 },

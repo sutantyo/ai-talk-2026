@@ -8,7 +8,7 @@ import ColourPanel from './components/ColourPanel.vue'
 // Drawn on top of every slide. It:
 // - records which topic you're in (for the hub's filled dots and lit trunk),
 // - marks sub-sections by switching the accent colour to orange (style.css),
-// - shows the section name bottom-left and small "Theme" and "Map" buttons bottom-right.
+// - shows the section name bottom-left and small "Theme" and "Map" buttons bottom-right (not on full-bleed pages).
 const { go, clicks, currentSlideNo, currentSlideRoute } = useNav()
 const { currentTopic } = useTopicSlides()
 
@@ -33,6 +33,8 @@ watch(topic, t => {
 const themeName = computed(() => THEMES.find(t => t.id === theme.value)?.name ?? '')
 
 const onHub = computed(() => currentSlideRoute.value?.meta.slide?.frontmatter.routeAlias === 'hub')
+// Full-bleed pages (layout: full, e.g. the Interlude's pictures) show no footer at all; H still opens the map.
+const bare = computed(() => onHub.value || currentSlideRoute.value?.meta.slide?.frontmatter.layout === 'full')
 
 // Remember the last slide outside the map (and how far into its reveals), so ← on the map can go back to it.
 watch([currentSlideNo, clicks], ([no, c]) => {
@@ -54,13 +56,13 @@ watch(deadEnd, () => {
   <ColourPanel />
 
   <!-- section marker: the section's name, bottom left -->
-  <div v-if="!onHub && topic" class="crumb">{{ crumb }}</div>
+  <div v-if="!bare && topic" class="crumb">{{ crumb }}</div>
 
   <Transition name="note">
-    <div v-if="nudging && !onHub" class="edge-note">{{ deadEndAt === 'end' ? 'End' : 'Start' }} of section · <kbd>H</kbd> for the map</div>
+    <div v-if="nudging && !bare" class="edge-note">{{ deadEndAt === 'end' ? 'End' : 'Start' }} of section · <kbd>H</kbd> for the map</div>
   </Transition>
 
-  <button v-if="!onHub" class="theme-switch" :title="`Colours: ${themeName}. Switch (T)`" @click="nextTheme">
+  <button v-if="!bare" class="theme-switch" :title="`Colours: ${themeName}. Switch (T)`" @click="nextTheme">
     <!-- a ring split in two halves: one theme, the other -->
     <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true">
       <circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="2" />
@@ -69,7 +71,7 @@ watch(deadEnd, () => {
     <span>{{ themeName }}</span>
   </button>
 
-  <button v-if="!onHub" class="to-hub" :class="{ nudge: nudging }" title="Back to the map (H)" @click="go('hub')">
+  <button v-if="!bare" class="to-hub" :class="{ nudge: nudging }" title="Back to the map (H)" @click="go('hub')">
     <!-- a mini version of the hub tree: trunk, two branches, ring nodes -->
     <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true">
       <path d="M10 19V4M10 14H6L4 12M10 9h4l2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
