@@ -37,15 +37,20 @@ dictionary (7,186 to 41,998 per length). The answer lists are wrapped for editin
 | `slides/components/TitleTree.vue` | Title-slide decoration: a circuit tree in the bottom-right corner (fixed drawing, not from `topics.ts`); the only circuit outside the map |
 | `slides/components/LearningGraph.vue` | "Learning backwards": a book as a tiered chapter graph; buttons play reading in order (breadth-first to chapter 13) and working backwards (13, 10, 7) |
 | `slides/components/PromptCard.vue` | The Wordle prompt as a terminal-style card with a **Copy** button (put the prompt between `<PromptCard>` tags) |
+| `slides/components/HotTake.vue` | The running gag: a full page "Hot Take #N": the Hot Ones logo with ONES turned into TAKE (`public/hot-takes/hot-take-logo.svg`, a parody of a copyrighted logo; Daniel's call, 2026-11-02), the number in neon, the take beside it. `<HotTake no="71">the take<template #note>…</template></HotTake>` on a `layout: full` slide |
+| `slides/components/UnitPath.vue` | The COMP1010 slide: the sentence, then COMP1010 as the root of the second-year units (names from Macquarie's unit guides; prerequisites as Daniel gave them), then edges up to later units, unlisted |
+| `slides/components/WordCloud.vue` | The Interlude's word cloud: concepts by level, each level in its own ring (yellow, coral, lavender; a different shade per word), one level per click |
+| `slides/components/CouchTests.vue` | Couch's real tests for the Testing section: the groups, and the YouTube-link tests from `youtube.test.ts`, word for word. Counts from a run on 2026-11-03 (18 files, 260 tests); rerun `npx vitest run` in `mcp-demo/` and update if they change |
+| `slides/components/MonitorHud.vue` | The Monitoring slide: a mission-control screen scrolling a real stretch of flight-watch's `logs/app.log` (copied in, word for word) |
 | `slides/components/DocViewer.vue` | Scrollable plain-text document with section-jump buttons and a line count; used by the two below |
 | `slides/components/ClaudeMdViewer.vue` | "A real CLAUDE.md": this file, read at build time. **Shown to the audience**, so keep it current and readable |
 | `slides/components/SkillViewer.vue` | "Skill Example": Couch's `add-to-couch` skill, read at build time from `mcp-demo/.claude/skills/` |
-| `slides/global-top.vue` | On every slide: section marker bottom-left, Map button bottom-right, end-of-section nudge |
+| `slides/global-top.vue` | On every slide: section marker bottom-left, Map button bottom-right, end-of-section nudge. None of it on full-bleed pages (`layout: full`) |
 | `slides/slide-bottom.vue` | Under each slide: a warm paper background (`--optional-bg`) on slides in an optional section |
 | `slides/setup/shortcuts.ts` | Keys: arrows run along a main point's chain of pages and stop at its ends; `H` = map; → / ← on the map; `T` = next colour theme |
 | `slides/style.css` | Colours as named roles (`--deep`, `--teal`, `--orange`, `--muted`, …) for each theme, headings, bullets, the prompt card, key words (`.key`) |
-| `slides/theme.ts` | Colour themes: Indigo (dark indigo with yellow; the default) and Pastel (cream, soft cyan and soft orange, brown-orange text); both tunable with `C`. `T` or the button by Map switches; remembered in the browser |
-| `slides/public/` | (to create) static files, e.g. screenshots, videos |
+| `slides/theme.ts` | Colour themes: Indigo (very dark navy with yellow since 2026-11-02; the default) and Pastel (cream, soft cyan and soft orange, brown-orange text); both tunable with `C`. `T` or the button by Map switches; remembered in the browser |
+| `slides/public/` | Static files: photos for the Interlude and Beyond Coding, the Hot Take logo |
 | `.github/workflows/pages.yml` | Builds and deploys to GitHub Pages on every push to `main` |
 
 Commands: `cd slides && npm install && npm run dev` (http://localhost:3030, presenter view at `/presenter/`);
@@ -118,14 +123,41 @@ Claude Code          Claude Code (terminal or app, "just Claude", a folder, let'
                        the phrasebook 2026-11-02)
                        (Save and Ship, optional, removed 2026-10-08 for time)
   A Team of Agents     (placeholder, 2026-11-01: several sessions, each with its own job)
-Interlude            So am I still coding? · Animation Demo (placeholder: AI artwork + Blender motion,
-                     docs/kanji-video-case-study.md; replaced the Higgsfield "Making AI videos" slide). A smaller
+Interlude            Am I still coding? (a magazine-style page over Friedrich's Wanderer, 2026-11-02) · Coding, Typing,
+                     Software Development (three words; click: Coding ≠ Typing; click: Coding ≈ Software Development) ·
+                     Why do you code? · Hot Take #71 ("Nobody actually wants to code.") · If AI can do the coding for you, do
+                     you still need to know the fundamentals? (click: Yes!) · In COMP1010 you learn the
+                     basic language for talking to a computer (click: COMP1010 drops to the bottom and leads to COMP2010,
+                     COMP2100, COMP2000, COMP2110; click: edges fan up to later units, ending in "…") · A word cloud
+                     filling in waves: first-year words, then second-year, then advanced · Gordon Ramsay · Lynsi Snyder ("if you get to this level, you can ignore the fundamentals", a joke) ·
+                     You still need to learn the fundamentals (click: …but has learning changed with AI?) · fundamentals vs things you can look up · The same loop four ways (Java, Python, Scratch
+                     blocks and English to Claude, all at once) · Hot Take #88 ("A web API is just a bunch of
+                     functions that live on the internet.") · Am I still coding if I use AI? (asked again; the rest of the Interlude being rewritten, 2026-11-02; the
+                     Animation Demo placeholder removed, its material is in docs/kanji-video-case-study.md). A smaller
                      main point, added 2026-11-01 between the two halves
-Beyond Coding        Coding is not just coding (the list of what follows)
-  Source Control       Source Control
-  Testing              Testing
-  Monitoring           Monitoring
-  Documentation        Documentation · Do you memorise the textbook? · Hot Take #412 · Markdown · Keeping the wiki tidy
+Beyond Coding        "Coding is not just coding." (Homer Simpson thinking it, a head-scratcher; the picture is
+                     used under fair use, Daniel's call 2026-11-03, in public/beyond/)
+                     · The parts of the job as 60s comic "POW!" bursts (Source Control, Testing, Monitoring,
+                     Documentation, Learning; components/ComicBursts.vue). The quote slide was dropped 2026-11-03
+                     (Hot Take #71 makes the same point)
+  Testing              Why do we do testing? (one comic caption; first since 2026-11-03; click: a whispered
+                       "to get full marks…") · An assignment (selection sort, Java skeleton) with "the fun
+                       tests" and "…and the boring ones" (an empty array, null), all at once · Couch's 260 tests
+                       in five groups · One video, ten ways to paste it (Couch's real YouTube-link tests,
+                       word for word, plus five links it must refuse; the video id is Rick Astley's)
+  Monitoring           A mission-control screen (2026-11-03): flight-watch's real logs/app.log scrolling, its counts
+                       (96 INFO, 2 WARN, 32 ERROR) · Logs (used to be text in a
+                       file: a web shop's log, four visitors' lines mixed, each with an id; click: one error is
+                       ringed; click: every line with its id lights up, a discount bigger than the cart) · Logs, now
+                       (a KQL query, as in Azure Monitor, pulls out that one id; the answer as a table) · Try it on
+                       your computer's logs (a copyable prompt; but be careful: privacy, read each command, no admin)
+  Source Control       Source Control (i.e. Git), a title page · Elden Ring and Skyrim box art, nothing else · Skyrim's real Load menu (a screenshot from
+                       gameaccessibilityguidelines.com, credited on the slide) · essay_final_FINAL_really.docx: a real
+                       File Explorer screenshot of a folder full of hand-made versions (public/source-control/final-folder.png) · A straight Git timeline: eight real
+                       commits from this deck's own repo (components/GitTimeline.vue) (2026-11-03; "what's the difference?": you can't
+                       keep several saves in Elden Ring; covers are fair use, from Wikipedia; the old bullet slide is
+                       parked in ideas.md)
+  Documentation        Documentation · Do you memorise the textbook? · Hot Take #412 · Undocumented knowledge · Markdown · Keeping the wiki tidy
   Learning             Learning with AI · Learning backwards (interactive chapter graph)
 Wrap-up              100 vs 50 vs 20 (moved here 2026-11-01) · Closing remarks
 ```
@@ -173,6 +205,12 @@ it simple ("tell Claude the skill's name"), so either name it in the demo or cal
 stage, not a cold start. DaVinci Resolve was considered and dropped: an MCP server needs its external scripting,
 which is Studio-only (paid), and the free edition lost Python scripting entirely in v21.1. Aseprite MCPs exist but
 run Aseprite in the background on files, so the audience wouldn't see the app being driven.
+
+**Git time travel (Source Control, idea 2026-11-03, to try on the MacBook):** show the deck as it was at commit
+`4877136` (8 Oct) without touching the live deck: before the talk, `git worktree add ../deck-oct8 4877136`, then
+`cd ../deck-oct8 && npm install && npx slidev --port 3031`, and switch to that browser tab on stage. Never check out an
+old commit in the folder you're presenting from: the live deck would change under you. Not tested yet: check the old
+version still runs.
 
 **Stage setup:** run Claude Code without Daniel's personal plugins (the impeccable design hook made Claude spend its
 final message on design warnings in earlier runs). The laptop needs `gh auth login`; Claude asks permission before

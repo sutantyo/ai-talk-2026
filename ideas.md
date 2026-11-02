@@ -72,3 +72,30 @@ Daniel's loose thoughts for the talk, in any order. Not the plan: nothing here i
 - **2026-11-01: an MCP demo of my own** (a website with no forms, changed only by asking Claude through MCP; a
   shareable stand-in for the Azure monitor at work). Brief and open questions in `mcp-demo/CLAUDE.md`. Shop
   prices are out (Woolworths blocks automated visitors); looking at free APIs instead.
+
+
+## Parked 2026-11-03: the Source Control slide (taken out of Beyond Coding for now)
+
+To restore: paste this back before the Testing slide and uncomment the `source-control` entry in `slides/topics.ts`.
+
+```md
+---
+routeAlias: source-control
+---
+
+# Source Control
+
+- A save point for your work, like a save game <span class="eg">go back to any point, any time</span>
+- See exactly what changed, line by line, and who changed it
+- Many people change the same project without overwriting each other
+- Claude writes the "what I changed" note for each save
+- One more step puts it online <span class="eg">this deck updates itself every time I save it to GitHub</span>
+
+<!--
+Source control (Git, GitHub): every save ("commit") is a snapshot with a note saying what changed and why.
+Like Google Docs' version history, but for a whole folder and many people at once.
+Claude writes the commit notes, and they're better than mine were ("fixed stuff").
+The deck itself: pushing to GitHub rebuilds and publishes the website automatically (GitHub Pages).
+Claude asks permission before it pushes: I stay the one who decides what goes online.
+-->
+```
