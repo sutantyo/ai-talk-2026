@@ -109,6 +109,7 @@ What I use
 
 - 2023 – **ChatGPT**, **Gemini**
 - June 2025 – **Copilot**
+- January 2026 – **Antigravity**
 - April 2026 – **Claude Code**
 
 
@@ -512,31 +513,64 @@ One slide each comes next. Learning: lead into Learning with AI (learning backwa
 
 ---
 routeAlias: close
+layout: full
 ---
 
-# 100 vs 50 vs 20
+<div class="mid-words" style="font-size: 58px">Augmentation <span class="dash">–</span> Automation</div>
 
+<!--
+Wrap-up, page 1. Augmentation: AI helps me do my work (I direct, I judge). Automation: AI does the work instead of
+me. Which one it is depends on the job, and on how good I am at it (next page).
+-->
+
+<style>
+.mid-words { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: pre;
+  font: 900 76px Nunito, sans-serif; color: var(--ink); }
+.mid-words .dash { color: var(--orange); margin: 0 0.25em; }
+</style>
+
+---
+layout: full
+---
+
+<div class="mid-words">100 <span class="dash">–</span> 50 <span class="dash">–</span> 20 rule</div>
+
+<!--
+Explained out loud. The old bullets, as a crib:
 - In my field I'm still better than Claude (I hope): if I'm 100, Claude is maybe a 50
 - But in many jobs that don't need deep thinking, Claude is better than me
 - There I'm maybe a 20, so even a 50 is much better than me
 - Don't try to be 100 at everything; be 100 at something, and Claude won't make you obsolete
-
-<!--
-After "Coding is not just coding": apart from those parts of the job, there are other things I have to do, outside
-my field. There Claude is better than me, and I'm fine if it takes control. (A real example from work to add.)
-Claude makes mistakes; in my own field I catch them.
+Apart from the parts of the job in "Coding is not just coding", there are things outside my field. There Claude is
+better than me, and I'm fine if it takes control (automation). Claude makes mistakes; in my own field I catch them
+(augmentation). (A real example from work to add.)
 Earlier version, if useful: "at 0 you can't tell when the 50 is wrong; that's what your degree is for: 0 to 100".
 -->
+
+<style>
+.mid-words { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; white-space: pre;
+  font: 900 76px Nunito, sans-serif; color: var(--ink); }
+.mid-words .dash { color: var(--orange); margin: 0 0.25em; }
+</style>
 
 ---
 
 # Closing remarks
 
-- To use AI well, you still need to understand computing concepts
-- Learn how to use AI
+- Learn AI tools
+- Learn your fundamentals
+
+<p class="learn-quote">“You are learning how to learn”</p>
+
+<style>
+.learn-quote { position: absolute; left: 0; right: 0; top: 330px; margin: 0; text-align: center;
+  font-family: 'Caveat', cursive; font-weight: 600; font-size: 3.4rem; color: var(--orange); transform: rotate(-2deg); }
+</style>
 
 <!--
-The close. Back to the title: Coding ≠ Typing. Then questions.
+The close. Learn AI tools: using AI well is a skill too; it doesn't come for free. Learn your fundamentals: Claude is
+only as useful as your ability to direct it and check its work.
+Back to the title: Coding ≠ Typing. Then questions.
 Still to add: the QR code.
 -->
 
@@ -590,8 +624,12 @@ lost in the summary.
 
 # Memory
 
-- If you want Claude to remember things between sessions, store them in `CLAUDE.md`: it's read automatically when Claude starts
-- It should be succinct: a summary of what is in the folder
+- To make Claude remember something between sessions, ask it to write it down in a note
+- Claude reads one note automatically every time it starts: a file called `CLAUDE.md`
+  - A short guide to the folder: what's in it and how things work
+- You can keep other notes too, and point Claude to them when they're needed
+
+<p class="scribble">I can leave notes in any folder I want, not just one with code</p>
 
 <!--
 Ask the question and let it land: it would be slow and costly, and you'd pay for it in context every time.
@@ -600,7 +638,7 @@ Without the note, Claude has to explore the project (open files, read code) befo
 session. A short summary instead: Claude reads the note, then goes straight to the one file it needs.
 The note is tiny next to everything Claude would otherwise read again (5.3k tokens here, see /context).
 A real example of a "don't": an earlier Wordle project's note said "words.js is over 1 MB: don't read it whole",
-and in the six-letter run (2026-10-06) Claude didn't open that file. Next slide: this deck's own CLAUDE.md.
+and in the six-letter run (2026-10-06) Claude didn't open that file. Next slide: a real one, from my folder of game art.
 -->
 
 ---
@@ -610,9 +648,25 @@ and in the six-letter run (2026-10-06) Claude didn't open that file. Next slide:
 <ClaudeMdViewer />
 
 <!--
-This deck's own note: the project I've been building these slides in. Scroll through it: it's plain English,
-no code. Use the buttons: what the project is, where things are, the don'ts (lessons learned).
-Every new session reads this first, instead of working the whole project out again.
+The note in my folder of game art (a Humble Bundle of 63 RPG art packs, thousands of images): it turns Claude
+into an asset librarian for the Coding RPG game. Scroll through it: it's plain English, no code. Use the buttons:
+what the job is, the rules (never touch the originals; exact paths; look at the images, don't guess), where things are.
+Every new session reads this first, instead of opening thousands of images again.
+-->
+
+---
+
+# Another CLAUDE.md
+
+<ClaudeMdViewer which="books" />
+
+<!--
+The note in my ebook folder (~/books): 35 PDFs from a Humble Bundle, catalogued by a Claude session on 2026-11-03.
+No code anywhere: the point of the handwritten note on the Memory slide. It's mostly a catalogue (title, author,
+pages, by topic), so a new session knows what's there without opening 512 MB of PDFs, plus three notes for Claude at
+the end: keep the catalogue in sync, where new bundles go, which tools aren't installed.
+Honest caveat, in the note itself: the authors are from Claude's general knowledge, not from the files.
+Ties to Learning: put a book in a folder like this and ask Claude to teach you from it (the /teach skill).
 -->
 
 ---
@@ -623,6 +677,8 @@ routeAlias: mcp
 
 - Demo app, used to organise YouTube videos that I want to keep track of
 - Controlled by Claude
+
+<p class="scribble">MCP lets me control apps or websites with Claude!</p>
 
 <!--
 MCP example (2026-11-02): a narrow menu of safe actions. Couch is mcp-demo/ in this
@@ -683,13 +739,46 @@ a skill, written in plain English.
 </style>
 
 ---
+
+# What it calls: createPlaylist
+
+```ts
+async createPlaylist(userId, page, name) {
+  const { rows } = await db.query<PlaylistRow>(
+    `insert into playlists (user_id, page, name) values ($1, $2, $3)
+     on conflict do nothing
+     returning id, page, name, created_at`,
+    [userId, page, name]
+  );
+  return rows[0] === undefined ? null : toPlaylist(rows[0], []);
+},
+```
+
+<p class="src">Couch's <code>createPlaylist</code>, word for word (<code>mcp-demo/server/src/store.ts</code>)</p>
+
+<!--
+The function the create_playlist tool on the previous slide calls: it saves the new playlist in Couch's database.
+Plain English: "add a row to the playlists table: whose it is, which page, its name. If there's already one with that
+name, do nothing and say so (null)." The "already one" rule is in the database itself: a playlist name is unique per
+user and page, ignoring case (schema.sql: a unique index on lower(name)). So Claude can't make a duplicate, even by
+trying: the rule lives in the server, not in Claude.
+The point: the MCP tool is a thin, described menu item; behind it is ordinary code like any app has.
+-->
+
+<style>
+.slidev-layout pre, .slidev-layout pre code { font-variant-ligatures: none; }
+.slidev-layout h1 { margin-bottom: 10px; }
+.src { margin-top: 4px; font-size: 13px; color: var(--muted); text-align: right; }
+.src code { font-size: 13px; }
+</style>
+
+---
 routeAlias: skills
 ---
 
 # Skills
 
-- MCP gave Claude the tools; a <span class="key">skill</span> tells it how I want the job done
-- The steps, written in plain English, with a name
+- A <span class="key">skill</span> is like a function for Claude: instructions in plain English that you write once and call again and again
 - Claude uses it when my request matches <span class="eg">or I tell it the skill's name</span>
 
 <!--
@@ -717,23 +806,20 @@ Plain English throughout: anyone who knows how they want a job done can write on
 
 ---
 
-# With and without the skill
+# Another skill: organise-books
 
-"Add this video to my Claude playlist on To Watch" <span class="eg">it's already in Saved</span>
-
-- **Without the skill:** Claude looked only at To Watch, didn't find it, and went to add a second copy
-- **With the skill:** Claude checked every page, found it in Saved, and asked first <span class="eg">"Do you still want a second copy?"</span>
-- Without it, Claude looked only where I pointed. With it, Claude checked everything and asked first
+<SkillViewer which="organise-books" />
 
 <!--
-Measured 2026-11-02 by the couch session (Claude Code 2.1.316, Opus 5.5, headless, one run each, against the live
-Couch with adding switched off so no data changed). Prompt: "Add https://www.youtube.com/watch?v=uWnUnMphmPM to my
-Claude playlist on To Watch in Couch"; the video was already in Saved > AI.
-With the skill (run in mcp-demo/): Claude chose add-to-couch on its own, listed every page, found it, and asked
-"Do you still want a second copy in To Watch > Claude?". 6.2 s, about US$0.26.
-Without (run from a folder without the skill): it listed only To Watch, said the video "isn't one of them yet" and
-went to add it; the add failed only because adding was switched off for the test. 7.5 s.
-Live: start Claude in mcp-demo/ (the skill only loads there), Couch open in the browser beside it.
+The skill in my ebook folder (~/books/.claude/skills/organise-books/SKILL.md, written 2026-11-03 by a Claude session
+there; copied into slides/examples/). Same folder as the "Another CLAUDE.md" note: books I download land loose with junk
+names (9781718503229.pdf, rust_3e_ebook_v2.pdf), and /organise-books sorts them.
+The description: when to use it (I run /organise-books, or say I've added books).
+Clean names: the house style for file names, written once (drop the subtitle, ", 2nd Edition", no ISBNs).
+Ask me first: Claude proposes a folder for each book and asks; it never deletes, never overwrites, and keeps the old
+edition when a newer one arrives. Then it updates the catalogue in CLAUDE.md: the skill and the note work together.
+Like a function: written once, called by name every time new books arrive.
+Not timed or run on stage yet.
 -->
 
 ---

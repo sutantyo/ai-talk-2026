@@ -32,11 +32,29 @@ for (const [n, l] of lines.entries()) {
   }
   if (l.startsWith('```')) { inFence = !inFence; rendered.push({ html: '', kind: 'fence' }); continue }
   if (inFence) { rendered.push({ html: escape(l) || '&nbsp;', kind: 'pre' }); continue }
+  // Markdown tables as aligned columns: the |---| line is hidden, the row above it is the header.
+  if (/^\|.*\|$/.test(l)) {
+    if (/^\|[\s:|-]+\|$/.test(l)) { rendered.push({ html: '', kind: 'fence' }); continue }
+    const cells = l.slice(1, -1).split('|').map(c => c.trim())
+    const header = /^\|[\s:|-]+\|$/.test(lines[n + 1] ?? '')
+    const cols = cells.length <= 2 ? '1fr 1fr' : `2fr 1.4fr repeat(${cells.length - 2}, 3.2em)`
+    rendered.push({
+      html: `<span class="cells" style="grid-template-columns: ${cols}">${cells.map(c => `<span>${escape(c)}</span>`).join('')}</span>`,
+      kind: header ? 'row head-row' : 'row',
+    })
+    continue
+  }
   const kind = l.startsWith('### ') ? 'head-3' : l.startsWith('## ') ? 'head-2' : l.startsWith('# ') ? 'head-1' : ''
+  // Bold can wrap `code` (**Never touch `zip-files/`.**), so ** toggles a state across the code parts.
+  let inBold = false
   const html = escape(l).split('`').map((part, i) => {
     if (i > 0) inCode = !inCode
-    return inCode ? `<code>${part}</code>` : part.replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>')
-  }).join('')
+    if (inCode) return `<code>${part}</code>`
+    return part.split('**').map((t, j) => {
+      if (j > 0) inBold = !inBold
+      return j > 0 ? (inBold ? `<b>${t}` : `</b>${t}`) : t
+    }).join('')
+  }).join('') + (inBold ? '</b>' : '')
   rendered.push({ html: html || '&nbsp;', kind: l.trim() ? kind : `${kind} blank` })
 }
 
@@ -100,6 +118,8 @@ function inActive(n: number) {
 .line.fence { display: none; }
 .line.pre { font-family: ui-monospace, Menlo, monospace; font-size: 0.9em; font-variant-ligatures: none; }
 .line.front { color: var(--muted); }
+.line.row :deep(.cells) { display: grid; gap: 12px; border-bottom: 1px solid var(--line); }
+.line.head-row { font-weight: 800; color: var(--deep); }
 .line.front :deep(b) { color: var(--orange); }
 /* head-N, not hN: UnoCSS reads h1/h2/h3 as height utilities. */
 .line.head-1 { font-size: 1.25rem; font-weight: 800; color: var(--deep); }

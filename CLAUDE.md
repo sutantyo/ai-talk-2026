@@ -40,8 +40,8 @@ comment explains it.
 | `slides/components/CouchTests.vue` | Couch's real tests for the Testing section: the groups, and the YouTube-link tests from `youtube.test.ts`, word for word. Counts from a run on 2026-11-03 (18 files, 260 tests); rerun `npx vitest run` in `mcp-demo/` and update if they change |
 | `slides/components/MonitorHud.vue` | The Monitoring slide: a mission-control screen scrolling a real stretch of flight-watch's `logs/app.log` (copied in, word for word) |
 | `slides/components/DocViewer.vue` | Scrollable plain-text document with section-jump buttons and a line count; used by the two below |
-| `slides/components/ClaudeMdViewer.vue` | "A real CLAUDE.md": this file, read at build time. **Shown to the audience**, so keep it current and readable |
-| `slides/components/SkillViewer.vue` | "Skill Example": Couch's `add-to-couch` skill, read at build time from `mcp-demo/.claude/skills/` |
+| `slides/components/ClaudeMdViewer.vue` | "A real CLAUDE.md" and "Another CLAUDE.md" (`which="books"`): real notes from Daniel's folders, copied into `slides/examples/` (CI only has this repo): the asset librarian (`~/repos/assets/HumbleBundleRPG/RPG Asset Mega Bundle/`) and his ebook catalogue (`~/books/`), both 2026-11-03. Copy them again when the originals change |
+| `slides/components/SkillViewer.vue` | "Skill Example": Couch's `add-to-couch` skill, read at build time from `mcp-demo/.claude/skills/`; "Another skill" (`which="organise-books"`): the ebook folder's skill, copied from `~/books/.claude/skills/` to `slides/examples/books/` (2026-11-03; replaced the "With and without the skill" slide) |
 | `slides/global-top.vue` | On every slide: section marker bottom-left, Map button bottom-right, end-of-section nudge. None of it on full-bleed pages (`layout: full`) |
 | `slides/slide-bottom.vue` | Under each slide: a warm paper background (`--optional-bg`) on slides in an optional section |
 | `slides/setup/shortcuts.ts` | Keys: arrows run along a main point's chain of pages and stop at its ends; `H` = map; → / ← on the map; `T` = next colour theme |
@@ -119,7 +119,7 @@ Claude Code
   Wordle Demo                the live prompt
   Context and Memory         Context and Memory · Memory · A real CLAUDE.md
   MCP                        Couch, a page only Claude can change
-  Skills                     Skills · Skill Example · With and without the skill
+  Skills                     Skills · Skill Example · Another skill: organise-books (my ebook folder)
   A Team of Agents           (placeholder)
 Interlude
   Am I still coding?         a magazine page over Friedrich's Wanderer

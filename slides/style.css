@@ -212,3 +212,9 @@ html[data-map-move] :is(.slide-left-enter-from, .slide-left-leave-to, .slide-rig
 .slidev-layout .person dd { margin: 0.15rem 0 0; font-size: 1.15rem; line-height: 1.4; }
 .slidev-layout .person dd.name { font-size: 2.2rem; font-weight: 900; line-height: 1.1; }
 .slidev-layout .person.flip figure small { top: 6px; bottom: auto; }
+
+/* A handwritten side note in the corner of a slide, as if scribbled on it (e.g. the Memory slide).
+   The font is loaded in index.html. */
+.scribble { position: absolute; right: 64px; bottom: 76px; max-width: 360px; margin: 0;
+  font-family: 'Caveat', cursive; font-weight: 600; font-size: 1.75rem; line-height: 1.15;
+  color: var(--accent); transform: rotate(-3deg); text-align: right; }
