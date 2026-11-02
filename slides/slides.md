@@ -703,26 +703,6 @@ Live: start Claude in mcp-demo/ (the skill only loads there), Couch open in the 
 -->
 
 ---
-routeAlias: source-control
----
-
-# Source Control
-
-- A save point for your work, like a save game <span class="eg">go back to any point, any time</span>
-- See exactly what changed, line by line, and who changed it
-- Many people change the same project without overwriting each other
-- Claude writes the "what I changed" note for each save
-- One more step puts it online <span class="eg">this deck updates itself every time I save it to GitHub</span>
-
-<!--
-Source control (Git, GitHub): every save ("commit") is a snapshot with a note saying what changed and why.
-Like Google Docs' version history, but for a whole folder and many people at once.
-Claude writes the commit notes, and they're better than mine were ("fixed stuff").
-The deck itself: pushing to GitHub rebuilds and publishes the website automatically (GitHub Pages).
-Claude asks permission before it pushes: I stay the one who decides what goes online.
--->
-
----
 routeAlias: testing
 layout: full
 ---
@@ -910,6 +890,78 @@ clicks: 2
 - **But be careful**
   - What it reads goes to the AI company, and logs can hold your name, devices and Wi-Fi networks
   - Read each command before you allow it; never give it administrator access for this
+
+---
+routeAlias: source-control
+layout: full
+---
+
+<div class="sc-title"><h2>Source Control</h2><p>(i.e. Git)</p></div>
+
+<style>
+.sc-title { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #07070c; }
+.sc-title h2 { margin: 0; font: 900 84px/1 Nunito, sans-serif; color: #f2ede0; }
+.sc-title p { margin: 18px 0 0; font: 600 34px Nunito, sans-serif; color: var(--muted); }
+</style>
+
+---
+layout: full
+---
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
+
+<div class="two-games">
+  <img :src="base + 'source-control/elden-ring.jpg'" alt="Elden Ring box art">
+  <img :src="base + 'source-control/skyrim.png'" alt="The Elder Scrolls V: Skyrim box art">
+</div>
+
+<style>
+.two-games { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 90px; background: #07070c; }
+.two-games img { height: 420px; width: auto; box-shadow: 0 14px 40px rgb(0 0 0 / 0.7); }
+</style>
+
+---
+layout: full
+---
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
+
+<div class="skyrim-saves">
+  <img :src="base + 'source-control/skyrim-saves.jpg'" alt="Skyrim's Load menu: a list of numbered saves for three characters">
+  <small>Screenshot: gameaccessibilityguidelines.com</small>
+</div>
+
+<style>
+.skyrim-saves { position: absolute; inset: 0; display: grid; place-items: center; background: #000; }
+.skyrim-saves img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.skyrim-saves small { position: absolute; right: 12px; bottom: 6px; font-size: 10px; color: #777; }
+</style>
+
+---
+layout: full
+---
+
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
+
+<div class="final-folder"><img :src="base + 'source-control/final-folder.png'" alt="A Windows File Explorer folder with nine versions of essay_final.docx"></div>
+
+<style>
+.final-folder { position: absolute; inset: 0; display: grid; place-items: center;
+  background: radial-gradient(120% 120% at 30% 20%, #3a6ea5, #1b2f56 60%, #101a33); }
+.final-folder img { width: 92%; max-width: none; border-radius: 8px; box-shadow: 0 24px 60px rgb(0 0 0 / 0.55); }
+</style>
+
+---
+layout: full
+---
+
+<GitTimeline />
 
 ---
 routeAlias: documentation

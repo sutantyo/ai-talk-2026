@@ -64,18 +64,18 @@ const SUBS: Omit<Topic, 'x' | 'y'>[] = [
   { id: 'agents', kind: 'sub', alias: 'agents', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 30], [180, 0], [0, 80]],
     title: 'A Team of Agents', teaser: 'Several Claude sessions, each with its own job, working together' },
-  // Beyond Coding: the rest of the job. A limb to the left (Source Control branches off straight across, then
-  // Testing), Monitoring straight down, and a limb to the right (Documentation, then Learning branching off
+  // Beyond Coding: the rest of the job; talk order Testing, Monitoring, Source Control (2026-11-03). A limb to the left (Source Control branches off
+  // straight across, Testing below it), Monitoring straight down, and a limb to the right (Documentation, then Learning branching off
   // straight across).
-  { id: 'source-control', kind: 'sub', alias: 'source-control', parent: 'beyond',
-    moves: [[0, 30], [-80, 80], [-150, 0], [0, 40]],
-    title: 'Source Control', teaser: 'Save points for your work, and many people changing one project' },
   { id: 'testing', kind: 'sub', alias: 'testing', parent: 'beyond',
     moves: [[0, 30], [-80, 80], [0, 10], [-40, 40], [0, 40]],
     title: 'Testing', teaser: 'Small programs that check the real program still works' },
   { id: 'monitoring', kind: 'sub', alias: 'monitoring', parent: 'beyond',
     moves: [[0, 60], [20, 20], [0, 50]],
     title: 'Monitoring', teaser: 'Reading what a running app writes about itself' },
+  { id: 'source-control', kind: 'sub', alias: 'source-control', parent: 'beyond',
+    moves: [[0, 30], [-80, 80], [-150, 0], [0, 40]],
+    title: 'Source Control', teaser: 'Save points for your work, and many people changing one project' },
   { id: 'documentation', kind: 'sub', alias: 'documentation', parent: 'beyond',
     moves: [[0, 30], [90, 90], [0, 20], [30, 30], [0, 40]],
     title: 'Documentation', teaser: 'The team handbook, the to-do list, and notes on what changed and why' },
