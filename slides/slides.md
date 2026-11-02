@@ -1076,20 +1076,15 @@ const base = import.meta.env.BASE_URL
 
 ---
 routeAlias: learning
+layout: full
 ---
 
-# Learning with AI
+<div class="learn-title"><h2>Learning with AI</h2></div>
 
-- A book starts at chapter 1
-- AI starts from what you want to do
-- Then fills in only the gaps you need
-
-<!--
-Optional sub-section of Beyond Coding. Learning backwards: to learn chapter 31, a book makes you read top-down
-(like a breadth-first search) through things you don't need yet. With AI you start from the leaf, work out the path
-back to what you already know, and fill only those gaps.
-The next slide shows it.
--->
+<style>
+.learn-title { position: absolute; inset: 0; display: grid; place-items: center; background: #07070c; }
+.learn-title h2 { margin: 0; font: 900 84px/1 Nunito, sans-serif; color: #f2ede0; }
+</style>
 
 ---
 
@@ -1104,6 +1099,14 @@ Work backwards: I only want one thing from chapter 13. It leans on a bit of chap
 chapter 7. Three chapters, and only the parts I need. That's how I learn with AI: start from the question, ask
 what I'm missing, and fill only that gap.
 -->
+
+---
+
+# Things you can do
+
+- [Gemini Notebook](https://notebook.google.com/) <span class="eg">notebook.google.com</span>
+- [Matt Pocock's `/teach` skill](https://github.com/mattpocock/skills/tree/main/skills/productivity/teach) <span class="eg">github.com/mattpocock/skills</span>
+- [Foundation for COMP1010](https://softwaretechnologymq.github.io/foundation_for_comp1010.html) <span class="eg">softwaretechnologymq.github.io</span>
 
 ---
 routeAlias: agents
