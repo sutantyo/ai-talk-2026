@@ -47,33 +47,24 @@ Topics, teasers and positions live in slides/topics.ts.
 routeAlias: intro
 ---
 
-# Have you heard of AI?
+<script setup>
+const base = import.meta.env.BASE_URL
+</script>
 
-Let me know what you have used
+# Daniel Sutantyo
 
-- **Chat** <span class="eg">ChatGPT · Claude · Gemini</span>
-- **Specialists** <span class="eg">Midjourney · Suno · NotebookLM</span>
-- **Agents** <span class="eg">Claude Code · OpenAI Codex · Google Antigravity</span>
+- Software Engineer, Vector Risk
+- .NET stack, C#
+- MACS Discord: <span class="discord"><img :src="base + 'intro/discord-avatar.png'" alt="">sutantyo</span>
+- Disclaimer: I am not an expert in AI or LLM
+  - These slides are my opinion, from my experience
+  - They do not reflect the opinion of the teaching staff
 
-What I use
-
-- 2023 – **ChatGPT**, **Gemini**
-- April 2026 – **Claude Code**
-
-<p class="disclaimer">Disclaimer: I am not an expert in AI or LLM<br>These slides are my opinion, from my experience<br>They do not reflect the opinion of the teaching staff</p>
-
-<!--
-Ask one at a time and look at the hands.
-Chat: you type, it answers, in a browser or app. Expect most hands.
-Specialists: each does one job very well. Midjourney makes pictures, Suno makes songs, NotebookLM answers
-from the notes you upload (good for study).
-Agents: it works on your computer: creates files, runs programs. Expect few hands.
-That gap is the bridge to Claude Code.
-What I use: the old slide had May 2023 ChatGPT, January 2026 Gemini, April 2026 Claude Code.
-Disclaimer: I use these tools every day, but I don't build them. Everything here is my opinion, from my own
-experience as a software engineer; others will see it differently (the elephant, next). It isn't the view of the teaching staff. (LLM, a large language model: the kind of AI
-behind ChatGPT, Gemini and Claude.)
--->
+<style>
+.discord { display: inline-flex; align-items: center; gap: 7px; margin: -5px 0 -5px 6px; padding: 3px 9px 3px 3px; border-radius: 999px;
+  background: #2b2d31; color: #949cf7; font-weight: 700; font-size: 0.66em; vertical-align: middle; }
+.discord img { width: 26px; height: 26px; border-radius: 50%; display: block; }
+</style>
 
 ---
 layout: full
@@ -103,6 +94,35 @@ and each is sure the elephant is like a snake, a spear, a fan, a wall, a rope. E
 the whole animal.
 AI is like the elephant. We all interact with it differently (chat, pictures, coding), so we each only see one
 side of it. This talk is my side: a software engineer using it every day.
+-->
+
+---
+
+# What have you used?
+
+
+- **Chat** <span class="eg">ChatGPT · Claude · Gemini</span>
+- **Specialists** <span class="eg">Midjourney · Suno · NotebookLM</span>
+- **Agents** <span class="eg">Claude Code · OpenAI Codex · Google Antigravity</span>
+
+What I use
+
+- 2023 – **ChatGPT**, **Gemini**
+- June 2025 – **Copilot**
+- April 2026 – **Claude Code**
+
+
+<!--
+Ask one at a time and look at the hands.
+Chat: you type, it answers, in a browser or app. Expect most hands.
+Specialists: each does one job very well. Midjourney makes pictures, Suno makes songs, NotebookLM answers
+from the notes you upload (good for study).
+Agents: it works on your computer: creates files, runs programs. Expect few hands.
+That gap is the bridge to Claude Code.
+What I use: the old slide had May 2023 ChatGPT, January 2026 Gemini, April 2026 Claude Code.
+Disclaimer: I use these tools every day, but I don't build them. Everything here is my opinion, from my own
+experience as a software engineer; others will see it differently (the elephant, next). It isn't the view of the teaching staff. (LLM, a large language model: the kind of AI
+behind ChatGPT, Gemini and Claude.)
 -->
 
 ---
@@ -544,11 +564,9 @@ routeAlias: memory
 
 # Context and Memory
 
-- Every Claude session starts from (almost) zero: it knows very little
-- As it works, everything it reads adds to its <span class="key">context</span>
-- Context is measured in tokens (pieces of words): more tokens, more cost
-- There is a limit on how big a context can be <span class="eg">it can only hold so much at once</span>
-- When we close the process, it forgets everything again
+- When you start Claude, it knows very little; it gradually adds information to its <span class="key">context</span>
+- Context is all the information Claude has gathered in this session; it's measured in tokens: more tokens, more cost
+- When we close Claude, it forgets everything again
 
 <!--
 (Almost) zero: the model itself remembers nothing between sessions; Claude Code reads memory files in at the start
@@ -572,10 +590,8 @@ lost in the summary.
 
 # Memory
 
-- So does it have to read everything in the folder again, every time?
-- That takes a long time, and a big project won't even fit in its context
-- The trick: leave it a note it reads every time it starts <span class="eg">CLAUDE.md</span>
-- A summary of what the project is, and anything important to know
+- If you want Claude to remember things between sessions, store them in `CLAUDE.md`: it's read automatically when Claude starts
+- It should be succinct: a summary of what is in the folder
 
 <!--
 Ask the question and let it land: it would be slow and costly, and you'd pay for it in context every time.
@@ -603,34 +619,13 @@ Every new session reads this first, instead of working the whole project out aga
 routeAlias: mcp
 ---
 
-# MCP (Blender)
-
-- Blender can be controlled with Python
-- Blender MCP server allows Claude to send it Python code to run
-- For this demonstration, I pre-built some python scripts so that things run faster
-
-<!--
-Sub-section of Claude Code (moved from Beyond Coding 2026-11-01). Demo set up in ../blender (its own Blender MCP), with pre-built Python scripts
-so it runs faster on stage.
-On stage: Blender is already open (not a cold start).
-Same lesson as Wordle: the more precisely you direct, the better the result. "Make a room" vs "a 4 m wall, a
-window on the left, the sofa facing it".
-Python: a programming language; Blender has one built in, so almost anything you can click, a script can do.
-Blender's MCP is one end of the scale: it runs any Python, so Claude can do anything Blender can. Couch, next, is
-the other end.
--->
-
----
-
 # MCP (Couch)
 
-- Couch: my own page of YouTube videos to watch, sorted into rows
-- No buttons, no forms: the only way to change it is to ask Claude
-- I decide what Claude can do: look, create and add. There is no delete
-- My rules live in the server, so Claude can't get around them: Shorts go only on the Shorts page
+- Demo app, used to organise YouTube videos that I want to keep track of
+- Controlled by Claude
 
 <!--
-Second MCP example (2026-11-02), the opposite of Blender: a narrow menu of safe actions. Couch is mcp-demo/ in this
+MCP example (2026-11-02): a narrow menu of safe actions. Couch is mcp-demo/ in this
 repo (its own CLAUDE.md), hosted on Railway. Don't show its web address or the connector URL on screen.
 On stage: the Couch page open in the browser (signed in), Claude Code beside it with the couch connector added.
 Prompts:
@@ -647,6 +642,45 @@ delete). "The API is the kitchen, MCP is the menu."
 Into Skills: hard rules go in the MCP server; preferences and judgment (e.g. "check it isn't saved already") go in
 a skill, written in plain English.
 -->
+
+---
+
+# An MCP function
+
+```ts
+{
+  name: 'create_playlist',
+  title: 'Create a playlist',
+  description:
+    'Creates an empty playlist (a row of videos) on one page: "watch", "saved" or "shorts". ' +
+    'Names are unique within a page, ignoring case.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      page: { type: 'string', enum: ['watch', 'saved', 'shorts'] },
+      name: { type: 'string', minLength: 1, maxLength: 80 }
+    },
+    required: ['page', 'name']
+  },
+  async run(args, context) {
+    const created = await context.library.createPlaylist(context.userId, args.page, args.name);
+    if (created === null) {
+      return toolError(`There is already a playlist called "${args.name}" on that page.`);
+    }
+    return ok(`Created "${created.name}" on the ${created.page} page.`);
+  }
+}
+```
+
+<p class="src">Couch's <code>create_playlist</code>, shortened (<code>mcp-demo/server/src/mcp/tools.ts</code>)</p>
+
+<style>
+.slidev-layout pre, .slidev-layout pre code { font-variant-ligatures: none; }
+.slidev-layout .slidev-code { zoom: 0.93; }
+.slidev-layout h1 { margin-bottom: 10px; }
+.src { margin-top: 4px; font-size: 13px; color: var(--muted); text-align: right; }
+.src code { font-size: 13px; }
+</style>
 
 ---
 routeAlias: skills

@@ -1,8 +1,9 @@
 # CLAUDE.md
 
 Context for Claude sessions working in this repo: Daniel's talk on how he uses Claude day to day as a
-software engineer. The deck is built and live; every slide has content, and what's left is a few visuals, real
-examples from his work, and rehearsing the live demos (open questions at the end). The original design is in
+software engineer. The deck is built and live. Since early November most sections have been reworked into designed,
+full-screen pages (the Interlude, Beyond Coding); what's left is A Team of Agents, a few slides still in plain bullets,
+and rehearsing the live demos (see To do and Open questions at the end). The original design is in
 `docs/superpowers/specs/2026-10-06-coding-not-typing-design.md`; later decisions below supersede it.
 
 ## Repo
@@ -17,7 +18,7 @@ the one he presents from, that's `~/repos/uni/2026-ai-talk/`:
 2026-ai-talk/
 ├── slides/                     this repo (sutantyo/ai-talk-2026): the deck, the spec, this file
 ├── japanese-phrasebook-demo/   sutantyo/japanese-phrasebook-demo: the old skills demo (dropped 2026-11-02)
-├── blender/                    the MCP demo: its own .mcp.json with a Blender MCP, plus pre-built Python scripts
+├── blender/                    the old Blender MCP demo (dropped 2026-11-03)
 └── wordle-demo/                only words.js: ANSWERS and ALLOWED word lists for 4 to 7 letters (about 1 MB)
 ```
 
@@ -111,62 +112,37 @@ map, and → on the map opens the next part of the talk. Current map (source of 
 each part's slides:
 
 ```
-Introduction         Have you heard of AI? (with "What I use" and a disclaimer: not an AI expert; Who am I?
-                     removed 2026-10-08) · The blind men and the elephant (we each see one side of AI)
-Claude Code          Claude Code (terminal or app, "just Claude", a folder, let's build an app)
-  Wordle Demo          the live prompt
-  Context and Memory   Context and Memory · Memory · A real CLAUDE.md
-  MCP                  MCP (Blender): driven by Python through an MCP server (moved from Beyond Coding 2026-11-01)
-                       · MCP (Couch): mcp-demo/, a page only Claude can change (added 2026-11-02). Before Skills
-                       since 2026-11-02: hard rules in the server, then judgment in a skill
-  Skills               Skills · Skill Example · With and without the skill (Couch's add-to-couch skill; replaced
-                       the phrasebook 2026-11-02)
-                       (Save and Ship, optional, removed 2026-10-08 for time)
-  A Team of Agents     (placeholder, 2026-11-01: several sessions, each with its own job)
-Interlude            Am I still coding? (a magazine-style page over Friedrich's Wanderer, 2026-11-02) · Coding, Typing,
-                     Software Development (three words; click: Coding ≠ Typing; click: Coding ≈ Software Development) ·
-                     Why do you code? · Hot Take #71 ("Nobody actually wants to code.") · If AI can do the coding for you, do
-                     you still need to know the fundamentals? (click: Yes!) · In COMP1010 you learn the
-                     basic language for talking to a computer (click: COMP1010 drops to the bottom and leads to COMP2010,
-                     COMP2100, COMP2000, COMP2110; click: edges fan up to later units, ending in "…") · A word cloud
-                     filling in waves: first-year words, then second-year, then advanced · Gordon Ramsay · Lynsi Snyder ("if you get to this level, you can ignore the fundamentals", a joke) ·
-                     You still need to learn the fundamentals (click: …but has learning changed with AI?) · fundamentals vs things you can look up · The same loop four ways (Java, Python, Scratch
-                     blocks and English to Claude, all at once) · Hot Take #88 ("A web API is just a bunch of
-                     functions that live on the internet.") · Am I still coding if I use AI? (asked again; the rest of the Interlude being rewritten, 2026-11-02; the
-                     Animation Demo placeholder removed, its material is in docs/kanji-video-case-study.md). A smaller
-                     main point, added 2026-11-01 between the two halves
-Beyond Coding        "Coding is not just coding." (Homer Simpson thinking it, a head-scratcher; the picture is
-                     used under fair use, Daniel's call 2026-11-03, in public/beyond/)
-                     · The parts of the job as 60s comic "POW!" bursts (Source Control, Testing, Monitoring,
-                     Documentation, Learning; components/ComicBursts.vue). The quote slide was dropped 2026-11-03
-                     (Hot Take #71 makes the same point)
-  Testing              Why do we do testing? (one comic caption; first since 2026-11-03; click: a whispered
-                       "to get full marks…") · An assignment (selection sort, Java skeleton) with "the fun
-                       tests" and "…and the boring ones" (an empty array, null), all at once · Couch's 260 tests
-                       in five groups · One video, ten ways to paste it (Couch's real YouTube-link tests,
-                       word for word, plus five links it must refuse; the video id is Rick Astley's)
-  Monitoring           A mission-control screen (2026-11-03): flight-watch's real logs/app.log scrolling, its counts
-                       (96 INFO, 2 WARN, 32 ERROR) · Logs (used to be text in a
-                       file: a web shop's log, four visitors' lines mixed, each with an id; click: one error is
-                       ringed; click: every line with its id lights up, a discount bigger than the cart) · Logs, now
-                       (a KQL query, as in Azure Monitor, pulls out that one id; the answer as a table) · Try it on
-                       your computer's logs (a copyable prompt; but be careful: privacy, read each command, no admin)
-  Source Control       Source Control (i.e. Git), a title page · Elden Ring and Skyrim box art, nothing else · Skyrim's real Load menu (a screenshot from
-                       gameaccessibilityguidelines.com, credited on the slide) · essay_final_FINAL_really.docx: a real
-                       File Explorer screenshot of a folder full of hand-made versions (public/source-control/final-folder.png) · A straight Git timeline: eight real
-                       commits from this deck's own repo (components/GitTimeline.vue) · Hot Take #97 ("Learn Git as a save game
-                       first. Branches can wait.") (2026-11-03; "what's the difference?": you can't
-                       keep several saves in Elden Ring; covers are fair use, from Wikipedia; the old bullet slide is
-                       parked in ideas.md)
-  Documentation        Documentation (a plain title page) · Hot Take #412 · Code comments (a first-year Java method
-                       whose comments only repeat the code) · Wiki (a wiki agent on a local clone; the other
-                       agents send it summaries; written for AI agents, still readable for humans) · Issues and pull requests (links to flight-watch #23, #24, #36, #37;
-                       an Azure DevOps work item's Development section, a Microsoft Learn screenshot)
-  Learning             Learning with AI (a plain title page) · Learning backwards (interactive chapter graph) ·
-                       Things you can do (Gemini Notebook, Matt Pocock's /teach skill, the Foundation for COMP1010
-                       page; Daniel discusses or demos each, 2026-11-03; the "Learning with AI" bullet slide and a manga
-                       version were dropped 2026-11-03)
-Wrap-up              100 vs 50 vs 20 (moved here 2026-11-01) · Closing remarks
+Introduction
+  Daniel Sutantyo            who I am, and a disclaimer: not an AI expert
+  The elephant               the blind men: we each see one side of AI
+  What have you used?        chat, specialists, agents; what I use
+Claude Code
+  Claude Code                terminal or app, "just Claude", a folder
+  Wordle Demo                the live prompt
+  Context and Memory         Context and Memory · Memory · A real CLAUDE.md
+  MCP                        Couch, a page only Claude can change
+  Skills                     Skills · Skill Example · With and without the skill
+  A Team of Agents           (placeholder)
+Interlude
+  Am I still coding?         a magazine page over Friedrich's Wanderer
+  Coding ≠ Typing            three words; then Coding ≈ Software Development
+  Why do you code?           then Hot Take #71: nobody actually wants to code
+  The fundamentals           still needed? Yes! · COMP1010 and the units after it
+  A word cloud               first-year words, then second-year, then advanced
+  Ramsay and Snyder          the chef and the burger chain owner
+  Has learning changed?      fundamentals vs things you can look up
+  The same loop four ways    Java, Python, Scratch, English to Claude
+  Hot Take #88               a web API is just a bunch of functions
+  Am I still coding if I use AI?
+Beyond Coding
+  Coding is not just coding  Homer thinks it; then the parts as comic bursts
+  Testing                    why we test · fun and boring tests · Couch's tests
+  Monitoring                 mission control · a bug hunt in the logs · a query
+  Source Control             Elden Ring vs Skyrim · essay_final · a Git timeline
+  Documentation              Hot Take #412 · code comments · wiki · issues and PRs
+  Learning                   learning backwards · things you can do
+Wrap-up
+  100 vs 50 vs 20 · Closing remarks
 ```
 
 ## Demos
@@ -208,7 +184,7 @@ questions with 「。」 where the book uses 「？」; that rule was then added
 is for" example). Live, the skill shows the phrases and waits for Daniel's OK before adding. The Skills slide keeps
 it simple ("tell Claude the skill's name"), so either name it in the demo or call the automatic pick a bonus.
 
-**MCP: Blender** (decided 2026-10-07; Blender 5.1.2). Set up in `2026-ai-talk/blender`; Blender already open on
+**MCP: Blender** (dropped 2026-11-03; MCP now shows only Couch). Set up in `2026-ai-talk/blender`; Blender already open on
 stage, not a cold start. DaVinci Resolve was considered and dropped: an MCP server needs its external scripting,
 which is Studio-only (paid), and the free edition lost Python scripting entirely in v21.1. Aseprite MCPs exist but
 run Aseprite in the background on files, so the audience wouldn't see the app being driven.
@@ -250,14 +226,14 @@ pushing, which can be an audience moment.
 - **Spot the bug** (Wordle's repeated-letter rule: answer `ABIDE`, guess `SPEED`, only one E coloured), an
   **"Allow this?"** permission prompt vote, **you be Claude**.
 - **"Why not just use an API?"** backup slide for MCP: an MCP server is an interface designed for the agent; you
-  choose what it can do. Analogies: USB-C; "the API is the kitchen, MCP is the menu". (The Blender MCP is the
-  opposite case: it runs any Python.)
+  choose what it can do. Analogies: USB-C; "the API is the kitchen, MCP is the menu".
 - Wordle-specific skills (theme, word packs, ship, playtest): poor uses of skills.
 
-## Open questions for Daniel (2026-10-08)
+## Open questions for Daniel (2026-11-03)
 
-- Slides for the Animation Demo (the kanji clips); the QR code on the closing slide.
+- A Team of Agents is still a placeholder; Couch, flight-watch and the coding-rpg game are candidate examples.
+- The QR code on the closing slide.
 - "Claude is a smart Google" isn't on any slide yet.
-- Real examples from his work: the intro story, the jobs where he's a 20 (100 vs 50 vs 20), Monitoring.
-- Rehearsals: the Wordle prompt in an interactive session, the Blender demo (not timed yet), and a full timed run
-  (the Claude Code section, ~10 min, is tight).
+- Real examples from his work: the jobs where he's a 20 (100 vs 50 vs 20), and Monitoring.
+- Rehearsals: the Wordle prompt, the Couch MCP demo, "Who wrote this bug?" on flight-watch, the
+  Things you can do demos (Gemini Notebook, the `/teach` skill), and a full timed run of the 2 hours.

@@ -57,7 +57,7 @@ const SUBS: Omit<Topic, 'x' | 'y'>[] = [
     title: 'Context and Memory', teaser: 'Claude remembers nothing, so we leave it a note: CLAUDE.md' },
   { id: 'mcp', kind: 'sub', alias: 'mcp', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 60], [0, 40]],
-    title: 'MCP', teaser: 'Claude driving apps: Blender, and Couch, a page only Claude can change' },
+    title: 'MCP', teaser: 'Claude driving an app: Couch, a page only Claude can change' },
   { id: 'skills', kind: 'sub', alias: 'skills', parent: 'claude-code',
     moves: [[0, 30], [40, 40], [0, 60], [60, 60], [0, 40]],
     title: 'Skills', teaser: 'Teaching Claude a skill that can be used again and again' },

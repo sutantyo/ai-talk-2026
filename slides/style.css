@@ -189,12 +189,6 @@ html[data-map-move] :is(.slide-left-enter-from, .slide-left-leave-to, .slide-rig
 .slidev-layout ul ul > li:has(> .note:only-child)::before { display: none; }
 .slidev-layout ul ul > li > .eg.note:only-child { margin-left: 0; font-size: 0.95rem; }
 
-/* Introduction: the disclaimer under "What I use", and the elephant picture */
-.slidev-layout .disclaimer {
-  position: absolute; right: 4rem; bottom: 6rem; max-width: 22rem; margin: 0;
-  font-size: 0.85em; font-style: italic; line-height: 1.5; color: var(--muted); text-align: right;
-}
-
 /* Interlude: a person's photo on one half, their details appear on the other half on a click; white in every theme */
 .slidev-layout .person { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; background: #fff; color: #1d1b2e; }
 .slidev-layout .person.flip figure { order: 2; }
